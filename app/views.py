@@ -1,0 +1,1 @@
+from .customer_views import dashboard, add_customer, edit_customer, view_customer, delete_customer, list_of_customers, search_customer
