@@ -35,4 +35,20 @@ urlpatterns = [
     path("delete-jobposition/<int:jobposition_id>/", views.delete_jobposition, name="delete-jobposition"),
     path("list-of-jobpositions/", views.list_of_jobpositions, name="list-of-jobpositions"),
     # path("search-jobposition/", views.search_jobposition, name="search-jobposition"),
+
+    # fee urls 
+    path("add-fee/", views.add_fee, name="add-fee"),
+    path("edit-fee/<int:fee_id>/", views.edit_fee, name="edit-fee"),
+    path("view-fee/<int:fee_id>/", views.view_fee, name="view-fee"),
+    path("delete-fee/<int:fee_id>/", views.delete_fee, name="delete-fee"),
+    path("list-of-fees/", views.list_of_fees, name="list-of-fees"),
+    # path("search-fee/", views.search_fee, name="search-fee"),
+
+    # placement urls 
+    path("add-placement/", views.add_placement, name="add-placement"),
+    path("edit-placement/<int:placement_id>/", views.edit_placement, name="edit-placement"),
+    path("view-placement/<int:placement_id>/", views.view_placement, name="view-placement"),
+    path("delete-placement/<int:placement_id>/", views.delete_placement, name="delete-placement"),
+    path("list-of-placements/", views.list_of_placements, name="list-of-placements"),
+    # path("search-placement/", views.search_placement, name="search-placement"),
 ]

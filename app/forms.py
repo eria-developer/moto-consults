@@ -152,3 +152,67 @@ class EditJobpositionForm(forms.ModelForm):
         }
 
 # END FOR JOB POSITIONS FORMS 
+
+
+
+# FORMS FOR FEES
+
+class FeeForm(forms.ModelForm):
+    class Meta:
+        model = models.FeesPayment
+        fields = "__all__"
+
+
+class EditFeeForm(forms.ModelForm):
+    class Meta:
+        model = models.FeesPayment
+        fields = "__all__"
+
+        widgets = {
+            "customer": forms.Select(attrs={
+                "class": "form-control",
+            }),
+            "fee_type": forms.Select(attrs={
+                "class": "form-control",
+            }),
+            "amount": forms.TextInput(attrs={
+                "class": "form-control",
+            }),
+            "payment_status": forms.Select(attrs={
+                "class": "form-control",
+            }),
+        }
+
+# END FOR FEES FORMS 
+
+
+
+# FORMS FOR PLACEMENTS
+
+class PlacementForm(forms.ModelForm):
+    class Meta:
+        model = models.RecruitmentProcess
+        fields = "__all__"
+
+
+class EditPlacementForm(forms.ModelForm):
+    class Meta:
+        model = models.RecruitmentProcess
+        fields = "__all__"
+
+        widgets = {
+            "customer": forms.Select(attrs={
+                "class": "form-control",
+            }),
+            "job": forms.Select(attrs={
+                "class": "form-control",
+            }),
+            "status": forms.Select(attrs={
+                "class": "form-control",
+            }),
+            "expected_salary": forms.NumberInput(attrs={
+                "class": "form-control",
+            }),
+        }
+
+# END FOR PLACEMMENTS FORMS 
