@@ -115,9 +115,9 @@
               <span class="nav-text">Customers</span>
             </a>
             <ul aria-expanded="false">
-              <li><a href="courses.html">Add customer</a></li>
-              <li><a href="course-details-1.html">View customers</a></li>
-              <li><a href="course-details-2.html">Manage customers</a></li>
+              <li><a href={% url "add-customer" %}>Add customer</a></li>
+              <li><a href={% url "list-of-customers" %}>View customers</a></li>
+              <li><a href={% url "list-of-customers" %}>Manage customers</a></li>
             </ul>
           </li>
           <li>
