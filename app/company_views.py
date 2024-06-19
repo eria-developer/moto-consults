@@ -2,79 +2,72 @@ from django.shortcuts import render, redirect, HttpResponse, get_object_or_404
 from . import models
 from . import forms
 from django.contrib import messages
-# Create your views here.
-
-def dashboard(request):
-    return HttpResponse(request, "Hi there")
 
 
-def add_customer(request):
+
+def add_company(request):
     if request.method == "POST":
-        form = forms.CustomerForm(request.POST)
+        form = forms.CompanyForm(request.POST)
         if form.is_valid():
             form.save()
-            messages.success(request, "Customer added successfully")
-            return redirect("list-of-customers")
+            messages.success(request, "Company added successfully")
+            return redirect("list-of-companies")
         else:
             for field, errors in form.errors.items():
                 for error in errors:
                     messages.error(request, f"{error} in {field}")
     else:
-        form = forms.CustomerForm()
+        form = forms.CompanyForm()
 
     context = {
         "form": form,
     }
-    return render(request, "add_customer.html", context)
+    return render(request, "add_company.html", context)
 
 
-def edit_customer(request, customer_id):
-    customer = get_object_or_404(models.Customer, id=customer_id)
-    print(customer)
+def edit_company(request, company_id):
+    company = get_object_or_404(models.EmployerCompany, id=company_id)
+    print(company)
     if request.method == "POST":
-        form = forms.EditCustomerForm(request.POST, instance=customer)
+        form = forms.EditCompanyForm(request.POST, instance=company)
         if form.is_valid():
             form.save()
-            messages.success(request, "Customer details updated successfully")
-            return redirect("view_customer", customer_id=customer.id)
+            messages.success(request, "company details updated successfully")
+            return redirect("view_company", company_id=company.id)
         else:
             for field, errors in form.errors.items():
                 for error in errors:
                     messages.error(request, f"{error} in {field}")
     else:
-        form = forms.EditCustomerForm(instance=customer)
+        form = forms.EditCompanyForm(instance=company)
 
     context = {
         "form": form,
-        "customer": customer,
+        "company": company,
     }
-    return render(request, "edit_customer.html", context)
+    return render(request, "edit_company.html", context)
 
 
-def view_customer(request, customer_id):
-    customer = get_object_or_404(models.Customer, id=customer_id)
+def view_company(request, company_id):
+    company = get_object_or_404(models.EmployerCompany, id=company_id)
 
     context = {
-        "customer": customer,
+        "company": company,
     }
-    return render(request, "view_customer.html", context)
+    return render(request, "view_company.html", context)
 
 
-def delete_customer(request, customer_id):
-    customer = get_object_or_404(models.Customer, id=customer_id)
+def delete_company(request, company_id):
+    company = get_object_or_404(models.EmployerCompany, id=company_id)
     if request.method == "POST":
-        customer.delete()
-        return redirect("list-of-customers")
+        company.delete()
+        return redirect("list-of-companies")
     
 
-def list_of_customers(request):
-    customers = models.Customer.objects.all()
+def list_of_companies(request):
+    companies = models.EmployerCompany.objects.all()
 
     context = {
-        "customers": customers,
+        "companies": companies,
     }
-    return render(request, "list_of_customers.html", context)
-
-
-def search_customer(request):
-    pass
+    return render(request, "list_of_companies.html", context)

@@ -92,3 +92,63 @@ class EditCompanyForm(forms.ModelForm):
 
 
 # FORMS FOR COMPANY END 
+
+
+
+# FORMS FOR JOB START 
+
+
+class JobForm(forms.ModelForm):
+    class Meta:
+        model = models.Job
+        fields = "__all__"
+
+
+class EditJobForm(forms.ModelForm):
+    class Meta:
+        model = models.Job
+        fields = "__all__"
+
+        widgets = {
+            "job_title": forms.TextInput(attrs={
+                "class": "form-control",
+            }),
+            "job_position": forms.TextInput(attrs={
+                "class": "form-control",
+            }),
+            "job_field": forms.TextInput(attrs={
+                "class": "form-control",
+            }),
+            "job_company": forms.TextInput(attrs={
+                "class": "form-control",
+            }),
+            "job_description": forms.Textarea(attrs={
+                "class": "form-control",
+            }),
+        }
+
+
+# FORMS FOR JOB END 
+
+
+
+# FORMS FOR JOB POSITIONS
+
+class JobpositionForm(forms.ModelForm):
+    class Meta:
+        model = models.Job
+        fields = "__all__"
+
+
+class EditJobpositionForm(forms.ModelForm):
+    class Meta:
+        model = models.Job
+        fields = "__all__"
+
+        widgets = {
+            "job_position": forms.TextInput(attrs={
+                "class": "form-control",
+            })
+        }
+
+# END FOR JOB POSITIONS FORMS 
