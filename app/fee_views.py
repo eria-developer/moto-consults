@@ -19,8 +19,15 @@ def add_fee(request):
     else:
         form = forms.FeeForm()
 
+    customers = models.Customer.objects.all()
+    fee_types = models.FeesPayment.CUSTOMER_FEE_CHOICES
+    payment_status_choices = models.FeesPayment.STATUS_CHOICES
+
     context = {
         "form": form,
+        "customers": customers,
+        "fee_types": fee_types,
+        "payment_status_choices": payment_status_choices,
     }
     return render(request, "add_fee.html", context)
 

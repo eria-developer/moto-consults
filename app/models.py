@@ -18,7 +18,7 @@ class Customer(models.Model):
     remarks = models.TextField()
 
     def __str__(self):
-        return f"{self.firstname}"
+        return f"{self.firstname.title()} {self.othernames.title()} from {self.address}"
     
 
 class EmployerCompany(models.Model):

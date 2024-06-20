@@ -8,12 +8,18 @@
 
 {% block content %}
 <div>
+    {% comment %} <form action="" method="post">
+        {% csrf_token %}
+        {{form.as_p}}
+        <button type="submit">Save customer</button>
+    </form> {% endcomment %}
+
     <div class="content-body">
         <div class="container-fluid">
             <div class="row page-titles">
                 <ol class="breadcrumb">
-                    <li class="breadcrumb-item active"><a href="javascript:void(0)">Moto Consults</a></li>
-                    <li class="breadcrumb-item"><a href="javascript:void(0)">Adding a new customer</a></li>
+                    <li class="breadcrumb-item active"><a href="javascript:void(0)">Form</a></li>
+                    <li class="breadcrumb-item"><a href="javascript:void(0)">Element</a></li>
                 </ol>
             </div>
             <!-- row -->
@@ -33,20 +39,19 @@
                                     <div class="mb-3 col-md-12">
                                         <label for="id_firstname" class="form-label">First Name:</label><span
                                             class="text-danger">*</span>
-                                        <input type="text" name="firstname" maxlength="100" required id="id_firstname"
-                                            required class="form-control" placeholder="Talemwa">
+                                        <input type="text" name="firstname" maxlength="100" required id="id_firstname" required
+                                            class="form-control" placeholder="Talemwa">
                                     </div>
 
                                     <div class="mb-3 col-md-12">
                                         <label for="id_othernames" class="form-label">Other Names:</label>
-                                        <input type="text" name="othernames" maxlength="100" required id="id_othernames"
-                                            class="form-control" placeholder="Eria Jackson">
+                                        <input type="text" name="othernames" maxlength="100" required id="id_othernames" class="form-control"
+                                            placeholder="Eria Jackson">
                                     </div>
 
                                     <div class="mb-3 col-md-12">
                                         <label for="id_phonenumber_1" class="form-label">Phonenumber 1:</label>
-                                        <input type="text" name="phonenumber_1" maxlength="15" required
-                                            id="id_phonenumber_1" class="form-control" name="phonenumber_1" required>
+                                        <input type="text" name="phonenumber_1" maxlength="15" required id="id_phonenumber_1" class="form-control" name="phonenumber_1" required>
                                     </div>
 
                                     <div class="mb-3 col-md-12">
@@ -57,22 +62,20 @@
 
                                     <div class="mb-3 col-md-12">
                                         <label for="id_email" class="form-label">Email:</label>
-                                        <input type="email" name="email" maxlength="254" id="id_email"
-                                            class="form-control" placeholder="example@gmail.com">
+                                        <input type="email" name="email" maxlength="254" id="id_email" class="form-control"
+                                            placeholder="example@gmail.com">
                                     </div>
 
                                     <div class="mb-3 col-md-12">
                                         <label for="id_address" class="form-label">Address:</label>
-                                        <input class="form-control" placeholder="Arua" type="text" name="address"
-                                            maxlength="64" required id="id_address">
+                                        <input class="form-control" placeholder="Arua" type="text" name="address" maxlength="64" required id="id_address">
                                     </div>
 
                                     <div>
                                         <label for="id_passport_photo" class="form-label">Passport photo:</label>
                                     </div>
                                     <div class="form-file mb-3 col-md-12">
-                                        <input type="file" name="passport_photo" accept="image/*" id="id_passport_photo"
-                                            class="form-file-input form-control">
+                                        <input type="file" name="passport_photo" accept="image/*" id="id_passport_photo" class="form-file-input form-control">
                                     </div>
 
 

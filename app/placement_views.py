@@ -16,11 +16,19 @@ def add_placement(request):
             for field, errors in form.errors.items():
                 for error in errors:
                     messages.error(request, f"{error} in {field}")
+                    print(f"{error} in {field}")
     else:
-        form = forms.placementForm()
+        form = forms.PlacementForm()
+
+    customers = models.Customer.objects.all()
+    jobs = models.Job.objects.all()
+    status_choices = models.RecruitmentProcess.STATUS_CHOICES
 
     context = {
         "form": form,
+        "customers": customers,
+        "jobs": jobs,
+        "status_choices": status_choices,
     }
     return render(request, "add_placement.html", context)
 

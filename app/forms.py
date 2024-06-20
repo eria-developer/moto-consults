@@ -59,6 +59,7 @@ class CompanyForm(forms.ModelForm):
     class Meta:
         model = models.EmployerCompany
         fields = "__all__"
+        
 
 
 class EditCompanyForm(forms.ModelForm):
@@ -103,6 +104,24 @@ class JobForm(forms.ModelForm):
         model = models.Job
         fields = "__all__"
 
+        widgets = {
+            "job_title": forms.TextInput(attrs={
+                "class": "form-control",
+            }),
+            "job_position": forms.Select(attrs={
+                "class": "form-control",
+            }),
+            "job_field": forms.TextInput(attrs={
+                "class": "form-control",
+            }),
+            "job_company": forms.Select(attrs={
+                "class": "form-control",
+            }),
+            "job_description": forms.Textarea(attrs={
+                "class": "form-control",
+            }),
+        }
+
 
 class EditJobForm(forms.ModelForm):
     class Meta:
@@ -113,13 +132,13 @@ class EditJobForm(forms.ModelForm):
             "job_title": forms.TextInput(attrs={
                 "class": "form-control",
             }),
-            "job_position": forms.TextInput(attrs={
+            "job_position": forms.Select(attrs={
                 "class": "form-control",
             }),
             "job_field": forms.TextInput(attrs={
                 "class": "form-control",
             }),
-            "job_company": forms.TextInput(attrs={
+            "job_company": forms.Select(attrs={
                 "class": "form-control",
             }),
             "job_description": forms.Textarea(attrs={
@@ -136,7 +155,7 @@ class EditJobForm(forms.ModelForm):
 
 class JobpositionForm(forms.ModelForm):
     class Meta:
-        model = models.Job
+        model = models.JobPosition
         fields = "__all__"
 
 

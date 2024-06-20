@@ -1,77 +1,40 @@
+<form id="companyForm" method="post" action="">
+
+    {% csrf_token %}
+    <div class="mb-3 col-md-12">
+        <label for="id_job_title" class="form-label">Job title:</label><span class="text-danger">*</span>
+        <input type="text" name="job_title" maxlength="100" required id="id_job_title" class="form-control">
+    </div>
+
+    <div class="mb-3 col-md-12">
+        <label for="id_job_position" class="form-label">Job Positon:</label>
+        <select name="job_position" id="id_job_position">
+            <option value="">Select a job position</option>
+            {% for job_position in job_positions %}
+            <option value={{job_position}}>{{ job_position }}</option>
+            {% endfor %}
+        </select>
+        <s type="text" name="address" maxlength="100" required id="id_address" class="form-control"
+            placeholder="Eria Jackson">
+    </div>
+
+
+    <div><button type="submit" class="btn btn-primary mb-2">Save customer</button>
+    </div>
+</form>
+
+
+
+
+
+
+
+
+
+
+
 <form action="" method="post">
-    <input type="hidden" name="csrfmiddlewaretoken" value="wEdqM0MRVx7lYOnBIV7D3v04ON6HD2JTrVv9Ppk3zkXq4KotdHx9ShuqeZiXlelh">
-    <p>
-<label for="id_firstname">Firstname:</label>
-<input type="text" name="firstname" maxlength="100" required id="id_firstname">
-
-
-</p>
-
-
-<p>
-<label for="id_othernames">Othernames:</label>
-<input type="text" name="othernames" maxlength="100" required id="id_othernames">
-
-
-</p>
-
-
-<p>
-<label for="id_phonenumber_1">Phonenumber 1:</label>
-<input type="text" name="phonenumber_1" maxlength="15" required id="id_phonenumber_1">
-
-
-</p>
-
-
-<p>
-<label for="id_phonenumber_2">Phonenumber 2:</label>
-<input type="text" name="phonenumber_2" maxlength="15" id="id_phonenumber_2">
-
-
-</p>
-
-
-<p>
-<label for="id_email">Email:</label>
-<input type="email" name="email" maxlength="254" id="id_email">
-
-
-</p>
-
-
-<p>
-<label for="id_address">Address:</label>
-<input type="text" name="address" maxlength="64" required id="id_address">
-
-
-</p>
-
-
-<p>
-<label for="id_passport_photo">Passport photo:</label>
-<input type="file" name="passport_photo" accept="image/*" id="id_passport_photo">
-
-
-</p>
-
-
-<p>
-<label for="id_file_upload">File upload:</label>
-<input type="file" name="file_upload" id="id_file_upload">
-
-
-</p>
-
-
-<p>
-<label for="id_remarks">Remarks:</label>
-<textarea name="remarks" cols="40" rows="10" required id="id_remarks">
-</textarea>
-
-
-  
-
-</p>
-    <button type="submit">Save customer</button>
+    {%csrf_token%}
+    {{form.as_p}}
+    <button type="submit">save</button>
 </form>

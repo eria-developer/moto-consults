@@ -9,6 +9,7 @@ def add_job(request):
     if request.method == "POST":
         form = forms.JobForm(request.POST)
         if form.is_valid():
+            print(form)
             form.save()
             messages.success(request, "Job added successfully")
             return redirect("list-of-jobs")
@@ -16,11 +17,17 @@ def add_job(request):
             for field, errors in form.errors.items():
                 for error in errors:
                     messages.error(request, f"{error} in {field}")
+                    print(f"{error} in {field}")
     else:
         form = forms.JobForm()
 
+    job_positions = models.JobPosition.objects.all()
+    job_companies = models.EmployerCompany.objects.all()
+
     context = {
         "form": form,
+        "job_positions": job_positions,
+        "job_companies": job_companies,
     }
     return render(request, "add_job.html", context)
 

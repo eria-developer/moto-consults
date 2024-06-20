@@ -16,6 +16,7 @@ def add_company(request):
             for field, errors in form.errors.items():
                 for error in errors:
                     messages.error(request, f"{error} in {field}")
+                    print(f"Errors: {error} in {field}")
     else:
         form = forms.CompanyForm()
 

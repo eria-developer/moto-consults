@@ -16,6 +16,7 @@ def add_jobposition(request):
             for field, errors in form.errors.items():
                 for error in errors:
                     messages.error(request, f"{error} in {field}")
+                    print(f"{error} in {field}")
     else:
         form = forms.JobpositionForm()
 
