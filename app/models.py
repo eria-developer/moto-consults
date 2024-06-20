@@ -126,3 +126,9 @@ class ConsultationFees(models.Model):
     def __str__(self):
         return f"{self.fees_amount}"
     
+
+class ConnectionFees(models.Model):
+    fees_amount = models.IntegerField(null=False, blank=False)
+
+    def __str__(self):
+        return f"({self.fees_amount})"
