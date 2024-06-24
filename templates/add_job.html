@@ -39,8 +39,8 @@
                                     </div>
 
                                     <div class="mb-3 col-md-12">
-                                        <label for="id_job_position" class="form-label">Job Positon:</label> <a
-                                            href={% url "add-jobposition" %} class="text-success pl-3 text-medium">+ New</a>
+                                        <label for="id_job_position" class="form-label">Job Positon:</label> <a href={%
+                                            url "add-jobposition" %} class="text-success pl-3 text-medium">+ New</a>
                                         <select name="job_position" id="id_job_position"
                                             class="default-select  form-control wide">
                                             <option value="">Select a job position</option>
@@ -57,17 +57,7 @@
                                             class="form-control">
                                     </div>
 
-                                    <div class="mb-3 col-md-12">
-                                        <label for="id_job_company" class="form-label">Job Company:</label><a
-                                        href={% url "add-company" %} class="text-success pl-3 text-medium">+ New</a>
-                                        <select name="job_company" id="id_job_company"
-                                            class="default-select  form-control wide">
-                                            <option value="">Select a job company</option>
-                                            {% for job_company in job_companies %}
-                                            <option value={{job_company.id}}>{{ job_company }}</option>
-                                            {% endfor %}
-                                        </select>
-                                    </div>
+
 
                                     <div class="mt-3 mb-3 col-md-12">
                                         <label for="id_job_description" class="form-label">Job description:</label>

@@ -44,11 +44,11 @@ class Job(models.Model):
     job_position = models.ForeignKey(JobPosition, null=True, on_delete=models.CASCADE)
     job_field = models.CharField(max_length=64, null=True, blank=True)
     job_description = models.TextField(null=True, blank=True)
-    job_company = models.ForeignKey(EmployerCompany, null=True, blank=True, on_delete=models.CASCADE)
+    # job_company = models.ForeignKey(EmployerCompany, null=True, blank=True, on_delete=models.CASCADE)
 
     def __str__(self):
         if self.job_company:
-            return f"{self.job_title} at {self.job_company}"
+            return f"{self.job_position} {self.job_title}"
         return f"{self.job_title}"
 
 
@@ -83,12 +83,13 @@ class RecruitmentProcess(models.Model):
 
     customer = models.ForeignKey(Customer, on_delete=models.CASCADE)
     job = models.ForeignKey(Job, on_delete=models.CASCADE)
+    company = models.ForeignKey(EmployerCompany, on_delete=models.CASCADE, null=True, blank=False)
     status = models.CharField(max_length=64, choices=STATUS_CHOICES, default='applied')
     application_date = models.DateTimeField(auto_now_add=True)
     expected_salary = models.IntegerField(default=0)
 
     def __str__(self):
-        return f"{self.customer} - {self.job} - {self.status}"
+        return f"{self.customer.firstname} - {self.job} - {self.company.name}"
     
 
 class FeesPayment(models.Model):

@@ -486,6 +486,28 @@
           </li>
           <li>
             <a class="has-arrow" href="javascript:void(0);" aria-expanded="false">
+              <i class="bi bi-star"></i>
+              <span class="nav-text">Placements</span>
+            </a>
+            <ul aria-expanded="false">
+              <li><a href={% url "add-placement" %}>Add placement</a></li>
+              <li><a href={% url "list-of-placements" %}>View placements</a></li>
+              <li><a href={% url "list-of-placements" %}>Manage placements</a></li>
+            </ul>
+          </li>
+          <li>
+            <a class="has-arrow" href="javascript:void(0);" aria-expanded="false">
+              <i class="bi bi-heart"></i>
+              <span class="nav-text">Fees Payments</span>
+            </a>
+            <ul aria-expanded="false">
+              <li><a href={% url "add-fee" %}>Add payment fee</a></li>
+              <li><a href={% url "list-of-fees" %}>View payment fees</a></li>
+              <li><a href={% url "list-of-fees" %}>Manage payment fees</a></li>
+            </ul>
+          </li>
+          <li>
+            <a class="has-arrow" href="javascript:void(0);" aria-expanded="false">
               <i class="bi bi-book"></i>
 
               <span class="nav-text">Customers</span>
@@ -530,28 +552,7 @@
               <li><a href={% url "list-of-jobpositions" %}>Manage job positions</a></li>
             </ul>
           </li>
-          <li>
-            <a class="has-arrow" href="javascript:void(0);" aria-expanded="false">
-              <i class="bi bi-star"></i>
-              <span class="nav-text">Placements</span>
-            </a>
-            <ul aria-expanded="false">
-              <li><a href={% url "add-placement" %}>Add placement</a></li>
-              <li><a href={% url "list-of-placements" %}>View placements</a></li>
-              <li><a href={% url "list-of-placements" %}>Manage placements</a></li>
-            </ul>
-          </li>
-          <li>
-            <a class="has-arrow" href="javascript:void(0);" aria-expanded="false">
-              <i class="bi bi-heart"></i>
-              <span class="nav-text">Fees Payments</span>
-            </a>
-            <ul aria-expanded="false">
-              <li><a href={% url "add-fee" %}>Add payment fee</a></li>
-              <li><a href={% url "list-of-fees" %}>View payment fees</a></li>
-              <li><a href={% url "list-of-fees" %}>Manage payment fees</a></li>
-            </ul>
-          </li>
+
           <li><a class="has-arrow " href="javascript:void(0);" aria-expanded="false">
               <i class="bi bi-file-earmark-spreadsheet"></i>
               <span class="nav-text">Consultations</span>
