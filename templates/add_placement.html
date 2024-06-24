@@ -37,8 +37,8 @@ margin-bottom: 16px;
                                     {% csrf_token %}
 
                                     <div class="col-md-12">
-                                        <label for="id_customer" class="form-label me-3">Customer:</label> <a href={%
-                                            url "add-customer" %}
+                                        <label for="id_customer" class="form-label me-3">Customer:</label>
+                                        <a href={% url "add-customer" %}
                                             class="text-white rounded px-4 py-0 bg-success text-medium">+ Add
                                             New</a>
                                         <select name="customer" id="id_customer"
@@ -51,16 +51,22 @@ margin-bottom: 16px;
                                     </div>
 
                                     <div class="my-3 col-md-12" style="margin-top: 16px;">
-                                        <label for="id_job" class="form-label me-3">Job:</label> <a href={%
-                                            url "add-job" %}
+                                        <label for="id_job" class="form-label me-3">Job:</label>
+                                        <a href={%url "add-job" %}
                                             class="text-white rounded px-4 py-0 bg-success text-medium">+ Add New</a>
+                                        <select name="job" id="id_job" class="default-select  form-control wide">
+                                            <option value="">Select a job</option>
+                                            {% for job in jobs %}
+                                            <option value={{job.id}}>{{ job }}</option>
+                                            {% endfor %}
+                                        </select>
 
                                     </div>
 
                                     <div class="mb-3 col-md-12">
                                         <label for="id_job_company" class="form-label">Job Company:</label><a href={%
                                             url "add-company" %} class="text-success pl-3 text-medium">+ New</a>
-                                        <select name="job_company" id="id_job_company"
+                                        <select name="company" id="id_company"
                                             class="default-select  form-control wide">
                                             <option value="">Select a job company</option>
                                             {% for job_company in job_companies %}

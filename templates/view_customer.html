@@ -122,9 +122,11 @@
                                             </div>
                                             <div class="mb-3">
                                                 <span class="fs-18">Balance:</span>
-                                                <span class="text-danger text-sm rounded">ugx {{customer_registration_fees_balance }}</span>
+                                                <span class="text-danger text-sm rounded">ugx
+                                                    {{customer_registration_fees_balance }}</span>
                                             </div>
-                                            <a href={% url "add-fee" %} class="btn btn-primary btn-sm shadow sharp me-1"><i
+                                            <a href={% url "add-fee" %}
+                                                class="btn btn-primary btn-sm shadow sharp me-1"><i
                                                     class="fa fa-plus me-1"></i> Add fee</a>
                                         </div>
                                     </div>
@@ -143,13 +145,16 @@
                                             <h4>Connection fees</h4>
                                             <div class="mb-3">
                                                 <span class="fs-18">Paid:</span>
-                                                <span class="text-success rounded">ugx. {{customer_connection_fees }}</span>
+                                                <span class="text-success rounded">
+                                                    ugx. {{customer_connection_fees }}</span>
                                             </div>
                                             <div class="mb-3">
                                                 <span class="fs-18">Balance:</span>
-                                                <span class="text-danger text-sm rounded">ugx {{customer_connection_fees_balance }}</span>
+                                                <span class="text-danger text-sm rounded">ugx
+                                                    {{customer_connection_fees_balance }}</span>
                                             </div>
-                                            <a href={% url "add-fee" %} class="btn btn-primary btn-sm shadow sharp me-1"><i
+                                            <a href={% url "add-fee" %}
+                                                class="btn btn-primary btn-sm shadow sharp me-1"><i
                                                     class="fa fa-plus me-1"></i> Add fee</a>
                                         </div>
                                     </div>
@@ -199,7 +204,7 @@
 
                                         </table>
                                         {% else %}
-                                        <div class="text-center my-4">No consultations for 
+                                        <div class="text-center my-4">No consultations for
                                             {{ customer.firstname }}
                                             yet!!</>
                                             {% endif %}
@@ -209,7 +214,7 @@
                             </div>
                         </div>
 
-                        <div class="col-xl-12">
+                        <div class="col-xl-12 mb-5">
                             <div class="card score-active style-1">
                                 <div
                                     class="card-header border-0 pb-2 flex-wrap d-flex justify-content-between align-items-center">
@@ -221,7 +226,7 @@
 
                                 <div class="card-body pb-1 custome-tooltip pt-0">
                                     <div>
-                                        <div class="table-responsive">
+                                        <div class="table-responsive mb-3">
                                             {% if customer_placements %}
                                             <table class="table table-responsive-md">
                                                 <thead>
@@ -270,7 +275,6 @@
             </div>
         </div>
 
-        <h1>{{ customer_registration_fees }}</h1>
         <!--**********************************
             Content body end
         ***********************************-->

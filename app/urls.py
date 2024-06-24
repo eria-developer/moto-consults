@@ -43,7 +43,7 @@ urlpatterns = [
     path("view-fee/<int:fee_id>/", views.view_fee, name="view-fee"),
     path("delete-fee/<int:fee_id>/", views.delete_fee, name="delete-fee"),
     path("list-of-fees/", views.list_of_fees, name="list-of-fees"),
-    # path("search-fee/", views.search_fee, name="search-fee"),
+    path("display_receipt/<int:payment_id>/", views.display_receipt, name="display_receipt"),
 
     # placement urls 
     path("add-placement/", views.add_placement, name="add-placement"),

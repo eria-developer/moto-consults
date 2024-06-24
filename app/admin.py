@@ -22,10 +22,8 @@ admin.site.register(models.JobPosition, JobPositionAdmin)
 
 class JobAdmin(admin.ModelAdmin):
     model = models.Job
-    list_display = ("job_title", "job_field", "job_position", "job_company_name")
+    list_display = ("job_title", "job_field", "job_position")
 
-    def job_company_name(self, obj):
-        return obj.job_company.name
 admin.site.register(models.Job, JobAdmin)
 
 
@@ -39,7 +37,7 @@ class RecruitmentProcessAdmin(admin.ModelAdmin):
         return f"{firstname} {lastname}"
     
     def company_name(self, obj):
-        return obj.job.job_company
+        return obj.company.name
     
     def job_name(self, obj):
         return obj.job.job_title

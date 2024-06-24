@@ -47,7 +47,7 @@ class Job(models.Model):
     # job_company = models.ForeignKey(EmployerCompany, null=True, blank=True, on_delete=models.CASCADE)
 
     def __str__(self):
-        if self.job_company:
+        if self.job_position:
             return f"{self.job_position} {self.job_title}"
         return f"{self.job_title}"
 

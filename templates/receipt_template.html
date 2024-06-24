@@ -1,0 +1,36 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <title>Receipt</title>
+    <!-- Include CSS for styling -->
+    <style>
+        @page {
+            size: A4;
+            margin: 10mm;
+        }
+
+        body {
+            font-family: Arial, sans-serif;
+        }
+
+        .frame-content {
+            position: relative;
+            width: 80%;
+            margin: auto;
+        }
+    </style>
+</head>
+
+<body>
+    <div class="frame-content">
+        <h1>Receipt</h1>
+        <p>Customer Name: {{ payment.customer.firstname }}</p>
+        <p>Fee Type: {{ payment.fee_type }}</p>
+        <p>Amount: {{ payment.amount }}</p>
+        <p>Status: {{ payment.payment_status }}</p>
+        <p>Date: {{ payment.payment_date }}</p>
+    </div>
+</body>
+
+</html>

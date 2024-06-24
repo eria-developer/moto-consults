@@ -12,6 +12,7 @@ def add_placement(request):
     if request.method == "POST":
         form = forms.PlacementForm(request.POST)
         if form.is_valid():
+            print(form)
             form.save()
             messages.success(request, "Placement added successfully")
             return redirect("list-of-placements")
@@ -19,19 +20,21 @@ def add_placement(request):
             for field, errors in form.errors.items():
                 for error in errors:
                     messages.error(request, f"{error} in {field}")
-                    print(f"{error} in {field}")
+                    print(f"Erros are: {error} in {field}")
     else:
         form = forms.PlacementForm()
 
     customers = models.Customer.objects.all()
     jobs = models.Job.objects.all()
     status_choices = models.RecruitmentProcess.STATUS_CHOICES
+    job_companies = models.EmployerCompany.objects.all()
 
     context = {
         "form": form,
         "customers": customers,
         "jobs": jobs,
         "status_choices": status_choices,
+        "job_companies": job_companies,
     }
     return render(request, "add_placement.html", context)
 
