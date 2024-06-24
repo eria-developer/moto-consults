@@ -28,6 +28,16 @@
   {% endcomment %}
   <link rel="stylesheet" href={% static '/vendor/jquery-nice-select/css/nice-select.css' %}>
   <link rel="stylesheet" href={% static 'css/style.css' %}>
+
+  <style>
+    {
+      % block extra_css %
+    }
+
+      {
+      % endblock extra_css %
+    }
+  </style>
 </head>
 
 <body>
@@ -606,6 +616,11 @@
 
   <script src={% static 'js/custom.js' %}></script>
   <script src={% static 'js/dlabnav-init.js' %}></script>
+  <script src={% static 'js/list-of-customers.js' %}></script>
+  <script src={% static 'js/list-of-companies.js' %}></script>
+  <script src={% static 'js/list-of-jobs.js' %}></script>
+  <script src={% static 'js/list-of-job_positions.js' %}></script>
+  <script src={% static 'js/list-of-fees.js' %}></script>
 </body>
 
 </html>

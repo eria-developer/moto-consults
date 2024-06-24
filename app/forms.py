@@ -235,3 +235,24 @@ class EditPlacementForm(forms.ModelForm):
         }
 
 # END FOR PLACEMMENTS FORMS 
+
+
+
+# FORMS FOR CONSULTATIONS
+
+class ConsultationForm(forms.ModelForm):
+    class Meta:
+        model = models.Consultation
+        fields = "__all__"
+
+        widgets = {
+            "customer": forms.Select(attrs={
+                "class": "form-control",
+            }),
+            "consultation_fee": forms.NumberInput(attrs={
+                "class": "form-control",
+            }),
+        }
+
+
+# END FOR CONSULTATION FORMS 

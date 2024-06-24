@@ -73,3 +73,14 @@ class ConsultationFeesAdmin(admin.ModelAdmin):
     model = models.ConsultationFees
     list_display = ("fees_amount", )
 admin.site.register(models.ConsultationFees, ConsultationFeesAdmin)
+
+
+class ConsultationAdmin(admin.ModelAdmin):
+    model = models.ConsultationFees
+    list_display = ("customer_fullname", "consultation_fee", "consultation_date" )
+
+    def customer_fullname(self, obj):
+        firstname = obj.customer.firstname
+        lastname = obj.customer.othernames
+        return f"{firstname} {lastname}"
+admin.site.register(models.Consultation, ConsultationAdmin)

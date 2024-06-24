@@ -10,7 +10,8 @@ urlpatterns = [
     path("view-customer/<int:customer_id>/", views.view_customer, name="view-customer"),
     path("delete-customer/<int:customer_id>/", views.delete_customer, name="delete-customer"),
     path("list-of-customers/", views.list_of_customers, name="list-of-customers"),
-    path("search-customer/", views.search_customer, name="search-customer"),
+    # path("search-customer/", views.search_customer, name="search-customer"),
+    path('search_customers/', views.search_customers, name='search_customers'),
 
     # company urls 
     path("add-company/", views.add_company, name="add-company"),
@@ -18,7 +19,7 @@ urlpatterns = [
     path("view-company/<int:company_id>/", views.view_company, name="view-company"),
     path("delete-company/<int:company_id>/", views.delete_company, name="delete-company"),
     path("list-of-companies/", views.list_of_companies, name="list-of-companies"),
-    # path("search-company/", views.search_company, name="search-company"),
+    path('search_companies/', views.search_companies, name='search_companies'),
 
     # job urls 
     path("add-job/", views.add_job, name="add-job"),
@@ -26,7 +27,7 @@ urlpatterns = [
     path("view-job/<int:job_id>/", views.view_job, name="view-job"),
     path("delete-job/<int:job_id>/", views.delete_job, name="delete-job"),
     path("list-of-jobs/", views.list_of_jobs, name="list-of-jobs"),
-    # path("search-job/", views.search_job, name="search-job"),
+    path('search_placements/', views.search_placements, name='search_placements'),
 
     # job position urls 
     path("add-jobposition/", views.add_jobposition, name="add-jobposition"),
@@ -50,5 +51,11 @@ urlpatterns = [
     path("view-placement/<int:placement_id>/", views.view_placement, name="view-placement"),
     path("delete-placement/<int:placement_id>/", views.delete_placement, name="delete-placement"),
     path("list-of-placements/", views.list_of_placements, name="list-of-placements"),
+    # path("search-placement/", views.search_placement, name="search-placement"),
+
+    # consultation urls 
+    path("add-consultation/", views.add_consultation, name="add-consultation"),
+    path("view-consultation/<int:consultation_id>/", views.view_consultation, name="view-consultation"),
+    path("list-of-consultations/", views.list_of_consultations, name="list-of-consultations"),
     # path("search-placement/", views.search_placement, name="search-placement"),
 ]

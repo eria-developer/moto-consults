@@ -1,0 +1,53 @@
+{% extends "base.html" %}
+
+{% load static %}
+
+{% block title %}Moto consults | Add consultation{% endblock title %}
+
+{% block extra_css %}{% endblock extra_css %}
+
+{% block content %}
+<div>
+
+    <div class="content-body">
+        <div class="container-fluid">
+            <div class="row page-titles">
+                <ol class="breadcrumb">
+                    <li class="breadcrumb-item active"><a href="javascript:void(0)">Moto Consults</a></li>
+                    <li class="breadcrumb-item"><a href="javascript:void(0)">Adding a new consultation instance</a></li>
+                </ol>
+            </div>
+            <!-- row -->
+            <div class="row">
+                <div class="col-xl-12 col-lg-12">
+                    <div class="card">
+                        <div class="card-header">
+                            <h4 class="card-title">New consultation instance</h4>
+                        </div>
+                        <div class="card-body">
+                            <div class="basic-form">
+
+                                <!-- form for adding a new job  -->
+                                <form id="companyForm" method="post" action="">
+
+                                    {% csrf_token %}
+                                    {{ form.as_p }}
+
+                                    <div class="mb-3"><button type="submit" class="btn btn-primary mb-2">Save
+                                            consultation instance</button>
+                                    </div>
+                                </form>
+
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+
+
+            </div>
+        </div>
+        <div id="message"></div>
+    </div>
+</div>
+{% endblock content %}

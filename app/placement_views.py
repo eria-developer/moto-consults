@@ -2,6 +2,9 @@ from django.shortcuts import render, redirect, get_object_or_404
 from . import models
 from . import forms
 from django.contrib import messages
+from django.db.models import Q
+from django.urls import reverse
+from django.http import JsonResponse
 
 
 
@@ -79,3 +82,31 @@ def list_of_placements(request):
         "placements": placements,
     }
     return render(request, "list_of_placements.html", context)
+
+
+def search_placements(request):
+    if request.headers.get('x-requested-with') == 'XMLHttpRequest':
+        query = request.GET.get("query", "")
+        placements = models.RecruitmentProcess.objects.filter(
+            Q(customer__firstname__icontains=query) |
+            Q(customer__othernames__icontains=query) |
+            Q(job__job_title__icontains=query) |
+            Q(job__job_company__job_title__icontains=query) |
+            Q(status__icontains=query)
+        ).order_by("-application_date")
+
+        placement_list = []
+        for placement in placements:
+            placement_data = {
+                "fullname": f"{placement.customer.firstname} {placement.customer.othernames}",
+                "job": placement.job.job_title,
+                "company": placement.job.job_company.job_title if placement.job.job_company else "",
+                "status": placement.status,
+                "view_url": reverse('view-placement', args=[placement.id]),
+                "edit_url": reverse('edit-placement', args=[placement.id]),
+                "delete_url": reverse('delete-placement', args=[placement.id]),
+            }
+            placement_list.append(placement_data)
+
+        return JsonResponse({"placements": placement_list})
+    return JsonResponse({"placements": []})

@@ -4,7 +4,11 @@
 
 {% block title %}Moto consults | Add placement{% endblock title %}
 
-{% block extra_css %}{% endblock extra_css %}
+{% block extra_css %}
+.form-space {
+margin-bottom: 16px;
+}
+{% endblock extra_css %}
 
 {% block content %}
 <div>
@@ -32,9 +36,11 @@
 
                                     {% csrf_token %}
 
-                                    <div class="mb-3 col-md-12">
-                                        <label for="id_customer" class="form-label">Customer:</label> <a href={%
-                                            url "add-customer" %} class="text-success pl-3 text-medium">+ New</a>
+                                    <div class="col-md-12">
+                                        <label for="id_customer" class="form-label me-3">Customer:</label> <a href={%
+                                            url "add-customer" %}
+                                            class="text-white rounded px-4 py-0 bg-success text-medium">+ Add
+                                            New</a>
                                         <select name="customer" id="id_customer"
                                             class="default-select  form-control wide">
                                             <option value="">Select a customer</option>
@@ -44,9 +50,10 @@
                                         </select>
                                     </div>
 
-                                    <div class="mb-3 col-md-12">
-                                        <label for="id_job" class="form-label">Job:</label> <a href={% url "add-job" %}
-                                            class="text-success pl-3 text-medium">+ New</a>
+                                    <div class="my-3 col-md-12" style="margin-top: 16px;">
+                                        <label for="id_job" class="form-label me-3">Job:</label> <a href={%
+                                            url "add-job" %}
+                                            class="text-white rounded px-4 py-0 bg-success text-medium">+ Add New</a>
                                         <select name="job" id="id_job" class="default-select  form-control wide">
                                             <option value="">Select a job</option>
                                             {% for job in jobs %}

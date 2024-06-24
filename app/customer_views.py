@@ -3,7 +3,9 @@ from . import models
 from . import forms
 from django.contrib import messages
 from django.db.models import Sum
-# Create your views here.
+from django.db.models import Q
+from django.http import JsonResponse
+from django.urls import reverse
 
 def dashboard(request):
     return HttpResponse(request, "Hi there")
@@ -52,48 +54,6 @@ def edit_customer(request, customer_id):
     return render(request, "edit_customer.html", context)
 
 
-# def view_customer(request, customer_id):
-#     customer = get_object_or_404(models.Customer, id=customer_id)
-#     customer_placements = models.RecruitmentProcess.objects.filter(customer=customer).order_by("-application_date")
-
-#     customer_registration_fees = models.FeesPayment.objects.filter(customer=customer, fee_type="registration").first()
-#     # print(f"PAid money: {customer_registration_fees.amount}")
-#     default_registration_fee = models.RegistrationFees.objects.first() 
-#     if customer_registration_fees:
-#         customer_registration_fees = customer_registration_fees.amount
-#         if default_registration_fee:
-#             default_registration_fee = default_registration_fee.fees_amount
-#             customer_registration_fees_balance = default_registration_fee - customer_registration_fees
-#         else:
-#             customer_registration_fees_balance = 0
-#     else:
-#         if default_registration_fee:
-#             default_registration_fee = default_registration_fee.fees_amount
-#         customer_registration_fees = 0
-#         customer_registration_fees_balance = default_registration_fee
-
-#     customer_connection_fees = models.FeesPayment.objects.filter(customer=customer, fee_type="connection").first()
-#     if customer_connection_fees:
-#         customer_connection_fees = customer_connection_fees.amount
-#     else:
-#         customer_registration_fees = 0
-
-#     customer_consultation_fees = models.FeesPayment.objects.filter(customer=customer, fee_type="consultation")
-
-
-
-#     context = {
-#         "customer": customer,
-#         "customer_placements": customer_placements,
-#         "customer_registration_fees": customer_registration_fees,
-#         "customer_connection_fees": customer_connection_fees,
-#         "customer_consultation_fees": customer_consultation_fees,
-#         "customer_registration_fees_balance": customer_registration_fees_balance,
-        
-#     }
-#     print(context)
-#     return render(request, "view_customer.html", context)
-
 
 def view_customer(request, customer_id):
     customer = get_object_or_404(models.Customer, id=customer_id)
@@ -119,8 +79,11 @@ def view_customer(request, customer_id):
     # Calculating connection fee balance
     customer_connection_fees_balance = default_connection_fee - customer_connection_fees
 
+    # Handling consultations 
+    customer_consultations = models.Consultation.objects.filter(customer=customer).order_by("-consultation_date")
+
     # Handling consultation fees
-    customer_consultation_fees = models.FeesPayment.objects.filter(customer=customer, fee_type="consultation")
+    customer_consultation_fees_obj = models.FeesPayment.objects.filter(customer=customer, fee_type="consultation").order_by("-payment_date")
 
     # Handling total amount paid and owed 
     total_amount_paid = customer_registration_fees + customer_connection_fees
@@ -136,10 +99,12 @@ def view_customer(request, customer_id):
         "customer_connection_fees": customer_connection_fees,
         "customer_connection_fees_balance": customer_connection_fees_balance,
 
-        "customer_consultation_fees": customer_consultation_fees,
+        "customer_consultation_fees_obj": customer_consultation_fees_obj,
 
         "total_amount_paid": total_amount_paid,
         "total_amount_owed": total_amount_owed,
+
+        "customer_consultations": customer_consultations,
     }
 
     return render(request, "view_customer.html", context)
@@ -153,7 +118,7 @@ def delete_customer(request, customer_id):
     
 
 def list_of_customers(request):
-    customers = models.Customer.objects.all()
+    customers = models.Customer.objects.all().order_by("-date")
 
     context = {
         "customers": customers,
@@ -162,4 +127,48 @@ def list_of_customers(request):
 
 
 def search_customer(request):
+    # query = request.GET.get("query", "")
+    # customers = models.Customer.objects.filter(
+    #     Q(firstname__icontains = query) |
+    #     Q(othernames__icontains = query) |
+    #     Q(phonenumber_1__icontains = query) |
+    #     Q(email__icontains = query) |
+    #     Q(address__icontains = query) |
+    #     Q(phonenumber_2__icontains = query) |
+    # )
     pass
+
+
+def search_customers(request):
+    if request.headers.get('x-requested-with') == 'XMLHttpRequest':
+        query = request.GET.get("query", "")
+        customers = models.Customer.objects.filter(
+            Q(firstname__icontains=query) |
+            Q(othernames__icontains = query) |
+            Q(address__icontains=query) |
+            Q(email__icontains = query) |
+            Q(phonenumber_1__icontains=query) |
+            Q(phonenumber_2__icontains = query)
+        ).order_by("-date")
+
+        customer_list = []
+        for customer in customers:
+            customer_data = {
+                "firstname": customer.firstname,
+                "othernames": customer.othernames,
+                "phonenumber_1": customer.phonenumber_1,
+                "phonenumber_2": customer.phonenumber_2,
+                "email": customer.email,
+                "address": customer.address,
+                "date": customer.date.strftime("%Y-%m-%d %H:%M:%S"),
+                "passport_photo": customer.passport_photo.url if customer.passport_photo else "",
+                "file_upload": customer.file_upload.url if customer.file_upload else "",
+                "remarks": customer.remarks,
+                "view_url": reverse('view-customer', args=[customer.id]),
+                "edit_url": reverse('edit-customer', args=[customer.id]),
+                "delete_url": reverse('delete-customer', args=[customer.id]),
+            }
+            customer_list.append(customer_data)
+
+        return JsonResponse({"customers": customer_list})
+    return JsonResponse({"customers": []})

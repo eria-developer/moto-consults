@@ -11,8 +11,7 @@ class Customer(models.Model):
     phonenumber_2 = models.CharField(max_length=15, null=True, blank=True)
     email = models.EmailField(blank=True, null=True)
     address = models.CharField(max_length=64, null=False, blank=False)
-    # passport_photo = models.ImageField(upload_to="passport_photos/", null=False, blank=False)
-    # file_upload = models.FileField(upload_to="uploaded_files/", null=False, blank=False)
+    date = models.DateTimeField(auto_now_add=True, null=True)
     passport_photo = models.ImageField(upload_to="passport_photos/", null=True, blank=True)
     file_upload = models.FileField(upload_to="uploaded_files/", null=True, blank=True)
     remarks = models.TextField()
@@ -27,6 +26,7 @@ class EmployerCompany(models.Model):
     address = models.CharField(max_length=64, null=False, blank=False)
     phone_number = models.CharField(max_length=15, null=False, blank=False)
     description = models.TextField(null=True)
+    date_added = models.DateTimeField(auto_now_add=True, null=True)
 
     def __str__(self):
         return f"{self.name} found in {self.address}"
@@ -132,3 +132,12 @@ class ConnectionFees(models.Model):
 
     def __str__(self):
         return f"({self.fees_amount})"
+    
+
+class Consultation(models.Model):
+    customer = models.ForeignKey(Customer, on_delete=models.CASCADE)
+    consultation_fee = models.IntegerField()
+    consultation_date = models.DateTimeField(auto_now_add=True)
+
+    def __str__(self):
+        return f"{self.customer} consulted on {self.consultation_date}"
