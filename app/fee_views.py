@@ -5,31 +5,31 @@ from django.contrib import messages
 
 
 
-# def add_fee(request):
-#     if request.method == "POST":
-#         form = forms.FeeForm(request.POST)
-#         if form.is_valid():
-#             form.save()
-#             messages.success(request, "Fee added successfully")
-#             return redirect("list-of-fees")
-#         else:
-#             for field, errors in form.errors.items():
-#                 for error in errors:
-#                     messages.error(request, f"{error} in {field}")
-#     else:
-#         form = forms.FeeForm()
+def add_fee(request):
+    if request.method == "POST":
+        form = forms.FeeForm(request.POST)
+        if form.is_valid():
+            form.save()
+            messages.success(request, "Fee added successfully")
+            return redirect("list-of-fees")
+        else:
+            for field, errors in form.errors.items():
+                for error in errors:
+                    messages.error(request, f"{error} in {field}")
+    else:
+        form = forms.FeeForm()
 
-#     customers = models.Customer.objects.all()
-#     fee_types = models.FeesPayment.CUSTOMER_FEE_CHOICES
-#     payment_status_choices = models.FeesPayment.STATUS_CHOICES
+    customers = models.Customer.objects.all()
+    fee_types = models.FeesPayment.CUSTOMER_FEE_CHOICES
+    payment_status_choices = models.FeesPayment.STATUS_CHOICES
 
-#     context = {
-#         "form": form,
-#         "customers": customers,
-#         "fee_types": fee_types,
-#         "payment_status_choices": payment_status_choices,
-#     }
-#     return render(request, "add_fee.html", context)
+    context = {
+        "form": form,
+        "customers": customers,
+        "fee_types": fee_types,
+        "payment_status_choices": payment_status_choices,
+    }
+    return render(request, "add_fee.html", context)
 
 
 def edit_fee(request, fee_id):
@@ -85,65 +85,25 @@ def list_of_fees(request):
 
 
 
-from django.template.loader import render_to_string
-from xhtml2pdf import pisa
-from io import BytesIO
 
-def generate_receipt(payment):
-    # Define the page size and margin
+
+from django.shortcuts import render, get_object_or_404
+from django.http import HttpResponse
+from django.template.loader import render_to_string
+from weasyprint import HTML
+from .models import FeesPayment
+
+def generate_receipt(request, fee_id):
+    fee = get_object_or_404(FeesPayment, id=fee_id)
+    formatted_date = fee.payment_date.strftime('%Y-%m-%d %H:%M:%S')
     context = {
-        'pagesize': 'A4',
-        'margin': 10,
-        'payment': payment,
+        'fee': fee,
+        'formatted_date': formatted_date,
     }
-    
-    # Render the HTML content with the specified page size and margin
     html_content = render_to_string('receipt_template.html', context)
     
-    # Convert the HTML content to a PDF
-    result_file = BytesIO()
-    pdf = pisa.CreatePDF(html_content, dest=result_file, encoding='UTF-8')
-    
-    if pdf.err:
-        raise Exception('Error generating PDF')
-    
-    return result_file.getvalue()
+    pdf_file = HTML(string=html_content).write_pdf()
 
-
-
-def add_fee(request):
-    if request.method == "POST":
-        form = forms.FeeForm(request.POST)
-        if form.is_valid():
-            payment = form.save()
-            # Generate and display the receipt
-            receipt_pdf = generate_receipt(payment)
-            messages.success(request, "Fee added successfully")
-            return redirect("display_receipt", payment_id=payment.id)
-        else:
-            for field, errors in form.errors.items():
-                for error in errors:
-                    messages.error(request, f"{error} in {field}")
-    else:
-        form = forms.FeeForm()
-
-    customers = models.Customer.objects.all()
-    fee_types = models.FeesPayment.CUSTOMER_FEE_CHOICES
-    payment_status_choices = models.FeesPayment.STATUS_CHOICES
-
-    context = {
-        "form": form,
-        "customers": customers,
-        "fee_types": fee_types,
-        "payment_status_choices": payment_status_choices,
-    }
-    return render(request, "add_fee.html", context)
-
-
-from django.http import FileResponse
-
-def display_receipt(request, payment_id):
-    payment = get_object_or_404(models.FeesPayment, id=payment_id)
-    receipt_pdf = generate_receipt(payment)
-    response = FileResponse(BytesIO(receipt_pdf), as_attachment=True, filename=f'{payment.customer.firstname}_{payment.payment_date}.pdf')
+    response = HttpResponse(pdf_file, content_type='application/pdf')
+    response['Content-Disposition'] = f'attachment; filename="receipt_{fee_id}.pdf"'
     return response
