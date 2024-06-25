@@ -555,12 +555,12 @@
 
           <li><a class="has-arrow " href="javascript:void(0);" aria-expanded="false">
               <i class="bi bi-file-earmark-spreadsheet"></i>
-              <span class="nav-text">Consultations</span>
+              <span class="nav-text">System users</span>
             </a>
             <ul aria-expanded="false">
-              <li><a href="#">Add consultation</a></li>
-              <li><a href="#">View consultations</a></li>
-              <li><a href="#">Manage consultations</a></li>
+              <li><a href={% url "add-user" %}>Add user</a></li>
+              <li><a href={% url "list-of-users" %}>View users</a></li>
+              <li><a href={% url "list-of-users" %}>Manage users</a></li>
             </ul>
           </li>
 

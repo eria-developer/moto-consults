@@ -1,0 +1,94 @@
+{% extends "base.html" %}
+
+{% load static %}
+
+{% block title %}Moto consults | Add user{% endblock title %}
+
+{% block extra_css %}{% endblock extra_css %}
+
+{% block content %}
+<div>
+
+    <div class="content-body">
+        <div class="container-fluid">
+            <div class="row page-titles">
+                <ol class="breadcrumb">
+                    <li class="breadcrumb-item active"><a href="javascript:void(0)">Moto Consults</a></li>
+                    <li class="breadcrumb-item"><a href="javascript:void(0)">Add new user</a></li>
+                </ol>
+            </div>
+            <!-- row -->
+            <div class="row">
+                <div class="col-xl-12 col-lg-12">
+                    <div class="card">
+                        <div class="card-header">
+                            <h4 class="card-title">User Details</h4>
+                        </div>
+                        <div class="card-body">
+                            <div class="basic-form">
+
+                                <!-- form for adding a new company  -->
+                                <form id="userAdditionForm" method="post" action="">
+
+                                    {% csrf_token %}
+                                    <div class="mb-3 col-md-12">
+                                        <label for="id_firstname" class="form-label">Firstname:</label><span
+                                            class="text-danger">*</span>
+                                        <input type="text" name="firstname" maxlength="100" required id="id_firstname"
+                                            required class="form-control" placeholder="Talemwa">
+                                    </div>
+
+                                    <div class="mb-3 col-md-12">
+                                        <label for="id_othernames" class="form-label">Othernames:</label>
+                                        <input type="text" name="othernames" maxlength="100" required id="id_othernames"
+                                            class="form-control">
+                                    </div>
+
+                                    <div class="mb-3 col-md-12">
+                                        <label for="id_role" class="form-label">User Role:</label>
+                                        <select name="role" id="id_role" class="default-select  form-control wide">
+                                            <option value="">Select a user role</option>
+                                            {% for value, label in role_choices %}
+                                            <option value={{value}}>{{ label }}</option>
+                                            {% endfor %}
+                                        </select>
+                                    </div>
+
+                                    <div class="mb-3 col-md-12">
+                                        <label for="id_email" class="form-label">Email:</label>
+                                        <input type="email" name="email" maxlength="254" id="id_email"
+                                            class="form-control">
+                                    </div>
+
+
+                                    <div class="mb-3 col-md-12">
+                                        <label for="id_password1" class="form-label">Password:</label>
+                                        <input type="password" name="password1" maxlength="15" required
+                                            id="id_password1" class="form-control" required>
+                                    </div>
+
+                                    <div class="mb-3 col-md-12">
+                                        <label for="id_password2" class="form-label">Confirm Password:</label>
+                                        <input type="password" name="password2" maxlength="15" required
+                                            id="id_password2" class="form-control" required>
+                                    </div>
+
+
+
+
+                                    <div><button type="submit" class="btn btn-primary mb-2">Save user</button>
+                                    </div>
+                                </form>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+
+
+            </div>
+        </div>
+        <div id="message"></div>
+    </div>
+</div>
+{% endblock content %}
