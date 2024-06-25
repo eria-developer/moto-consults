@@ -69,6 +69,7 @@ class ConnectionFees(models.Model):
     
     def __str__(self):
         return f"{self.fees_amount}"
+    
 
 
 class RecruitmentProcess(models.Model):
@@ -128,11 +129,11 @@ class ConsultationFees(models.Model):
         return f"{self.fees_amount}"
     
 
-class ConnectionFees(models.Model):
-    fees_amount = models.IntegerField(null=False, blank=False)
+# class ConnectionFees(models.Model):
+#     fees_amount = models.IntegerField(null=False, blank=False)
 
-    def __str__(self):
-        return f"({self.fees_amount})"
+#     def __str__(self):
+#         return f"({self.fees_amount})"
     
 
 class Consultation(models.Model):
