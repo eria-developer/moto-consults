@@ -43,10 +43,10 @@
                                         <th>
                                             <strong>Customer</strong>
                                         </th>
-                                        <th><strong>Fee type</strong></th>
-                                        <th><strong>Amount paid</strong></th>
-                                        <th><strong>Payment date</strong></th>
-                                        <th><strong>Receipt</strong></th>
+                                        <th class="text-center"><strong>Fee type</strong></th>
+                                        <th class="text-center"><strong>Amount paid</strong></th>
+                                        <th class="text-center"><strong>Payment date</strong></th>
+                                        <th class="text-center"><strong>Receipt</strong></th>
                                     </tr>
                                 </thead>
                                 <tbody>
@@ -56,12 +56,12 @@
                                         <td>
                                             {{fee.customer.firstname}} {{fee.customer.othernames}}
                                         </td>
-                                        <td>{{fee.fee_type}}</td>
-                                        <td>{{fee.amount}}</td>
+                                        <td class="text-center">{{fee.fee_type}}</td>
+                                        <td class="text-center">{{fee.amount}}</td>
                                         <td class="text-center">
                                             {{fee.payment_date}}
                                         </td>
-                                        <td><a href="{% url 'generate_receipt' fee.id %}"
+                                        <td class="text-center"><a href="{% url 'generate_receipt' fee.id %}"
                                                 class="btn btn-sm btn-primary">Download Receipt</a></td>
 
 
