@@ -19,6 +19,10 @@ class CustomUserManager(BaseUserManager):
         return self.create_user(email, password, **extra_fields)
     
 
+class Roles(models.Model):
+    name = models.CharField(max_length=40)
+
+
 class CustomUser(AbstractBaseUser, PermissionsMixin):
     ROLE_CHOICES = [('admin', 'Admin'), ('manager', 'Manager'), ('user', 'User')]
     
@@ -27,7 +31,8 @@ class CustomUser(AbstractBaseUser, PermissionsMixin):
     othernames = models.CharField(max_length=30)
     is_active = models.BooleanField(default=True)
     is_staff = models.BooleanField(default=False)
-    role = models.CharField(max_length=20, choices=ROLE_CHOICES)
+    # role = models.CharField(max_length=20, choices=ROLE_CHOICES)
+    role = models.ForeignKey(Roles, on_delete=models.CASCADE)
 
     objects = CustomUserManager()
 
@@ -36,3 +41,4 @@ class CustomUser(AbstractBaseUser, PermissionsMixin):
 
     def __str__(self):
         return self.email
+    

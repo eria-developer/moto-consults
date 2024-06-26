@@ -9,7 +9,6 @@ from weasyprint import HTML
 from .models import FeesPayment
 
 
-
 def add_fee(request):
     if request.method == "POST":
         form = forms.FeeForm(request.POST)

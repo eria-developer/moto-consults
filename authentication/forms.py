@@ -1,6 +1,6 @@
 from django import forms
 from django.contrib.auth.forms import UserCreationForm
-from .models import CustomUser
+from .models import CustomUser, Roles
 
 class CustomUserCreationForm(UserCreationForm):
     class Meta(UserCreationForm.Meta):
@@ -21,3 +21,18 @@ class CustomUserCreationForm(UserCreationForm):
                 "class": "form-control",
             })
         }
+
+
+
+
+class RoleForm(forms.ModelForm):
+    class Meta:
+        model = Roles
+        fields = "__all__"
+
+        widgets = {
+            "name": forms.TextInput(attrs={
+                "class": "form-control",
+            })
+        }
+

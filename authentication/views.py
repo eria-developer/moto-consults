@@ -1,8 +1,10 @@
-from django.shortcuts import render, redirect
+
 from django.contrib.auth import authenticate, login
 from django.contrib.auth.forms import AuthenticationForm
 from .forms import CustomUserCreationForm
+from django.shortcuts import render, redirect, get_object_or_404
 from . import models
+from . import forms
 from django.contrib import messages
 
 def add_user(request):
@@ -20,7 +22,7 @@ def add_user(request):
     else:
         form = CustomUserCreationForm()
 
-    role_choices = models.CustomUser.ROLE_CHOICES
+    role_choices = models.Roles.objects.all()
 
     context = {
         'form': form,
@@ -51,3 +53,62 @@ def list_of_users(request):
     }
     return render(request, "list_of_users.html", context)
 
+
+def add_role(request):
+    if request.method == "POST":
+        form = forms.RoleForm(request.POST)
+        if form.is_valid():
+            form.save()
+            messages.success(request, "Role added successfully")
+            return redirect("list-of-roles")
+        else:
+            for field, errors in form.errors.items():
+                for error in errors:
+                    messages.error(request, f"{error} in {field}")
+                    print(f"{error} in {field}")
+    else:
+        form = forms.RoleForm()
+
+    context = {
+        "form": form,
+    }
+    return render(request, "add_role.html", context)
+
+
+def edit_role(request, role_id):
+    role = get_object_or_404(models.Roles, id=role_id)
+    print(role)
+    if request.method == "POST":
+        form = forms.EditRoleForm(request.POST, instance=role)
+        if form.is_valid():
+            form.save()
+            messages.success(request, "Role updated successfully")
+            return redirect("view_role", role_id=role.id)
+        else:
+            for field, errors in form.errors.items():
+                for error in errors:
+                    messages.error(request, f"{error} in {field}")
+    else:
+        form = forms.EditRoleForm(instance=role)
+
+    context = {
+        "form": form,
+        "role": role,
+    }
+    return render(request, "edit_role.html", context)
+
+
+def delete_role(request, role_id):
+    role = get_object_or_404(models.Roles, id=role_id)
+    if request.method == "POST":
+        role.delete()
+        return redirect("list-of-roles")
+    
+
+def list_of_roles(request):
+    roles = models.Role.objects.all()
+
+    context = {
+        "roles": roles,
+    }
+    return render(request, "list_of_roles.html", context)

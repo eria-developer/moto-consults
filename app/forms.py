@@ -7,6 +7,36 @@ class CustomerForm(forms.ModelForm):
         model = models.Customer
         fields = "__all__"
 
+        widgets = {
+            "firstname": forms.TextInput(attrs={
+                "class": "form-control",
+            }),
+            "othernames": forms.TextInput(attrs={
+                "class": "form-control",
+            }),
+            "phonenumber_1": forms.TextInput(attrs={
+                "class": "form-control",
+            }),
+            "phonenumber_2": forms.TextInput(attrs={
+                "class": "form-control",
+            }),
+            "address": forms.TextInput(attrs={
+                "class": "form-control",
+            }),
+            "email": forms.EmailInput(attrs={
+                "class": "form-control",
+            }),
+            "passport_photo": forms.FileInput(attrs={
+                "class": "form-control",
+            }),
+            "file_upload": forms.FileInput(attrs={
+                "class": "form-control",
+            }),
+            "remarks": forms.Textarea(attrs={
+                "class": "form-control",
+            }),
+        }
+
 
 class EditCustomerForm(forms.ModelForm):
     class Meta:

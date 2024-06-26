@@ -61,4 +61,9 @@ urlpatterns = [
     path("view-consultation/<int:consultation_id>/", views.view_consultation, name="view-consultation"),
     path("list-of-consultations/", views.list_of_consultations, name="list-of-consultations"),
     # path("search-placement/", views.search_placement, name="search-placement"),
+
+    # settings urls 
+    path("my-profile/", views.my_profile, name="my-profile"),
+    path("company-settings/", views.company_settings, name="company-settings"),
+    path("my-profile/",views.my_profile, name="my-profile")
 ]
