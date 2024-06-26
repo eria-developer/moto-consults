@@ -2,6 +2,11 @@ from django.shortcuts import render, redirect, get_object_or_404
 from . import models
 from . import forms
 from django.contrib import messages
+from django.shortcuts import render, get_object_or_404
+from django.http import HttpResponse
+from django.template.loader import render_to_string
+from weasyprint import HTML
+from .models import FeesPayment
 
 
 
@@ -80,18 +85,21 @@ def list_of_fees(request):
     return render(request, "list_of_fees.html", context)
 
 
+def preview_receipt(request, fee_id):
+    fee = get_object_or_404(FeesPayment, id=fee_id)
+    formatted_date = fee.payment_date.strftime('%Y-%m-%d %H:%M:%S')
+    context = {
+        'fee': fee,
+        'formatted_date': formatted_date,
+    }
+    html_content = render_to_string('receipt_template.html', context)
+    
+    pdf_file = HTML(string=html_content).write_pdf()
 
+    response = HttpResponse(pdf_file, content_type='application/pdf')
+    response['Content-Disposition'] = f'inline; filename="receipt_{fee_id}.pdf"'
+    return response
 
-
-
-
-
-
-from django.shortcuts import render, get_object_or_404
-from django.http import HttpResponse
-from django.template.loader import render_to_string
-from weasyprint import HTML
-from .models import FeesPayment
 
 def generate_receipt(request, fee_id):
     fee = get_object_or_404(FeesPayment, id=fee_id)

@@ -61,10 +61,12 @@
                                         <td class="text-center">
                                             {{fee.payment_date}}
                                         </td>
-                                        <td class="text-center"><a href="{% url 'generate_receipt' fee.id %}"
-                                                class="btn btn-sm btn-primary">Download Receipt</a></td>
-
-
+                                        <td class="text-center">
+                                            <a href="{% url 'preview_receipt' fee.id %}"
+                                                class="btn btn-sm btn-primary me-3"><i class="fa fa-eye"></i></a><a
+                                                href="{% url 'generate_receipt' fee.id %}"
+                                                class="btn btn-sm btn-primary"><i class="fa fa-download"></i></a>
+                                        </td>
                                     </tr>
                                     {% endfor %}
                                 </tbody>

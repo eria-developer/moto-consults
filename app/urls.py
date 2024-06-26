@@ -43,7 +43,8 @@ urlpatterns = [
     path("view-fee/<int:fee_id>/", views.view_fee, name="view-fee"),
     path("delete-fee/<int:fee_id>/", views.delete_fee, name="delete-fee"),
     path("list-of-fees/", views.list_of_fees, name="list-of-fees"),
-        path('generate_receipt/<int:fee_id>/', views.generate_receipt, name='generate_receipt'),
+    path('preview_receipt/<int:fee_id>/', views.preview_receipt, name='preview_receipt'),
+    path('generate_receipt/<int:fee_id>/', views.generate_receipt, name='generate_receipt'),
 
 
 
