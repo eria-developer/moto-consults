@@ -50,25 +50,6 @@ class Job(models.Model):
         if self.job_position:
             return f"{self.job_position} {self.job_title}"
         return f"{self.job_title}"
-
-
-class CompanySettings(models.Model):
-    name = models.CharField(max_length=100, null=False, blank=False)
-    email = models.CharField(max_length=64, null=False, blank=False)
-    logo = models.ImageField(upload_to="logos/", null=True, blank=True)
-    favicon = models.ImageField(upload_to="favicons/", null=True, blank=True)
-    address = models.CharField(max_length=64, null=False, blank=False)
-    phone_number = models.CharField(max_length=15, null=False, blank=False)
-
-    def __str__(self):
-        return f"{self.name}"
-
-
-class ConnectionFees(models.Model):
-    fees_amount = models.IntegerField(null=False, blank=False)
-    
-    def __str__(self):
-        return f"{self.fees_amount}"
     
 
 
@@ -115,27 +96,6 @@ class FeesPayment(models.Model):
         return f"{self.customer.firstname}'s {self.fee_type} payment"
     
 
-class RegistrationFees(models.Model):
-    fees_amount = models.IntegerField(null=False, blank=False)
-
-    def __str__(self):
-        return f"({self.fees_amount})"
-    
-
-class ConsultationFees(models.Model):
-    fees_amount = models.IntegerField(null=False, blank=False)
-
-    def __str__(self):
-        return f"{self.fees_amount}"
-    
-
-# class ConnectionFees(models.Model):
-#     fees_amount = models.IntegerField(null=False, blank=False)
-
-#     def __str__(self):
-#         return f"({self.fees_amount})"
-    
-
 class Consultation(models.Model):
     customer = models.ForeignKey(Customer, on_delete=models.CASCADE)
     consultation_fee = models.IntegerField()
@@ -143,3 +103,44 @@ class Consultation(models.Model):
 
     def __str__(self):
         return f"{self.customer} consulted on {self.consultation_date}"
+    
+
+
+class SingletonModel(models.Model):
+    class Meta:
+        abstract = True
+
+    def save(self, *args, **kwargs):
+        if not self.pk and self.__class__.objects.exists():
+            self.__class__.objects.all().delete()  # Delete all existing instances
+        super().save(*args, **kwargs)
+
+class ConnectionFees(SingletonModel):
+    fees_amount = models.IntegerField(null=False, blank=False)
+    
+    def __str__(self):
+        return f"{self.fees_amount}"
+
+class RegistrationFees(SingletonModel):
+    fees_amount = models.IntegerField(null=False, blank=False)
+
+    def __str__(self):
+        return f"({self.fees_amount})"
+
+class ConsultationFees(SingletonModel):
+    fees_amount = models.IntegerField(null=False, blank=False)
+
+    def __str__(self):
+        return f"{self.fees_amount}"
+
+
+class CompanySettings(SingletonModel):
+    name = models.CharField(max_length=100, null=False, blank=False)
+    email = models.CharField(max_length=64, null=False, blank=False)
+    logo = models.ImageField(upload_to="logos/", null=True, blank=True)
+    favicon = models.ImageField(upload_to="favicons/", null=True, blank=True)
+    address = models.CharField(max_length=64, null=False, blank=False)
+    phone_number = models.CharField(max_length=15, null=False, blank=False)
+
+    def __str__(self):
+        return f"{self.name}"

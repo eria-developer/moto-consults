@@ -60,7 +60,7 @@ def add_role(request):
         if form.is_valid():
             form.save()
             messages.success(request, "Role added successfully")
-            return redirect("list-of-roles")
+            return redirect("company-settings")
         else:
             for field, errors in form.errors.items():
                 for error in errors:
@@ -72,7 +72,7 @@ def add_role(request):
     context = {
         "form": form,
     }
-    return render(request, "add_role.html", context)
+    return render(request, "settings.html", context)
 
 
 def edit_role(request, role_id):

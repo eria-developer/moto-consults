@@ -1,5 +1,6 @@
 from django import forms
 from . import models
+# from authentication.models import 
 
 
 class CustomerForm(forms.ModelForm):
@@ -286,3 +287,101 @@ class ConsultationForm(forms.ModelForm):
 
 
 # END FOR CONSULTATION FORMS 
+
+
+class CompanySettingsForm(forms.ModelForm):
+    class Meta:
+        model = models.CompanySettings
+        fields = ['name', 'email', 'logo', 'favicon', 'address', 'phone_number']
+        widgets = {
+            'logo': forms.ClearableFileInput(attrs={'accept': 'image/*', 'class': 'form-control'}),
+            'favicon': forms.ClearableFileInput(attrs={'accept': 'image/x-icon,image/vnd.microsoft.icon', 'class': 'form-control'}),
+            'name': forms.TextInput(attrs={'class': 'form-control'}),
+            'email': forms.EmailInput(attrs={'class': 'form-control'}),
+            'address': forms.Textarea(attrs={'class': 'form-control'}),
+            'phone_number': forms.TextInput(attrs={'class': 'form-control'}),
+        }
+
+
+# class RoleForm(forms.ModelForm):
+#     class Meta:
+#         model = models.Role
+#         fields = ['name', 'email', 'logo', 'favicon', 'address', 'phone_number']
+#         widgets = {
+#             'logo': forms.ClearableFileInput(attrs={'accept': 'image/*', 'class': 'form-control'}),
+#             'favicon': forms.ClearableFileInput(attrs={'accept': 'image/x-icon,image/vnd.microsoft.icon', 'class': 'form-control'}),
+#             'name': forms.TextInput(attrs={'class': 'form-control'}),
+#             'email': forms.EmailInput(attrs={'class': 'form-control'}),
+#             'address': forms.Textarea(attrs={'class': 'form-control'}),
+#             'phone_number': forms.TextInput(attrs={'class': 'form-control'}),
+#         }
+
+
+
+
+# FORMS FOR REGISTRATION FEES
+
+class RegistrationForm(forms.ModelForm):
+    class Meta:
+        model = models.RegistrationFees
+        fields = "__all__"
+
+        widgets = {
+            "fees_amount": forms.NumberInput(attrs={
+                "class": "form-control",
+            })
+        }
+
+
+# END FOR REGISTRATION FORMS 
+
+
+# FORMS FOR REGISTRATION
+
+class ConnectionFeesForm(forms.ModelForm):
+    class Meta:
+        model = models.ConnectionFees
+        fields = "__all__"
+
+        widgets = {
+            "fees_amount": forms.NumberInput(attrs={
+                "class": "form-control",
+            })
+        }
+
+
+# END FOR REGISTRATION FORMS 
+
+
+# FORMS FOR CONSULTATION
+
+class ConsultationFeesForm(forms.ModelForm):
+    class Meta:
+        model = models.ConsultationFees
+        fields = "__all__"
+
+        widgets = {
+            "fees_amount": forms.NumberInput(attrs={
+                "class": "form-control",
+            })
+        }
+
+
+# END FOR CONSULTATION FORMS 
+
+
+# FORMS FOR REGISTRATION
+
+class RegistrationFeesForm(forms.ModelForm):
+    class Meta:
+        model = models.RegistrationFees
+        fields = "__all__"
+
+        widgets = {
+            "fees_amount": forms.NumberInput(attrs={
+                "class": "form-control",
+            })
+        }
+
+
+# END FOR REGISTRATION FORMS 

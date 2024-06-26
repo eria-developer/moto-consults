@@ -82,3 +82,8 @@ class ConsultationAdmin(admin.ModelAdmin):
         lastname = obj.customer.othernames
         return f"{firstname} {lastname}"
 admin.site.register(models.Consultation, ConsultationAdmin)
+
+
+class CompanySettingsAdmin(admin.ModelAdmin):
+    model = models.CompanySettings
+admin.site.register(models.CompanySettings, CompanySettingsAdmin)

@@ -63,7 +63,8 @@ urlpatterns = [
     # path("search-placement/", views.search_placement, name="search-placement"),
 
     # settings urls 
-    path("my-profile/", views.my_profile, name="my-profile"),
+    path("roles/", views.roles, name="roles"),
     path("company-settings/", views.company_settings, name="company-settings"),
+    path("edit-settings/<int:id>", views.edit_settings, name="edit-settings"),
     path("my-profile/",views.my_profile, name="my-profile")
 ]

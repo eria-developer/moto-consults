@@ -1,6 +1,6 @@
 from django.urls import path
 from .views import  login_view, add_user, list_of_users, add_role, edit_role, delete_role, list_of_roles
-# edit_user, view_user, delete_user, 
+# from app import urls
 
 urlpatterns = [
     # path('signup/', signup_view, name='signup'),
@@ -21,4 +21,6 @@ urlpatterns = [
     path("delete-role/<int:role_id>/", delete_role, name="delete-role"),
     path("list-of-roles/", list_of_roles, name="list-of-roles"),
     # path("search-role/", views.search_role, name="search-role"),
-]
+] 
+
+# urlpatterns += urls.urlpatterns

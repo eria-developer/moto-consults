@@ -1,0 +1,497 @@
+{% extends "base.html" %}
+
+{% load static %}
+
+{% block title %}Motor Consults | Settings{% endblock title %}
+
+{% block extra_css %}{% endblock extra_css %}
+
+{% block content %}
+
+<!--**********************************
+            Content body start
+        ***********************************-->
+<div class="content-body">
+    <!-- row -->
+    <div class="container-fluid">
+        <div class="row">
+            <div class="col-xl-6 col-xxl-6 col-lg-12">
+                <div class="card instructors-box">
+
+                    <div class="card-body text-center pb-3">
+                        <div class="instructors-media">
+                            {% if settings_instance.logo %}
+                            <img src={{ settings_instance.logo.url }} alt="">
+                            {% else %}
+                            <img src={% static "images/courses/pic2.jpg" %} alt="">
+                            {% endif %}
+
+                            <div class="instructors-media-info mt-4">
+                                <h4 class="mb-1">{{ settings_instance.name }}</h4>
+                                <span class="fs-18">Located at {{ settings_instance.address }}</span>
+                                <div class="d-flex justify-content-center my-3 mt-4">
+
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="bio text-start my-4">
+                            <h4 class="mb-3">Details</h4>
+                            <div class="bio-content mb-3">
+                                <div class="fs-18">
+                                    <span>Name:</span>
+                                    <span>{{ settings_instance.name }}</span>
+                                </div>
+
+                                <div class="fs-18">
+                                    <span>Phone_number:</span>
+                                    <span>{{ settings_instance.phonenumber }}</span>
+                                </div>
+                                <div class="fs-18">
+                                    <span>Phonenumber 2:</span>
+                                    <span>{{ settings_instance.phonenumber_2 }}</span>
+                                </div>
+                                <div class="fs-18">
+                                    <span>Address:</span>
+                                    <span>{{ settings_instance.address }}</span>
+                                </div>
+
+                            </div>
+                            <div class="widget-heading text-center d-flex justify-content-center align-items-center">
+                                <button type="button" class="btn btn-primary mb-2" data-bs-toggle="modal"
+                                    data-bs-target="#updateSettings"><i class="fa fa-pencil me-2"></i>Update Company
+                                    Details
+                                </button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="col-xl-6 col-xxl-6 col-lg-12">
+                <div class="card instructors-box">
+
+                    <div class="card-body pb-3">
+                        <div class="instructors-media">
+                            <div class="d-flex justify-content-between">
+                                <div>
+                                    <h4 class="mb-3">Roles and Permissions</h4>
+                                </div>
+                                <div>
+                                    <button type="button" class="btn btn-primary mb-2" data-bs-toggle="modal"
+                                        data-bs-target="#basicModal"><i class="fa fa-plus-circle me-2"></i>Add
+                                    </button>
+                                </div>
+                            </div>
+
+                        </div>
+                        <hr>
+
+                        <div class="table-responsive">
+                            <table class="table table-responsive-md" id="roles-table">
+                                <thead>
+                                    <tr>
+                                        <th>
+                                            <strong>Role Name</strong>
+                                        </th>
+                                        <th class=" text-center"><strong>Actions</strong></th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+
+                                    {% for role in roles %}
+                                    <tr>
+                                        <td>
+                                            {{role.name}}
+                                        </td>
+
+                                        <td>
+                                            <div class=" d-flex text-center">
+                                                <a href="" class="btn btn-primary shadow btn-sm sharp me-1"><i
+                                                        class="fa fa-key me-1"></i>Permissions</a>
+                                                <a href="" class="btn btn-primary shadow btn-sm sharp me-1"><i
+                                                        class="fa fa-pencil me-1"></i>Edit role</a>
+                                            </div>
+                                        </td>
+                                    </tr>
+                                    {% endfor %}
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <!-- <div class="col-xl-8 col-xxl-7 col-lg-12 ">
+                <div class="row">
+                    <div class="col-xl-6 col-lg-6 col-sm-6">
+                        <div class="card profile-widget">
+                            <div class="card-body">
+                                <div
+                                    class="widget-courses align-items-center d-flex justify-content-between style-1 flex-wrap">
+                                    <div class="d-flex">
+                                        <div class="ms-4">
+                                            <h4>Registration fees</h4>
+                                            <div class="mb-3">
+                                                <span class="fs-18">Paid:</span>
+                                                <span class="text-success rounded">ugx.
+                                                    {{settings_registration_fees}}</span>
+                                            </div>
+                                            <div class="mb-3">
+                                                <span class="fs-18">Balance:</span>
+                                                <span class="text-danger text-sm rounded">ugx
+                                                    {{settings_registration_fees_balance }}</span>
+                                            </div>
+                                            <a href={% url "add-fee" %}
+                                                class="btn btn-primary btn-sm shadow sharp me-1"><i
+                                                    class="fa fa-plus me-1"></i> Add fee</a>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="col-xl-6 col-lg-6 col-sm-6">
+                        <div class="card profile-widget">
+                            <div class="card-body">
+                                <div
+                                    class="widget-courses align-items-center d-flex justify-content-between style-1 flex-wrap">
+                                    <div class="d-flex">
+                                        <div class="ms-4">
+                                            <h4>Connection fees</h4>
+                                            <div class="mb-3">
+                                                <span class="fs-18">Paid:</span>
+                                                <span class="text-success rounded">
+                                                    ugx. {{settings_connection_fees }}</span>
+                                            </div>
+                                            <div class="mb-3">
+                                                <span class="fs-18">Balance:</span>
+                                                <span class="text-danger text-sm rounded">ugx
+                                                    {{settings_connection_fees_balance }}</span>
+                                            </div>
+                                            <a href={% url "add-fee" %}
+                                                class="btn btn-primary btn-sm shadow sharp me-1"><i
+                                                    class="fa fa-plus me-1"></i> Add fee</a>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="col-xl-12">
+                        <div class="card score-active style-1">
+                            <div
+                                class="card-header border-0 pb-2 flex-wrap d-flex justify-content-between align-items-center">
+                                <h4 class="me-4">Consultation fees</h4>
+                                <a href={% url "add-fee" %} class="btn btn-primary btn-sm shadow sharp me-1"><i
+                                        class="fa fa-plus me-1"></i> New
+                                    consultation</a>
+                            </div>
+
+                            <div class="card-body pb-1 custome-tooltip pt-0">
+                                <div>
+                                    <div class="table-responsive">
+                                        {% if settings_consultations %}
+                                        <table class="table table-responsive-md">
+                                            <thead>
+                                                <tr>
+                                                    <th>
+                                                        <strong>Consultation Fee</strong>
+                                                    </th>
+                                                    <th><strong>Consultation Date</strong></th>
+                                                    <th><strong>Status</strong></th>
+                                                </tr>
+                                            </thead>
+
+                                            <tbody>
+
+                                                {% for consultation in settings_consultation_fees_obj %}
+                                                <tr>
+                                                    <td>
+                                                        {{consultation.amount}}
+                                                    </td>
+                                                    <td>{{consultation.payment_date}}</td>
+                                                    <td>{{consultation.payment_status}}</td>
+                                                </tr>
+                                                {% endfor %}
+
+                                            </tbody>
+
+                                        </table>
+                                        {% else %}
+                                        <div class="text-center my-4">No consultations for
+                                            {{ settings.firstname }}
+                                            yet!!</>
+                                            {% endif %}
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="col-xl-12 mb-5">
+                            <div class="card score-active style-1">
+                                <div
+                                    class="card-header border-0 pb-2 flex-wrap d-flex justify-content-between align-items-center">
+                                    <h4 class="me-4">Recent Placements</h4>
+                                    <a href={% url "add-placement" %} class="btn btn-primary shadow sharp me-1"><i
+                                            class="fa fa-plus me-1"></i> New
+                                        placement</a>
+                                </div>
+
+                                <div class="card-body pb-1 custome-tooltip pt-0">
+                                    <div>
+                                        <div class="table-responsive mb-3">
+                                            {% if settings_placements %}
+                                            <table class="table table-responsive-md">
+                                                <thead>
+                                                    <tr>
+                                                        <th>
+                                                            <strong>Job title</strong>
+                                                        </th>
+                                                        <th><strong>Position</strong></th>
+                                                        <th><strong>Company</strong></th>
+                                                        <th><strong>status</strong></th>
+                                                    </tr>
+                                                </thead>
+
+                                                <tbody>
+
+                                                    {% for placement in settings_placements %}
+                                                    <tr>
+                                                        <td>
+                                                            {{placement.job.job_title}}
+                                                        </td>
+                                                        <td>{{placement.job.job_position}}</td>
+                                                        <td>
+                                                            {{placement.job.job_company}}
+                                                        </td>
+                                                        <td>
+                                                            {{placement.status}}
+                                                        </td>
+                                                    </tr>
+                                                    {% endfor %}
+
+                                                </tbody>
+
+                                            </table>
+                                            {% else %}
+                                            <div class="text-center my-4">No placements for {{ settings.firstname }}
+                                                yet!!</>
+                                                {% endif %}
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div> -->
+
+            <!-- Model for adding new Role  -->
+            <div class="modal fade" id="basicModal">
+                <div class="modal-dialog" role="document">
+                    <div class="modal-content">
+                        <div class="modal-header">
+                            <h5 class="modal-title">Adding new User Role</h5>
+                            <button type="button" class="btn-close" data-bs-dismiss="modal">
+                            </button>
+                        </div>
+                        <div class="modal-body">
+                            <form action="" method="post">
+                                {% csrf_token %}
+                                <input type="hidden" name="form_name" value="role_form">
+                                {{role_form.as_p}}
+                                <div><button type="submit" class="btn btn-primary mb-2">Save Role</button>
+                                </div>
+                            </form>
+                        </div>
+                        <div class="modal-footer">
+                            <button type="button" class="btn btn-danger light" data-bs-dismiss="modal">Close</button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-md-4 d-flex flex-column">
+                <div class="card instructors-box">
+
+                    <div class="card-body text-center">
+
+
+                        <div class="bio text-start my-2">
+                            <h4 class="mb-4">Default Registration Fee</h4>
+                            <hr>
+                            <div class="d-flex justify-content-between">
+                                <div class="mt-2">
+                                    <strong class="text-lg text-success">Ugx. {{ default_registration_fee }}</strong>
+                                </div>
+                                <div>
+                                    <button type="button" class="btn btn-primary mb-2" data-bs-toggle="modal"
+                                        data-bs-target="#registrationFee"><i class="fa fa-plus-circle me-2"></i>set New
+                                    </button>
+                                </div>
+                            </div>
+
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="col-md-4 d-flex flex-column">
+                <div class="card instructors-box">
+
+                    <div class="card-body text-center">
+
+
+                        <div class="bio text-start my-2">
+                            <h4 class="mb-4">Default Connection Fee</h4>
+                            <hr>
+                            <div class="d-flex justify-content-between">
+                                <div class="mt-2">
+                                    <strong class="text-lg text-success">Ugx. {{ default_connection_fee }}</strong>
+                                </div>
+                                <div>
+                                    <button type="button" class="btn btn-primary mb-2" data-bs-toggle="modal"
+                                        data-bs-target="#connectionFee"><i class="fa fa-plus-circle me-2"></i>set New
+                                    </button>
+                                </div>
+                            </div>
+
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="col-md-4 d-flex flex-column">
+                <div class="card instructors-box">
+
+                    <div class="card-body text-center">
+
+
+                        <div class="bio text-start my-2">
+                            <h4 class="mb-4">Default Consultation Fee</h4>
+                            <hr>
+                            <div class="d-flex justify-content-between">
+                                <div class="mt-2">
+                                    <strong class="text-lg text-success">Ugx. {{ default_consultation_fee }}</strong>
+                                </div>
+                                <div>
+                                    <button type="button" class="btn btn-primary mb-2" data-bs-toggle="modal"
+                                        data-bs-target="#consultationFee"><i class="fa fa-plus-circle me-2"></i>set New
+                                    </button>
+                                </div>
+                            </div>
+
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!--**********************************
+            Content body end
+        ***********************************-->
+
+        <!-- Model for adding registration fee  -->
+        <div class="modal fade" id="registrationFee">
+            <div class="modal-dialog" role="document">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <h5 class="modal-title">Setting new Registration Fee</h5>
+                        <button type="button" class="btn-close" data-bs-dismiss="modal">
+                        </button>
+                    </div>
+                    <div class="modal-body">
+                        <form action="" method="post">
+                            {% csrf_token %}
+                            <input type="hidden" name="form_name" value="registration_fee_form">
+                            {{registration_fees_form.as_p}}
+                            <div><button type="submit" class="btn btn-primary mb-2">Save Fee</button>
+                            </div>
+                        </form>
+                    </div>
+                    <div class="modal-footer">
+                        <button type="button" class="btn btn-danger light" data-bs-dismiss="modal">Close</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Model for adding connection fee  -->
+        <div class="modal fade" id="connectionFee">
+            <div class="modal-dialog" role="document">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <h5 class="modal-title">Setting new Connection Fee</h5>
+                        <button type="button" class="btn-close" data-bs-dismiss="modal">
+                        </button>
+                    </div>
+                    <div class="modal-body">
+                        <form action="" method="post">
+                            {% csrf_token %}
+                            <input type="hidden" name="form_name" value="connection_fee_form">
+                            {{connection_fees_form.as_p}}
+                            <div><button type="submit" class="btn btn-primary mb-2">Save Fee</button>
+                            </div>
+                        </form>
+                    </div>
+                    <div class="modal-footer">
+                        <button type="button" class="btn btn-danger light" data-bs-dismiss="modal">Close</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Model for adding consultation fee  -->
+        <div class="modal fade" id="consultationFee">
+            <div class="modal-dialog" role="document">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <h5 class="modal-title">Setting new Consultation Fee</h5>
+                        <button type="button" class="btn-close" data-bs-dismiss="modal">
+                        </button>
+                    </div>
+                    <div class="modal-body">
+                        <form action="" method="post">
+                            {% csrf_token %}
+                            <input type="hidden" name="form_name" value="consultation_fee_form">
+                            {{consultation_fees_form.as_p}}
+                            <div><button type="submit" class="btn btn-primary mb-2">Save Fee</button>
+                            </div>
+                        </form>
+                    </div>
+                    <div class="modal-footer">
+                        <button type="button" class="btn btn-danger light" data-bs-dismiss="modal">Close</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+
+        <!-- Model for updating settings  -->
+        <div class="modal fade" id="updateSettings">
+            <div class="modal-dialog" role="document">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <h5 class="modal-title">Updating company settings/Details</h5>
+                        <button type="button" class="btn-close" data-bs-dismiss="modal">
+                        </button>
+                    </div>
+                    <div class="modal-body">
+                        <form action="" method="post" enctype="multipart/form-data">
+                            {% csrf_token %}
+                            <input type="hidden" name="form_name" value="update_company_settings_form">
+                            {{update_company_settings_form.as_p}}
+                            <div><button type="submit" class="btn btn-primary mb-2">Update settings</button>
+                            </div>
+                        </form>
+                    </div>
+                    <div class="modal-footer">
+                        <button type="button" class="btn btn-danger light" data-bs-dismiss="modal">Close</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        {% endblock content %}
