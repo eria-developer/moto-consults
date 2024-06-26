@@ -475,13 +475,8 @@
               <span class="nav-text">Dashboard</span>
             </a>
             <ul aria-expanded="false">
-              <li><a href="index.html">Dashboard Light</a></li>
-              <li><a href="index-2.html">Dashboard Dark</a></li>
-              <li><a href="schedule.html">schedule</a></li>
-              <li><a href="instructors.html">Instructors</a></li>
-              <li><a href="message.html">Message</a></li>
-              <li><a href="activity.html">Activity</a></li>
-              <li><a href="profile.html">Profile</a></li>
+              <li><a href="">Dashboard Light</a></li>
+              <li><a href="">Dashboard Dark</a></li>
             </ul>
           </li>
           <li>
@@ -492,7 +487,6 @@
             <ul aria-expanded="false">
               <li><a href={% url "add-placement" %}>Add placement</a></li>
               <li><a href={% url "list-of-placements" %}>View placements</a></li>
-              <li><a href={% url "list-of-placements" %}>Manage placements</a></li>
             </ul>
           </li>
           <li>
@@ -503,7 +497,6 @@
             <ul aria-expanded="false">
               <li><a href={% url "add-fee" %}>Add payment fee</a></li>
               <li><a href={% url "list-of-fees" %}>View payment fees</a></li>
-              <li><a href={% url "list-of-fees" %}>Manage payment fees</a></li>
             </ul>
           </li>
           <li>
@@ -515,7 +508,6 @@
             <ul aria-expanded="false">
               <li><a href={% url "add-customer" %}>Add customer</a></li>
               <li><a href={% url "list-of-customers" %}>View customers</a></li>
-              <li><a href={% url "list-of-customers" %}>Manage customers</a></li>
             </ul>
           </li>
           <li>
@@ -527,7 +519,6 @@
             <ul aria-expanded="false">
               <li><a href={% url "add-company" %}>Add company</a></li>
               <li><a href={% url "list-of-companies" %}>View companies</a></li>
-              <li><a href={% url "list-of-companies" %}>Manage companies</a></li>
             </ul>
           </li>
           <li>
@@ -538,7 +529,6 @@
             <ul aria-expanded="false">
               <li><a href={% url "add-job" %}>Add job</a></li>
               <li><a href={% url "list-of-jobs" %}>View jobs</a></li>
-              <li><a href={% url "list-of-jobs" %}>Manage jobs</a></li>
             </ul>
           </li>
           <li>
@@ -549,7 +539,6 @@
             <ul aria-expanded="false">
               <li><a href={% url "add-jobposition" %}>Add job position</a></li>
               <li><a href={% url "list-of-jobpositions" %}>View job positions</a></li>
-              <li><a href={% url "list-of-jobpositions" %}>Manage job positions</a></li>
             </ul>
           </li>
 
@@ -560,7 +549,6 @@
             <ul aria-expanded="false">
               <li><a href={% url "add-user" %}>Add user</a></li>
               <li><a href={% url "list-of-users" %}>View users</a></li>
-              <li><a href={% url "list-of-users" %}>Manage users</a></li>
             </ul>
           </li>
 
@@ -570,8 +558,8 @@
             </a>
             <ul aria-expanded="false">
               <li><a href={% url "company-settings" %}>Company details</a></li>
-              <li><a href={% url "roles" %}>Role & Permissions</a></li>
-              <li><a href={% url "my-profile" %}>My profile</a></li>
+              <li><a href={% url "company-settings" %}>Role & Permissions</a></li>
+              <li><a href="#">My profile</a></li>
             </ul>
           </li>
 
