@@ -35,7 +35,7 @@ def add_placement(request):
                 for field, errors in form.errors.items():
                     for error in errors:
                         messages.error(request, f"{error} in {field}")
-                        
+
         elif form_name == "add_company_form":
             add_company_form = forms.CompanyForm(request.POST)
             if add_company_form.is_valid():
@@ -120,6 +120,12 @@ def delete_placement(request, placement_id):
     if request.method == "POST":
         placement.delete()
         return redirect("list-of-placements")
+    
+# def delete_job(request, job_id):
+#     job = get_object_or_404(models.Job, id=job_id)
+#     if request.method == "POST":
+#         job.delete()
+#         return redirect("list-of-jobs")
     
 
 def list_of_placements(request):
