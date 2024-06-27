@@ -55,7 +55,7 @@ def login_view(request):
             if user is not None:
                 login(request, user)
                 messages.success(request, 'You have been successfully logged in.')  # Add success message
-                return redirect('list-of-customers')  # Redirect to appropriate page after login
+                return redirect('dashboard')  # Redirect to appropriate page after login
             else:
                 messages.error(request, 'Invalid username or password. Please try again.')  # Add error message
         else:

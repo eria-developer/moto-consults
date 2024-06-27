@@ -90,7 +90,8 @@ class FeesPayment(models.Model):
     fee_type = models.CharField(max_length=20, choices=CUSTOMER_FEE_CHOICES)
     amount = models.DecimalField(max_digits=10, decimal_places=2)
     payment_status = models.CharField(max_length=20, choices=STATUS_CHOICES, default='unpaid')
-    payment_date = models.DateTimeField(auto_now_add=True)
+    # payment_date = models.DateTimeField(auto_now_add=True)
+    payment_date = models.DateTimeField()
 
     def __str__(self):
         return f"{self.customer.firstname}'s {self.fee_type} payment"
@@ -144,3 +145,32 @@ class CompanySettings(SingletonModel):
 
     def __str__(self):
         return f"{self.name}"
+    
+
+
+
+
+
+
+
+# from app.models import FeesPayment
+# from datetime import datetime
+# from django.utils.timezone import make_aware
+
+# # Assuming you have a Customer instance
+# from app.models import Customer
+# customer = Customer.objects.first()  # Replace with your query to get the desired customer
+
+# # Custom date for testing
+# custom_date = make_aware(datetime(2024, 3, 15, 10, 0))  # Example date: June 15, 2023 at 10:00 AM
+
+# # Create a payment instance with the custom date
+# payment = FeesPayment.objects.create(
+#     customer=customer,
+#     fee_type='registration',
+#     amount=100.00,
+#     payment_status='paid',
+#     payment_date=custom_date
+# )
+
+# print(payment.id)

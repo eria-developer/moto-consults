@@ -420,3 +420,8 @@ class RegistrationFeesForm(forms.ModelForm):
 
 
 # END FOR REGISTRATION FORMS 
+
+
+class DateRangeForm(forms.Form):
+    start_date = forms.DateField(widget=forms.TextInput(attrs={'type': 'date', 'class': 'form-control'}))
+    end_date = forms.DateField(widget=forms.TextInput(attrs={'type': 'date', 'class': 'form-control'}))

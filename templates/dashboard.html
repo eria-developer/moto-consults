@@ -99,6 +99,9 @@
 
                 <!-- END OF ROWN ONE  -->
 
+
+                <!-- BEGINNING OF ROW 2 -->
+
                 <div class="col-xl-8 col-xxl-8 col-lg-12 col-sm-12">
                     <div id="user-activity" class="card">
                         <div class="card-header border-0 pb-0 d-sm-flex d-block">
@@ -157,22 +160,115 @@
                     </div>
                 </div>
 
+                <!-- END OF ROW 2 -->
+
 
                 <!-- BEGINNING OF ROW 3  -->
                 <div class="col-md-6">
                     <div class="widget-stat card bg-success">
                         <div class="card-body  p-4">
                             <div class="media">
-                                <span class="me-3">
-                                    <i class="la la-users"></i>
-                                </span>
-                                <div class="media-body text-white">
-                                    <p class="mb-1">TOTAL EARNINGS</p>
-                                    <h3 class="text-white">3280</h3>
-                                    <div class="progress mb-2 bg-secondary">
-                                        <div class="progress-bar progress-animated bg-light" style="width: 80%"></div>
+                                <div class="card bg-success">
+                                    <div class="card-header">
+                                        <h4 class="text-white fs-26 font-weight-bolder">TOTAL EARNINGS</h4>
                                     </div>
-                                    <small>80% Increase in 20 Days</small>
+                                    <div class="card-body">
+                                        <!-- Nav tabs -->
+                                        <div class="default-tab">
+                                            <ul class="nav nav-tabs" role="tablist">
+                                                <li class="nav-item">
+                                                    <a class="nav-link font-weight-bold text-primary"
+                                                        data-bs-toggle="tab" href="#weekEarning"><i
+                                                            class="fas fa-calendar-week me-2"></i> This
+                                                        week</a>
+                                                </li>
+                                                <li class="nav-item">
+                                                    <a class="nav-link font-weight-bold text-primary"
+                                                        data-bs-toggle="tab" href="#monthEarning"><i
+                                                            class="fas fa-calendar-alt me-2"></i> This month</a>
+                                                </li>
+                                                <li class="nav-item">
+                                                    <a class="nav-link font-weight-bold text-primary"
+                                                        data-bs-toggle="tab" href="#yearEarning"><i
+                                                            class="fas fa-calendar me-2"></i> This year</a>
+                                                </li>
+                                                <li class="nav-item">
+                                                    <a class="nav-link active font-weight-bold text-primary"
+                                                        data-bs-toggle="tab" href="#customEarning"><i
+                                                            class="fas fa-calendar-plus me-2"></i> Custom date</a>
+                                                </li>
+                                            </ul>
+                                            <div class="tab-content">
+                                                <div class="tab-pane fade " id="weekEarning">
+                                                    <div class="pt-4">
+                                                        <div class="media">
+                                                            <span class="me-3">
+                                                                <i class="fas fa-dollar-sign"></i>
+                                                            </span>
+                                                            <div class="media-body text-white">
+                                                                <p class="mb-1">earnings for this week</p>
+                                                                <h3 class="text-white">UGX. {{ total_week }}</h3>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                                <div class="tab-pane fade" id="monthEarning">
+                                                    <div class="pt-4">
+                                                        <div class="media">
+                                                            <span class="me-3">
+                                                                <i class="fas fa-dollar-sign"></i>
+                                                            </span>
+                                                            <div class="media-body text-white">
+                                                                <p class="mb-1">earnings for this month</p>
+                                                                <h3 class="text-white">UGX. {{ total_month }}</h3>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                                <div class="tab-pane fade" id="yearEarning">
+                                                    <div class="pt-4">
+                                                        <div class="media">
+                                                            <span class="me-3">
+                                                                <i class="fas fa-dollar-sign"></i>
+                                                            </span>
+                                                            <div class="media-body text-white">
+                                                                <p class="mb-1">earnings for this year</p>
+                                                                <h3 class="text-white">UGX. {{ total_year }}</h3>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                                <div class="tab-pane fade show active" id="customEarning"
+                                                    role="tabpanel">
+                                                    <div class="pt-4">
+                                                        <div class="media">
+                                                            <span class="me-3">
+                                                                <i class="fas fa-dollar-sign"></i>
+                                                            </span>
+                                                            <div class="media-body text-white">
+                                                                <div class="d-flex justify-content-between">
+                                                                    <div>
+                                                                        <p class="mb-1">earnings from {{start_date}} -
+                                                                            {{end_date}}</p>
+                                                                    </div>
+                                                                    <button type="button"
+                                                                        class="btn btn-xs btn-primary mb-2"
+                                                                        data-bs-toggle="modal"
+                                                                        data-bs-target="#selectDateRange"><i
+                                                                            class="fa fa-calendar me-2"></i>select date
+                                                                        range
+
+                                                                    </button>
+                                                                </div>
+                                                                <h3 class="text-white">UGX. {{ total_custom_amount }}
+                                                                </h3>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
                                 </div>
                             </div>
                         </div>
@@ -182,16 +278,112 @@
                     <div class="widget-stat card bg-danger">
                         <div class="card-body p-4">
                             <div class="media">
-                                <span class="me-3">
-                                    <i class="la la-user"></i>
-                                </span>
-                                <div class="media-body text-white">
-                                    <p class="mb-1">TOTAL EXPENSES</p>
-                                    <h3 class="text-white">245</h3>
-                                    <div class="progress mb-2 bg-primary">
-                                        <div class="progress-bar progress-animated bg-light" style="width: 50%"></div>
+                                <div class="card bg-danger">
+                                    <div class="card-header">
+                                        <h4 class="text-white fs-26 font-weight-bolder">TOTAL EXPENSES</h4>
                                     </div>
-                                    <small>50% Increase in 25 Days</small>
+                                    <div class="card-body">
+                                        <!-- Nav tabs -->
+                                        <div class="default-tab">
+                                            <ul class="nav nav-tabs" role="tablist">
+                                                <li class="nav-item">
+                                                    <a class="nav-link font-weight-bold text-success"
+                                                        data-bs-toggle="tab" href="#weekExpense"><i
+                                                            class="fas text-success fa-calendar-week me-2"></i> This
+                                                        week</a>
+                                                </li>
+                                                <li class="nav-item">
+                                                    <a class="nav-link font-weight-bolder text-success"
+                                                        data-bs-toggle="tab" href="#monthExpense"><i
+                                                            class="fas text-success fa-calendar-alt me-2"></i> This
+                                                        month</a>
+                                                </li>
+                                                <li class="nav-item">
+                                                    <a class="nav-link font-weight-bold text-success"
+                                                        data-bs-toggle="tab" href="#yearExpense"><i
+                                                            class="fas text-success fa-calendar me-2"></i> This year</a>
+                                                </li>
+                                                <li class="nav-item">
+                                                    <a class="nav-link active font-weight-bold text-success"
+                                                        data-bs-toggle="tab" href="#customExpense"><i
+                                                            class="fas text-success fa-calendar-plus me-2"></i> Custom
+                                                        date</a>
+                                                </li>
+                                            </ul>
+                                            <div class="tab-content">
+                                                <div class="tab-pane fade " id="weekExpense">
+                                                    <div class="pt-4">
+                                                        <div class="media">
+                                                            <span class="me-3">
+                                                                <i class="fas fa-dollar-sign"></i>
+                                                            </span>
+                                                            <div class="media-body text-white">
+                                                                <p class="mb-1">expenses for this week</p>
+                                                                <h3 class="text-white">UGX. {{ total_week_expenses }}
+                                                                </h3>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                                <div class="tab-pane fade" id="monthExpense">
+                                                    <div class="pt-4">
+                                                        <div class="media">
+                                                            <span class="me-3">
+                                                                <i class="fas fa-dollar-sign"></i>
+                                                            </span>
+                                                            <div class="media-body text-white">
+                                                                <p class="mb-1">expenses for this month</p>
+                                                                <h3 class="text-white">UGX. {{ total_month_expenses }}
+                                                                </h3>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                                <div class="tab-pane fade" id="yearExpense">
+                                                    <div class="pt-4">
+                                                        <div class="media">
+                                                            <span class="me-3">
+                                                                <i class="fas fa-dollar-sign"></i>
+                                                            </span>
+                                                            <div class="media-body text-white">
+                                                                <p class="mb-1">expenses for this year</p>
+                                                                <h3 class="text-white">UGX. {{ total_year_expenses }}
+                                                                </h3>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                                <div class="tab-pane fade show active" id="customExpense"
+                                                    role="tabpanel">
+                                                    <div class="pt-4">
+                                                        <div class="media">
+                                                            <span class="me-3">
+                                                                <i class="fas fa-dollar-sign"></i>
+                                                            </span>
+                                                            <div class="media-body text-white">
+                                                                <div class="d-flex justify-content-between">
+                                                                    <div>
+                                                                        <p class="mb-1">expenses from:{{start_date}} -
+                                                                            {{end_date}}</p>
+                                                                    </div>
+                                                                    <button type="button"
+                                                                        class="btn btn-xs btn-success mb-2"
+                                                                        data-bs-toggle="modal"
+                                                                        data-bs-target="#selectDateRangeForExpenses"><i
+                                                                            class="fa fa-calendar me-2"></i>select date
+                                                                        range
+
+                                                                    </button>
+                                                                </div>
+                                                                <h3 class="text-white">UGX. {{ total_custom_amount }}
+                                                                </h3>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
                                 </div>
                             </div>
                         </div>
@@ -383,7 +575,61 @@
 
         </div>
     </div>
+    
+    <!-- MODELS  -->
+    <!-- Modal for selecting date range for earnings  -->
+    <div class="modal fade" id="selectDateRange">
+        <div class="modal-dialog" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title">Select Date Range</h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal">
+                    </button>
+                </div>
+                <div class="modal-body">
+                    <form action="" method="post">
+                        {% csrf_token %}
+                        <input type="hidden" name="form_name" value="custom_amount_date_form">
+                        {{custom_amount_form.as_p}}
+                        <div>
+                            <button type="submit" class="btn btn-primary mb-2">View earnings
+                            </button>
+                        </div>
+                    </form>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-danger light" data-bs-dismiss="modal">Close</button>
+                </div>
+            </div>
+        </div>
+    </div>
 
+    <!-- Modal for selecting date range for expenses  -->
+    <div class="modal fade" id="selectDateRangeForExpenses">
+        <div class="modal-dialog" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title">Select Date Range</h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal">
+                    </button>
+                </div>
+                <div class="modal-body">
+                    <form action="" method="post">
+                        {% csrf_token %}
+                        <input type="hidden" name="form_name" value="custom_amount_date_form_for_expenses">
+                        {{custom_amount_form_for_expenses.as_p}}
+                        <div>
+                            <button type="submit" class="btn btn-primary mb-2">View expenses
+                            </button>
+                        </div>
+                    </form>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-danger light" data-bs-dismiss="modal">Close</button>
+                </div>
+            </div>
+        </div>
+    </div>
 </div>
 
 {% endblock content %}
