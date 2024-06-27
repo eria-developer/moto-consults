@@ -30,6 +30,21 @@ def add_user(request):
         }
     return render(request, 'add_user.html', context)
 
+# def login_view(request):
+#     if request.method == 'POST':
+#         form = AuthenticationForm(request, data=request.POST)
+#         if form.is_valid():
+#             email = form.cleaned_data.get('username')
+#             password = form.cleaned_data.get('password')
+#             user = authenticate(request, username=email, password=password)
+#             if user is not None:
+#                 login(request, user)
+#                 return redirect('list-of-customers')
+#     else:
+#         form = AuthenticationForm()
+#     return render(request, 'login.html', {'form': form})
+
+
 def login_view(request):
     if request.method == 'POST':
         form = AuthenticationForm(request, data=request.POST)
@@ -39,9 +54,15 @@ def login_view(request):
             user = authenticate(request, username=email, password=password)
             if user is not None:
                 login(request, user)
-                return redirect('list-of-customers')
+                messages.success(request, 'You have been successfully logged in.')  # Add success message
+                return redirect('list-of-customers')  # Redirect to appropriate page after login
+            else:
+                messages.error(request, 'Invalid username or password. Please try again.')  # Add error message
+        else:
+            messages.error(request, 'Invalid username or password. Please try again.')  # Add error message for form validation errors
     else:
         form = AuthenticationForm()
+
     return render(request, 'login.html', {'form': form})
 
 

@@ -2,110 +2,170 @@
 
 {% load static %}
 
-{% block title %}{% endblock title %}
+{% block title %}Moto consults | List of Jobpositions{% endblock title %}
 
 {% block extra_css %}{% endblock extra_css %}
 
 {% block content %}
 <div>
-    {% comment %} <form action="" method="post">
-        {% csrf_token %}
-        {{form.as_p}}
-        <button type="submit">Save customer</button>
-    </form> {% endcomment %}
-
     <div class="content-body">
         <div class="container-fluid">
             <div class="row page-titles">
                 <ol class="breadcrumb">
-                    <li class="breadcrumb-item active"><a href="javascript:void(0)">Form</a></li>
-                    <li class="breadcrumb-item"><a href="javascript:void(0)">Element</a></li>
+                    <li class="breadcrumb-item active"><a href="javascript:void(0)">Moto consults</a></li>
+                    <li class="breadcrumb-item"><a href="javascript:void(0)">List of job positions</a></li>
                 </ol>
             </div>
             <!-- row -->
-            <div class="row">
-                <div class="col-xl-12 col-lg-12">
-                    <div class="card">
-                        <div class="card-header">
-                            <h4 class="card-title">Input Style</h4>
+            <div class="col-lg-12">
+                <div class="card">
+                    <div class="card-header d-flex justify-content-between">
+                        <h4 class="card-title">List of all job positions</h4>
+                        <div>
+                            <button type="button" class="btn btn-primary mb-2" data-bs-toggle="modal"
+                                data-bs-target="#addJobPosition"><i class="fa fa-plus-circle me-2"></i>Add Job position
+                            </button>
                         </div>
-                        <div class="card-body">
-                            <div class="basic-form">
-
-                                <!-- form for adding a new customer  -->
-                                <form id="customerForm" method="post" enctype="multipart/form-data">
-
-                                    {% csrf_token %}
-                                    <div class="mb-3 col-md-12">
-                                        <label for="id_firstname" class="form-label">First Name:</label><span
-                                            class="text-danger">*</span>
-                                        <input type="text" name="firstname" maxlength="100" required id="id_firstname" required
-                                            class="form-control" placeholder="Talemwa">
-                                    </div>
-
-                                    <div class="mb-3 col-md-12">
-                                        <label for="id_othernames" class="form-label">Other Names:</label>
-                                        <input type="text" name="othernames" maxlength="100" required id="id_othernames" class="form-control"
-                                            placeholder="Eria Jackson">
-                                    </div>
-
-                                    <div class="mb-3 col-md-12">
-                                        <label for="id_phonenumber_1" class="form-label">Phonenumber 1:</label>
-                                        <input type="text" name="phonenumber_1" maxlength="15" required id="id_phonenumber_1" class="form-control" name="phonenumber_1" required>
-                                    </div>
-
-                                    <div class="mb-3 col-md-12">
-                                        <label for="id_phonenumber_2" class="form-label">Phonenumber 2:</label>
-                                        <input type="text" name="phonenumber_2" maxlength="15" id="id_phonenumber_2"
-                                            class="form-control" placeholder="0771445200">
-                                    </div>
-
-                                    <div class="mb-3 col-md-12">
-                                        <label for="id_email" class="form-label">Email:</label>
-                                        <input type="email" name="email" maxlength="254" id="id_email" class="form-control"
-                                            placeholder="example@gmail.com">
-                                    </div>
-
-                                    <div class="mb-3 col-md-12">
-                                        <label for="id_address" class="form-label">Address:</label>
-                                        <input class="form-control" placeholder="Arua" type="text" name="address" maxlength="64" required id="id_address">
-                                    </div>
-
-                                    <div>
-                                        <label for="id_passport_photo" class="form-label">Passport photo:</label>
-                                    </div>
-                                    <div class="form-file mb-3 col-md-12">
-                                        <input type="file" name="passport_photo" accept="image/*" id="id_passport_photo" class="form-file-input form-control">
-                                    </div>
-
-
-                                    <div>
-                                        <label for="id_file_upload" class="form-label">File upload (CV):</label>
-                                    </div>
-                                    <div class="form-file mb-3 col-md-12">
-                                        <input type="file" name="file_upload" id="id_file_upload"
-                                            class="form-file-input form-control">
-                                    </div>
-
-                                    <div class="mb-3">
-                                        <label for="id_remarks" class="form-label">Remarks:</label>
-                                        <textarea id="id_remarks" name="remarks" class="form-control"
-                                            rows="4"></textarea>
-                                    </div>
-
-                                    <div><button type="submit" class="btn btn-primary mb-2">Save customer</button>
-                                    </div>
-                                </form>
+                    </div>
+                    <!-- Model for adding job position  -->
+                    <div class="modal fade" id="addJobPosition">
+                        <div class="modal-dialog" role="document">
+                            <div class="modal-content">
+                                <div class="modal-header">
+                                    <h5 class="modal-title">Add Job position</h5>
+                                    <button type="button" class="btn-close" data-bs-dismiss="modal">
+                                    </button>
+                                </div>
+                                <div class="modal-body">
+                                    <form action={% url 'add-jobposition' %} method="post">
+                                        {% csrf_token %}
+                                        <input type="hidden" name="form_name" value="add_job_position_form">
+                                        {{add_job_position_form.as_p}}
+                                        <div><button type="submit" class="btn btn-primary mb-2">Add
+                                                job position</button>
+                                        </div>
+                                    </form>
+                                </div>
+                                <div class="modal-footer">
+                                    <button type="button" class="btn btn-danger light"
+                                        data-bs-dismiss="modal">Close</button>
+                                </div>
                             </div>
                         </div>
                     </div>
+                    <div class="card-body">
+                        <div class="table-responsive">
+                            {% if jobpositions %}
+                            <table class="table table-responsive-md" id="customers-table">
+                                <thead>
+                                    <tr>
+                                        <th>
+                                            <strong>Job position</strong>
+                                        </th>
+                                        <th class="text-center"><strong>Actions</strong></th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+
+                                    {% for jobposition in jobpositions %}
+                                    <tr>
+                                        <td>
+                                            {{jobposition.job_position}}
+                                        </td>
+                                        <td class="text-center">
+                                            <button type="button" class="btn btn-sm btn-primary mb-2"
+                                                data-bs-toggle="modal"
+                                                data-bs-target="#editJobPosition{{ jobposition.id }}"><i
+                                                    class="fa fa-pencil me-2"></i>Edit
+                                                position
+                                            </button>
+                                            <button type="button" class="btn btn-sm btn-primary mb-2"
+                                                data-bs-toggle="modal"
+                                                data-bs-target="#deleteJobPosition{{ jobposition.id }}"><i
+                                                    class="fa fa-trash me-2"></i>Delete
+                                                position
+                                            </button>
+
+                                        </td>
+                                    </tr>
+                                    <!-- Modal for editing job position  -->
+                                    <div class="modal fade" id="editJobPosition{{ jobposition.id }}">
+                                        <div class="modal-dialog" role="document">
+                                            <div class="modal-content">
+                                                <div class="modal-header">
+                                                    <h5 class="modal-title">Edit Job position</h5>
+                                                    <button type="button" class="btn-close" data-bs-dismiss="modal">
+                                                    </button>
+                                                </div>
+                                                <div class="modal-body">
+                                                    <form action="{% url 'edit-jobposition' jobposition.id%}"
+                                                        method="post">
+                                                        {% csrf_token %}
+                                                        <input type="hidden" name="form_name"
+                                                            value="edit_job_position_form">
+                                                        {{edit_job_position_form.as_p}}
+                                                        <div>
+                                                            <button type="submit" class="btn btn-primary mb-2">Update
+                                                                job position</button>
+                                                        </div>
+                                                    </form>
+                                                </div>
+                                                <div class="modal-footer">
+                                                    <button type="button" class="btn btn-danger light"
+                                                        data-bs-dismiss="modal">Close</button>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+
+                                    <!-- Modal for deleting job position  -->
+                                    <div class="modal fade" id="deleteJobPosition{{ jobposition.id }}">
+                                        <div class="modal-dialog" role="document">
+                                            <div class="modal-content">
+                                                <div class="modal-header">
+                                                    <h5 class="modal-title">Deleting Job position</h5>
+                                                    <button type="button" class="btn-close" data-bs-dismiss="modal">
+                                                    </button>
+                                                </div>
+                                                <div class="modal-body">
+                                                    <form action="{% url 'delete-jobposition' jobposition.id%}"
+                                                        method="post">
+                                                        {% csrf_token %}
+                                                        <input type="hidden" name="form_name"
+                                                            value="delete_job_position_form">
+                                                        {{delete_job_position_form.as_p}}
+                                                        <div>
+                                                            Are you sure you want to delete this job position
+                                                        </div>
+                                                        <div class="d-flex modal-footer">
+                                                            <button type="submit"
+                                                                class="btn btn-sm btn-primary mb-2">Delete</button>
+
+                                                            <button type="button" class="btn btn-sm btn-danger light"
+                                                                data-bs-dismiss="modal">Cancel</button>
+
+                                                        </div>
+                                                    </form>
+                                                </div>
+
+                                            </div>
+                                        </div>
+                                    </div>
+                                    {% endfor %}
+
+                                </tbody>
+                            </table>
+                            {%else%}
+                            <div class="text-center">No jobpositions added yet!!</>
+                                {%endif%}
+                            </div>
+                        </div>
+
+                    </div>
                 </div>
-
-
-
             </div>
         </div>
-        <div id="message"></div>
+
     </div>
-</div>
-{% endblock content %}
+
+    {% endblock content %}

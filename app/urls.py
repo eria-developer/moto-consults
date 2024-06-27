@@ -35,6 +35,7 @@ urlpatterns = [
     path("view-jobposition/<int:jobposition_id>/", views.view_jobposition, name="view-jobposition"),
     path("delete-jobposition/<int:jobposition_id>/", views.delete_jobposition, name="delete-jobposition"),
     path("list-of-jobpositions/", views.list_of_jobpositions, name="list-of-jobpositions"),
+    path("list-of-jobpositions/<int:job_position_id>", views.list_of_jobpositions, name="list-of-jobpositions"),
     # path("search-jobposition/", views.search_jobposition, name="search-jobposition"),
 
     # fee urls 

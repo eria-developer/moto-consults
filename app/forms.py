@@ -117,11 +117,6 @@ class EditCompanyForm(forms.ModelForm):
         }
 
 
-# class CompanySearchForm(forms.Form):
-#     first_name = forms.CharField(required=False, label='First Name')
-#     last_name = forms.CharField(required=False, label='Last Name')
-#     email = forms.EmailField(required=False, label='Email')
-
 
 # FORMS FOR COMPANY END 
 
@@ -189,10 +184,16 @@ class JobpositionForm(forms.ModelForm):
         model = models.JobPosition
         fields = "__all__"
 
+        widgets = {
+            "job_position": forms.TextInput(attrs={
+                "class": "form-control"
+            })
+        }
+
 
 class EditJobpositionForm(forms.ModelForm):
     class Meta:
-        model = models.Job
+        model = models.JobPosition
         fields = "__all__"
 
         widgets = {
@@ -243,6 +244,23 @@ class PlacementForm(forms.ModelForm):
     class Meta:
         model = models.RecruitmentProcess
         fields = "__all__"
+        widgets = {
+            "customer": forms.Select(attrs={
+                "class": "form-control"
+            }),
+            "job": forms.Select(attrs={
+                "class": "form-control",
+            }),
+            "status": forms.Select(attrs={
+                "class": "form-control",
+            }),
+            "expected_salary": forms.NumberInput(attrs={
+                "class": "form-control",
+            }),
+            "company": forms.Select(attrs={
+                "class": "form-control"
+            })
+        }
 
 
 class EditPlacementForm(forms.ModelForm):

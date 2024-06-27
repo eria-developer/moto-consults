@@ -36,6 +36,7 @@ def add_placement(request):
         "status_choices": status_choices,
         "job_companies": job_companies,
     }
+    # print(f"Context {context}")
     return render(request, "add_placement.html", context)
 
 
