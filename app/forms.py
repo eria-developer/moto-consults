@@ -90,6 +90,23 @@ class CompanyForm(forms.ModelForm):
     class Meta:
         model = models.EmployerCompany
         fields = "__all__"
+        widgets = {
+            "name": forms.TextInput(attrs={
+                "class": "form-control",
+            }),
+            "phone_number": forms.TextInput(attrs={
+                "class": "form-control",
+            }),
+            "address": forms.TextInput(attrs={
+                "class": "form-control",
+            }),
+            "email": forms.EmailInput(attrs={
+                "class": "form-control",
+            }),
+            "description": forms.Textarea(attrs={
+                "class": "form-control",
+            }),
+        }
         
 
 
@@ -102,7 +119,7 @@ class EditCompanyForm(forms.ModelForm):
             "name": forms.TextInput(attrs={
                 "class": "form-control",
             }),
-            "phonenumber": forms.TextInput(attrs={
+            "phone_number": forms.TextInput(attrs={
                 "class": "form-control",
             }),
             "address": forms.TextInput(attrs={

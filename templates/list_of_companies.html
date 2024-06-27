@@ -2,52 +2,76 @@
 
 {% load static %}
 
-{% block title %}Moto consults | List of companies{% endblock title %}
+{% block title %}Moto consults | List of Companies{% endblock title %}
 
 {% block extra_css %}{% endblock extra_css %}
 
 {% block content %}
 <div>
-
     <div class="content-body">
         <div class="container-fluid">
             <div class="row page-titles">
                 <ol class="breadcrumb">
                     <li class="breadcrumb-item active"><a href="javascript:void(0)">Moto consults</a></li>
-                    <li class="breadcrumb-item"><a href="javascript:void(0)">List of companies</a></li>
+                    <li class="breadcrumb-item"><a href="javascript:void(0)">registered companies</a></li>
                 </ol>
             </div>
             <!-- row -->
             <div class="col-lg-12">
                 <div class="card">
-                    <div class="card-header d-flex">
-                        <h4 class="card-title">List of all companies</h4>
-                        <div class="nav-item d-flex align-items-center">
-                            <div class="input-group search-area">
-                                <span class="input-group-text"><a href="javascript:void(0)"><svg width="24" height="24"
-                                            viewBox="0 0 32 32" fill="none" xmlns="http://www.w3.org/2000/svg">
-                                            <path
-                                                d="M27.414 24.586L22.337 19.509C23.386 17.928 24 16.035 24 14C24 8.486 19.514 4 14 4C8.486 4 4 8.486 4 14C4 19.514 8.486 24 14 24C16.035 24 17.928 23.386 19.509 22.337L24.586 27.414C25.366 28.195 26.634 28.195 27.414 27.414C28.195 26.633 28.195 25.367 27.414 24.586ZM7 14C7 10.14 10.14 7 14 7C17.86 7 21 10.14 21 14C21 17.86 17.86 21 14 21C10.14 21 7 17.86 7 14Z"
-                                                fill="var(--secondary)" />
-                                        </svg>
-                                    </a></span>
-                                <input type="text" id="search-input" class="form-control"
-                                    placeholder="Search by name, email, address or phone">
+                    <div class="card-header d-flex justify-content-between">
+                        <h4 class="card-title">List of all registered companies</h4>
+                        <div>
+                            <button type="button" class="btn btn-primary mb-2" data-bs-toggle="modal"
+                                data-bs-target="#addCompany"><i class="fa fa-plus-circle me-2"></i>register new company
+                            </button>
+                        </div>
+                    </div>
+                    <!-- Model for adding company  -->
+                    <div class="modal fade" id="addCompany">
+                        <div class="modal-dialog" role="document">
+                            <div class="modal-content">
+                                <div class="modal-header">
+                                    <h5 class="modal-title">Register Company</h5>
+                                    <button type="button" class="btn-close" data-bs-dismiss="modal">
+                                    </button>
+                                </div>
+                                <div class="modal-body">
+                                    <form action={% url 'add-company' %} method="post">
+                                        {% csrf_token %}
+                                        <input type="hidden" name="form_name" value="add_company_form">
+                                        {{add_company_form.as_p}}
+                                        <div><button type="submit" class="btn btn-primary mb-2">Register
+                                                company</button>
+                                        </div>
+                                    </form>
+                                </div>
+                                <div class="modal-footer">
+                                    <button type="button" class="btn btn-danger light"
+                                        data-bs-dismiss="modal">Close</button>
+                                </div>
                             </div>
                         </div>
                     </div>
                     <div class="card-body">
                         <div class="table-responsive">
+                            {% if companies %}
                             <table class="table table-responsive-md" id="companies-table">
                                 <thead>
                                     <tr>
                                         <th>
                                             <strong>Company Name</strong>
                                         </th>
-                                        <th><strong>Email</strong></th>
-                                        <th><strong>Phonenumber</strong></th>
-                                        <th><strong>Address</strong></th>
-                                        <th><strong>Action</strong></th>
+                                        <th class="text-center">
+                                            <strong>Email</strong>
+                                        </th>
+                                        <th class="text-center">
+                                            <strong>Phonenumber</strong>
+                                        </th>
+                                        <th class="text-center">
+                                            <strong>Address</strong>
+                                        </th>
+                                        <th class="text-center"><strong>Actions</strong></th>
                                     </tr>
                                 </thead>
                                 <tbody>
@@ -57,38 +81,109 @@
                                         <td>
                                             {{company.name}}
                                         </td>
-                                        <td>{{company.email}}</td>
-                                        <td>
+                                        <td class="text-center">
+                                            {{company.email}}
+                                        </td>
+                                        <td class="text-center">
                                             {{company.phone_number}}
                                         </td>
-                                        <td>
+                                        <td class="text-center">
                                             {{company.address}}
                                         </td>
-                                        <td>
-                                            <div class="d-flex">
-                                                <a href={% url "view-company" company.id %}
-                                                    class="btn btn-primary shadow btn-xs sharp me-1"><i
-                                                        class="fa fa-eye"></i></a>
-                                                <a href={% url "edit-company" company.id %}
-                                                    class="btn btn-primary shadow btn-xs sharp me-1"><i
-                                                        class="fa fa-pencil"></i></a>
-                                                <a href={% url "delete-company" company.id %}
-                                                    class="btn btn-danger shadow btn-xs sharp"><i
-                                                        class="fa fa-trash"></i></a>
-                                            </div>
+                                        <td class="text-center">
+                                            <a href={% static "view-company" company.id %} type="button"
+                                                class="btn btn-sm btn-primary mb-2"><i class="fa fa-eye me-2"></i>View
+
+                                            </a>
+                                            <button type="button" class="btn btn-sm btn-primary mb-2"
+                                                data-bs-toggle="modal" data-bs-target="#editCompany{{ company.id }}"><i
+                                                    class="fa fa-pencil me-2"></i>Edit
+
+                                            </button>
+                                            <button type="button" class="btn btn-sm btn-primary mb-2"
+                                                data-bs-toggle="modal"
+                                                data-bs-target="#deleteCompany{{ company.id }}"><i
+                                                    class="fa fa-trash me-2"></i>Delete
+
+                                            </button>
+
                                         </td>
                                     </tr>
+                                    <!-- Modal for editing company  -->
+                                    <div class="modal fade" id="editCompany{{ company.id }}">
+                                        <div class="modal-dialog" role="document">
+                                            <div class="modal-content">
+                                                <div class="modal-header">
+                                                    <h5 class="modal-title">Edit Company</h5>
+                                                    <button type="button" class="btn-close" data-bs-dismiss="modal">
+                                                    </button>
+                                                </div>
+                                                <div class="modal-body">
+                                                    <form action="{% url 'edit-company' company.id%}" method="post">
+                                                        {% csrf_token %}
+                                                        <input type="hidden" name="form_name" value="edit_company_form">
+                                                        {{edit_company_form.as_p}}
+                                                        <div>
+                                                            <button type="submit" class="btn btn-primary mb-2">Update
+                                                                company</button>
+                                                        </div>
+                                                    </form>
+                                                </div>
+                                                <div class="modal-footer">
+                                                    <button type="button" class="btn btn-danger light"
+                                                        data-bs-dismiss="modal">Close</button>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+
+                                    <!-- Modal for deleting company  -->
+                                    <div class="modal fade" id="deleteCompany{{ company.id }}">
+                                        <div class="modal-dialog" role="document">
+                                            <div class="modal-content">
+                                                <div class="modal-header">
+                                                    <h5 class="modal-title">Deleting Company</h5>
+                                                    <button type="button" class="btn-close" data-bs-dismiss="modal">
+                                                    </button>
+                                                </div>
+                                                <div class="modal-body">
+                                                    <form action="{% url 'delete-company' company.id%}" method="post">
+                                                        {% csrf_token %}
+                                                        <input type="hidden" name="form_name"
+                                                            value="delete_company_form">
+                                                        {{delete_company_form.as_p}}
+                                                        <div>
+                                                            Are you sure you want to delete this company
+                                                        </div>
+                                                        <div class="d-flex modal-footer">
+                                                            <button type="submit"
+                                                                class="btn btn-sm btn-primary mb-2">Delete</button>
+
+                                                            <button type="button" class="btn btn-sm btn-danger light"
+                                                                data-bs-dismiss="modal">Cancel</button>
+
+                                                        </div>
+                                                    </form>
+                                                </div>
+
+                                            </div>
+                                        </div>
+                                    </div>
                                     {% endfor %}
+
                                 </tbody>
                             </table>
+                            {%else%}
+                            <div class="text-center">No companies added yet!!</>
+                                {%endif%}
+                            </div>
                         </div>
+
                     </div>
                 </div>
             </div>
         </div>
-        <div id="message"></div>
+
     </div>
-</div>
 
-
-{% endblock content %}
+    {% endblock content %}

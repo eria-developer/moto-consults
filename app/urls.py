@@ -19,7 +19,7 @@ urlpatterns = [
     path("view-company/<int:company_id>/", views.view_company, name="view-company"),
     path("delete-company/<int:company_id>/", views.delete_company, name="delete-company"),
     path("list-of-companies/", views.list_of_companies, name="list-of-companies"),
-    path('search_companies/', views.search_companies, name='search_companies'),
+    # path('search_companies/', views.search_companies, name='search_companies'),
 
     # job urls 
     path("add-job/", views.add_job, name="add-job"),
