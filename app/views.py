@@ -48,6 +48,10 @@ def dashboard(request):
     custom_amount_form = forms.DateRangeForm()
     custom_amount_form_for_expenses = forms.DateRangeForm()
 
+    recent_expenses = models.Expense.objects.order_by('-date')[:5]
+    recent_fee_payments = models.FeesPayment.objects.order_by('-payment_date')[:5]
+
+
     if request.method == 'POST':
         form_name = request.POST.get("form_name")
 
@@ -99,5 +103,7 @@ def dashboard(request):
         "start_date_for_expenses": start_date_for_expenses,
         "end_date_for_expenses": end_date_for_expenses,
         "custom_amount_form_for_expenses": custom_amount_form_for_expenses,
+        "recent_expenses": recent_expenses,
+        "recent_fee_payments": recent_fee_payments,
     }
     return render(request, "dashboard.html", context)

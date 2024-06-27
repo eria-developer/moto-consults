@@ -248,15 +248,15 @@
                                                             <div class="media-body text-white">
                                                                 <div class="d-flex justify-content-between">
                                                                     <div>
-                                                                        <p class="mb-1">earnings from {{start_date}} -
+                                                                        <p class="mb-1">earnings: {{start_date}} -
                                                                             {{end_date}}</p>
                                                                     </div>
                                                                     <button type="button"
                                                                         class="btn btn-xs btn-primary mb-2"
                                                                         data-bs-toggle="modal"
                                                                         data-bs-target="#selectDateRange"><i
-                                                                            class="fa fa-calendar me-2"></i>select date
-                                                                        range
+                                                                            class="fa fa-calendar me-2"></i>
+                                                                        date
 
                                                                     </button>
                                                                 </div>
@@ -333,7 +333,8 @@
                                                             </span>
                                                             <div class="media-body text-white">
                                                                 <p class="mb-1">expenses for this month</p>
-                                                                <h3 class="text-white">UGX. {{ total_month_for_expenses}}
+                                                                <h3 class="text-white">UGX. {{
+                                                                    total_month_for_expenses}}
                                                                 </h3>
                                                             </div>
                                                         </div>
@@ -363,7 +364,7 @@
                                                             <div class="media-body text-white">
                                                                 <div class="d-flex justify-content-between">
                                                                     <div>
-                                                                        <p class="mb-1">expenses from:
+                                                                        <p class="mb-1">expenses:
                                                                             {{start_date_for_expenses}} -
                                                                             {{end_date_for_expenses}}</p>
                                                                     </div>
@@ -371,12 +372,13 @@
                                                                         class="btn btn-xs btn-success mb-2"
                                                                         data-bs-toggle="modal"
                                                                         data-bs-target="#selectDateRangeForExpenses"><i
-                                                                            class="fa fa-calendar me-2"></i>select date
-                                                                        range
+                                                                            class="fa fa-calendar me-2"></i>
+                                                                        date
 
                                                                     </button>
                                                                 </div>
-                                                                <h3 class="text-white">UGX. {{total_custom_amount_for_expenses }}
+                                                                <h3 class="text-white">UGX.
+                                                                    {{total_custom_amount_for_expenses }}
                                                                 </h3>
                                                             </div>
                                                         </div>
@@ -394,179 +396,84 @@
                 <!-- END OF ROW 3 -->
 
 
+                <!-- BEGINNING OF ROW 4 AND 5 RECENT PAYMENTS  -->
+                <div class="col-xl-12 col-lg-12 col-xxl-12 col-sm-12">
+                    <div class="card">
+                        <div class="card-header">
+                            <h4 class="card-title">Recent registered Fee Payments</h4>
+                        </div>
+                        <div class="card-body">
+
+                            <div class="table-responsive recentOrderTable">
+                                {% if recent_fee_payments %}
+                                <table class="table verticle-middle table-responsive-md">
+                                    <thead>
+                                        <tr>
+                                            <th scope="col">Customer Name</th>
+                                            <th scope="col" class="text-center">Fee Type</th>
+                                            <th scope="col" class="text-center">Amount</th>
+                                            <th scope="col" class="text-center">Status</th>
+                                            <th scope="col" class="text-center">Payment Date</th>
+                                            <th scope="col" class="text-center">Receipt</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        {% for fee_payment in recent_fee_payments %}
+                                        <tr>
+                                            <td>{{fee_payment.customer.firstname}} {{ fee_payment.customer.othernames }}
+                                            </td>
+                                            <td class="text-center">{{ fee_payment.fee_type }}</td>
+                                            <td class="text-center">{{ fee_payment.amount }}</td>
+                                            <td class="text-center">{{ fee_payment.payment_status }}</td>
+                                            <td class="text-center">{{ fee_payment.payment_date }}</td>
+                                            <td class="text-center">{{ fee_payment.fee_type }}</td>
+                                        </tr>
+                                        {% endfor %}
+                                    </tbody>
+                                </table>
+                                {%else%}
+                                <div class="text-center">No registered fees payments yet</div>
+                                {%endif%}
+                            </div>
+                        </div>
+                    </div>
+                </div>
 
                 <div class="col-xl-12 col-lg-12 col-xxl-12 col-sm-12">
                     <div class="card">
                         <div class="card-header">
-                            <h4 class="card-title">Recent Payments Queue</h4>
+                            <h4 class="card-title">Recent registered Expenses</h4>
                         </div>
                         <div class="card-body">
+
                             <div class="table-responsive recentOrderTable">
+                                {% if recent_fee_payments %}
                                 <table class="table verticle-middle table-responsive-md">
                                     <thead>
                                         <tr>
-                                            <th scope="col">Ward No.</th>
-                                            <th scope="col">Patient</th>
-                                            <th scope="col">Dr Name</th>
-                                            <th scope="col">Date</th>
-                                            <th scope="col">Status</th>
-                                            <th scope="col">Bills</th>
-                                            <th scope="col"></th>
+                                            <th scope="col">Expense Name</th>
+                                            <th scope="col" class="text-center">Category</th>
+                                            <th scope="col" class="text-center">Amount</th>
+                                            <th scope="col" class="text-center">Payment Date</th>
                                         </tr>
                                     </thead>
                                     <tbody>
+                                        {% for expense in recent_expenses %}
                                         <tr>
-                                            <td>12</td>
-                                            <td>Mr. Bobby</td>
-                                            <td>Dr. Jackson</td>
-                                            <td>01 August 2020</td>
-                                            <td><span class="badge badge-rounded badge-primary">Checkin</span></td>
-                                            <td>$120</td>
-                                            <td class="text-end">
-                                                <div class="dropdown custom-dropdown mb-0">
-                                                    <div class="btn sharp btn-primary tp-btn" data-bs-toggle="dropdown">
-                                                        <svg xmlns="http://www.w3.org/2000/svg"
-                                                            xmlns:xlink="http://www.w3.org/1999/xlink" width="18px"
-                                                            height="18px" viewBox="0 0 24 24" version="1.1">
-                                                            <g stroke="none" stroke-width="1" fill="none"
-                                                                fill-rule="evenodd">
-                                                                <rect x="0" y="0" width="24" height="24" />
-                                                                <circle fill="#000000" cx="12" cy="5" r="2" />
-                                                                <circle fill="#000000" cx="12" cy="12" r="2" />
-                                                                <circle fill="#000000" cx="12" cy="19" r="2" />
-                                                            </g>
-                                                        </svg>
-                                                    </div>
-                                                    <div class="dropdown-menu dropdown-menu-end">
-                                                        <a class="dropdown-item" href="javascript:void();;">Details</a>
-                                                        <a class="dropdown-item text-danger"
-                                                            href="javascript:void();;">Cancel</a>
-                                                    </div>
-                                                </div>
+                                            <td>{{expense.name}}
                                             </td>
+                                            <td class="text-center">{{ expense.category }}</td>
+                                            <td class="text-center">{{ expense.amount }}</td>
+                                            <td class="text-center">{{ expense.date }}</td>
                                         </tr>
-                                        <tr>
-                                            <td>10 </td>
-                                            <td>Mr. Dexter</td>
-                                            <td>Dr. Charles</td>
-                                            <td>31 July 2020</td>
-                                            <td><span class="badge badge-rounded badge-warning">Panding</span></td>
-                                            <td>$540</td>
-                                            <td class="text-end">
-                                                <div class="dropdown custom-dropdown mb-0">
-                                                    <div class="btn sharp btn-primary tp-btn" data-bs-toggle="dropdown">
-                                                        <svg xmlns="http://www.w3.org/2000/svg"
-                                                            xmlns:xlink="http://www.w3.org/1999/xlink" width="18px"
-                                                            height="18px" viewBox="0 0 24 24" version="1.1">
-                                                            <g stroke="none" stroke-width="1" fill="none"
-                                                                fill-rule="evenodd">
-                                                                <rect x="0" y="0" width="24" height="24" />
-                                                                <circle fill="#000000" cx="12" cy="5" r="2" />
-                                                                <circle fill="#000000" cx="12" cy="12" r="2" />
-                                                                <circle fill="#000000" cx="12" cy="19" r="2" />
-                                                            </g>
-                                                        </svg>
-                                                    </div>
-                                                    <div class="dropdown-menu dropdown-menu-end">
-                                                        <a class="dropdown-item" href="javascript:void();;">Details</a>
-                                                        <a class="dropdown-item text-danger"
-                                                            href="javascript:void();;">Cancel</a>
-                                                    </div>
-                                                </div>
-                                            </td>
-                                        </tr>
-                                        <tr>
-                                            <td>03 </td>
-                                            <td>Mr. Nathan</td>
-                                            <td>Dr. Frederick</td>
-                                            <td>30 July 2020</td>
-                                            <td><span class="badge badge-rounded badge-danger">Canceled</span></td>
-                                            <td>$301</td>
-                                            <td class="text-end">
-                                                <div class="dropdown custom-dropdown mb-0">
-                                                    <div class="btn sharp btn-primary tp-btn" data-bs-toggle="dropdown">
-                                                        <svg xmlns="http://www.w3.org/2000/svg"
-                                                            xmlns:xlink="http://www.w3.org/1999/xlink" width="18px"
-                                                            height="18px" viewBox="0 0 24 24" version="1.1">
-                                                            <g stroke="none" stroke-width="1" fill="none"
-                                                                fill-rule="evenodd">
-                                                                <rect x="0" y="0" width="24" height="24" />
-                                                                <circle fill="#000000" cx="12" cy="5" r="2" />
-                                                                <circle fill="#000000" cx="12" cy="12" r="2" />
-                                                                <circle fill="#000000" cx="12" cy="19" r="2" />
-                                                            </g>
-                                                        </svg>
-                                                    </div>
-                                                    <div class="dropdown-menu dropdown-menu-end">
-                                                        <a class="dropdown-item" href="javascript:void();;">Details</a>
-                                                        <a class="dropdown-item text-danger"
-                                                            href="javascript:void();;">Cancel</a>
-                                                    </div>
-                                                </div>
-                                            </td>
-                                        </tr>
-                                        <tr>
-                                            <td>05</td>
-                                            <td>Mr. Aurora</td>
-                                            <td>Dr. Roman</td>
-                                            <td>29 July 2020</td>
-                                            <td><span class="badge badge-rounded badge-success">Checkin</span></td>
-                                            <td>$099</td>
-                                            <td class="text-end">
-                                                <div class="dropdown custom-dropdown mb-0">
-                                                    <div class="btn sharp btn-primary tp-btn" data-bs-toggle="dropdown">
-                                                        <svg xmlns="http://www.w3.org/2000/svg"
-                                                            xmlns:xlink="http://www.w3.org/1999/xlink" width="18px"
-                                                            height="18px" viewBox="0 0 24 24" version="1.1">
-                                                            <g stroke="none" stroke-width="1" fill="none"
-                                                                fill-rule="evenodd">
-                                                                <rect x="0" y="0" width="24" height="24" />
-                                                                <circle fill="#000000" cx="12" cy="5" r="2" />
-                                                                <circle fill="#000000" cx="12" cy="12" r="2" />
-                                                                <circle fill="#000000" cx="12" cy="19" r="2" />
-                                                            </g>
-                                                        </svg>
-                                                    </div>
-                                                    <div class="dropdown-menu dropdown-menu-end">
-                                                        <a class="dropdown-item" href="javascript:void();;">Details</a>
-                                                        <a class="dropdown-item text-danger"
-                                                            href="javascript:void();;">Cancel</a>
-                                                    </div>
-                                                </div>
-                                            </td>
-                                        </tr>
-                                        <tr>
-                                            <td>06</td>
-                                            <td>Mr. Matthew</td>
-                                            <td>Dr. Samantha</td>
-                                            <td>28 July 2020</td>
-                                            <td><span class="badge badge-rounded badge-success">Checkin</span></td>
-                                            <td>$520</td>
-                                            <td class="text-end">
-                                                <div class="dropdown custom-dropdown mb-0">
-                                                    <div class="btn sharp btn-primary tp-btn" data-bs-toggle="dropdown">
-                                                        <svg xmlns="http://www.w3.org/2000/svg"
-                                                            xmlns:xlink="http://www.w3.org/1999/xlink" width="18px"
-                                                            height="18px" viewBox="0 0 24 24" version="1.1">
-                                                            <g stroke="none" stroke-width="1" fill="none"
-                                                                fill-rule="evenodd">
-                                                                <rect x="0" y="0" width="24" height="24" />
-                                                                <circle fill="#000000" cx="12" cy="5" r="2" />
-                                                                <circle fill="#000000" cx="12" cy="12" r="2" />
-                                                                <circle fill="#000000" cx="12" cy="19" r="2" />
-                                                            </g>
-                                                        </svg>
-                                                    </div>
-                                                    <div class="dropdown-menu dropdown-menu-end">
-                                                        <a class="dropdown-item" href="javascript:void();;">Details</a>
-                                                        <a class="dropdown-item text-danger"
-                                                            href="javascript:void();;">Cancel</a>
-                                                    </div>
-                                                </div>
-                                            </td>
-                                        </tr>
+                                        {% endfor %}
                                     </tbody>
                                 </table>
+                                {%else%}
+                                <div class="text-center">
+                                    No registered expenses yet!
+                                </div>
+                                {%endif%}
                             </div>
                         </div>
                     </div>
@@ -583,7 +490,7 @@
         <div class="modal-dialog" role="document">
             <div class="modal-content">
                 <div class="modal-header">
-                    <h5 class="modal-title">Select Date Range</h5>
+                    <h5 class="modal-title"> Range</h5>
                     <button type="button" class="btn-close" data-bs-dismiss="modal">
                     </button>
                 </div>
@@ -610,7 +517,7 @@
         <div class="modal-dialog" role="document">
             <div class="modal-content">
                 <div class="modal-header">
-                    <h5 class="modal-title">Select Date Range</h5>
+                    <h5 class="modal-title"> Range</h5>
                     <button type="button" class="btn-close" data-bs-dismiss="modal">
                     </button>
                 </div>
