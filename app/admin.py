@@ -87,3 +87,8 @@ admin.site.register(models.Consultation, ConsultationAdmin)
 class CompanySettingsAdmin(admin.ModelAdmin):
     model = models.CompanySettings
 admin.site.register(models.CompanySettings, CompanySettingsAdmin)
+
+
+class ExpenseAdmin(admin.ModelAdmin):
+    model = models.Expense
+admin.site.register(models.Expense, ExpenseAdmin)

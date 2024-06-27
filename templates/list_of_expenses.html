@@ -1,0 +1,111 @@
+{% extends "base.html" %}
+
+{% load static %}
+
+{% block title %}Moto consults | List of Expenses{% endblock title %}
+
+{% block extra_css %}{% endblock extra_css %}
+
+{% block content %}
+<div>
+    <div class="content-body">
+        <div class="container-fluid">
+            <div class="row page-titles">
+                <ol class="breadcrumb">
+                    <li class="breadcrumb-item active"><a href="javascript:void(0)">Moto consults</a></li>
+                    <li class="breadcrumb-item"><a href="javascript:void(0)">List of Expenses</a></li>
+                </ol>
+            </div>
+            <!-- row -->
+            <div class="col-lg-12">
+                <div class="card">
+                    <div class="card-header d-flex justify-content-between">
+                        <h4 class="card-title">List of all registered expenses</h4>
+                        <div>
+                            <button type="button" class="btn btn-primary mb-2" data-bs-toggle="modal"
+                                data-bs-target="#addExpense"><i class="fa fa-plus-circle me-2"></i>Add Expense
+                            </button>
+                        </div>
+                    </div>
+                    <!-- Model for adding expense  -->
+                    <div class="modal fade" id="addExpense">
+                        <div class="modal-dialog" role="document">
+                            <div class="modal-content">
+                                <div class="modal-header">
+                                    <h5 class="modal-title">Add Expense</h5>
+                                    <button type="button" class="btn-close" data-bs-dismiss="modal">
+                                    </button>
+                                </div>
+                                <div class="modal-body">
+                                    <form action={% url 'add-expense' %} method="post">
+                                        {% csrf_token %}
+                                        <input type="hidden" name="form_name" value="add_expense_form">
+                                        {{add_expense_form.as_p}}
+                                        <div><button type="submit" class="btn btn-primary mb-2">Add
+                                                expense</button>
+                                        </div>
+                                    </form>
+                                </div>
+                                <div class="modal-footer">
+                                    <button type="button" class="btn btn-danger light"
+                                        data-bs-dismiss="modal">Close</button>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="card-body">
+                        <div class="table-responsive">
+                            {% if expenses %}
+                            <table class="table table-responsive-md" id="expenses-table">
+                                <thead>
+                                    <tr>
+                                        <th>
+                                            <strong>Expense Name</strong>
+                                        </th>
+                                        <th class="text-center">
+                                            <strong>Category</strong>
+                                        </th>
+                                        <th class="text-center">
+                                            <strong>Amount</strong>
+                                        </th>
+                                        <th class="text-center">
+                                            <strong>Added Date</strong>
+                                        </th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+
+                                    {% for expense in expenses %}
+                                    <tr>
+                                        <td>
+                                            {{expense.name}}
+                                        </td>
+                                        <td class="text-center">
+                                            {{expense.category}}
+                                        </td>
+                                        <td class="text-center">
+                                            {{expense.amount}}
+                                        </td>
+                                        <td class="text-center">
+                                            {{expense.date}}
+                                        </td>
+
+                                    </tr>
+                                    {%endfor%}
+
+                                </tbody>
+                            </table>
+                            {%else%}
+                            <div class="text-center">No expenses added yet!!</>
+                                {%endif%}
+                            </div>
+                        </div>
+
+                    </div>
+                </div>
+            </div>
+        </div>
+
+    </div>
+
+    {% endblock content %}

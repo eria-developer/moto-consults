@@ -5,6 +5,7 @@ from .jobposition_views import add_jobposition, edit_jobposition, view_jobpositi
 from .fee_views import add_fee, edit_fee, view_fee, delete_fee, list_of_fees, generate_receipt, preview_receipt
 from .placement_views import add_placement, edit_placement, view_placement, delete_placement, list_of_placements, search_placements
 from .consultation_views import add_consultation, view_consultation, list_of_consultations
+from .expense_views import add_expense, list_of_expenses
 from .settings_views import company_settings, roles, my_profile, edit_settings
 
 from django.shortcuts import render

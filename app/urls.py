@@ -67,5 +67,9 @@ urlpatterns = [
     path("roles/", views.roles, name="roles"),
     path("company-settings/", views.company_settings, name="company-settings"),
     path("edit-settings/<int:id>", views.edit_settings, name="edit-settings"),
-    path("my-profile/",views.my_profile, name="my-profile")
+    path("my-profile/",views.my_profile, name="my-profile"),
+
+    # expenses urls 
+    path("add-expense/", views.add_expense, name="add-expense"),
+    path("list-of-expenses/", views.list_of_expenses, name="list-of-expenses")
 ]

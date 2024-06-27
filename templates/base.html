@@ -494,6 +494,15 @@
               <li><a href={% url "list-of-fees" %}>View payment fees</a></li>
             </ul>
           </li>
+          <li><a class="has-arrow " href="javascript:void(0);" aria-expanded="false">
+              <i class="bi bi-file-earmark-spreadsheet"></i>
+              <span class="nav-text">Expenses</span>
+            </a>
+            <ul aria-expanded="false">
+              <li><a href={% url "add-expense" %}>Add expense</a></li>
+              <li><a href={% url "list-of-expenses" %}>View expenses</a></li>
+            </ul>
+          </li>
           <li>
             <a class="has-arrow" href="javascript:void(0);" aria-expanded="false">
               <i class="bi bi-book"></i>
