@@ -6,3 +6,21 @@ from .fee_views import add_fee, edit_fee, view_fee, delete_fee, list_of_fees, ge
 from .placement_views import add_placement, edit_placement, view_placement, delete_placement, list_of_placements, search_placements
 from .consultation_views import add_consultation, view_consultation, list_of_consultations
 from .settings_views import company_settings, roles, my_profile, edit_settings
+
+from django.shortcuts import render
+from . import models
+from authentication.models import CustomUser
+
+def dashboard(request):
+    total_customers = models.Customer.objects.count()
+    total_companies = models.EmployerCompany.objects.count()
+    total_jobs = models.Job.objects.count()
+    total_placements = models.RecruitmentProcess.objects.count()
+    
+    context = {
+        "total_customers": total_customers,
+        "total_companies": total_companies,
+        "total_jobs": total_jobs,
+        "total_placements": total_placements,
+    }
+    return render(request, "dashboard.html", context)
