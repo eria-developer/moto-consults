@@ -33,8 +33,7 @@
                                     {% csrf_token %}
 
                                     <div class="mb-3 col-md-12">
-                                        <label for="id_customer" class="form-label">Customer:</label> <a href={%
-                                            url "add-customer" %} class="text-success pl-3 text-medium">+ New</a>
+                                        <label for="id_customer" class="form-label">Customer:</label>
                                         <select name="customer" id="id_customer"
                                             class="default-select  form-control wide">
                                             <option value="">Select a customer</option>
@@ -45,8 +44,7 @@
                                     </div>
 
                                     <div class="mb-3 col-md-12">
-                                        <label for="id_fee_type" class="form-label">Fee Category:</label> <a href={%
-                                            url "add-fee" %} class="text-success pl-3 text-medium">+ New</a>
+                                        <label for="id_fee_type" class="form-label">Fee Category:</label>
                                         <select name="fee_type" id="id_fee_type"
                                             class="default-select  form-control wide">
                                             <option value="">Select a fee_type</option>

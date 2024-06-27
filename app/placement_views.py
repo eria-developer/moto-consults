@@ -120,6 +120,9 @@ def delete_placement(request, placement_id):
     if request.method == "POST":
         placement.delete()
         return redirect("list-of-placements")
+    else:
+        # Handle GET request here, for example by rendering a confirmation page
+        return render(request, 'list_of_placements.html', {'placement': placement})
     
 # def delete_job(request, job_id):
 #     job = get_object_or_404(models.Job, id=job_id)
