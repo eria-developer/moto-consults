@@ -23,6 +23,7 @@
   <!-- Custom Stylesheet -->
   {% comment %}
   <link href="./vendor/jquery-nice-select/css/nice-select.css" rel="stylesheet" />
+  <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
   {% endcomment %} {% comment %}
   {% endcomment %}
   <link href={% static "./vendor/sweetalert2/dist/sweetalert2.min.css" %} rel="stylesheet">
@@ -639,6 +640,86 @@
   <script src={% static 'js/list-of-jobs.js' %}></script>
   <script src={% static 'js/list-of-job_positions.js' %}></script>
   <script src={% static 'js/list-of-fees.js' %}></script>
+
+  <!-- Load Chart.js before using it -->
+  <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+
+  <script>
+    var registrationCtx = document.getElementById('registrationFeesChart').getContext('2d');
+    var registrationFeesChart = new Chart(registrationCtx, {
+      type: 'pie',
+      data: {
+        labels: ['Paid', 'Unpaid'],
+        datasets: [{
+          data: [{{ total_paid_registration }}, {{ total_unpaid_registration }}],
+      backgroundColor: ['#ff9999', '#66b3ff'],
+    }]
+        },
+    options: {
+      responsive: true,
+        plugins: {
+        legend: {
+          position: 'top',
+                },
+        title: {
+          display: true,
+            text: 'Registration Fees'
+        }
+      }
+    }
+    });
+
+    var connectionCtx = document.getElementById('connectionFeesChart').getContext('2d');
+    var connectionFeesChart = new Chart(connectionCtx, {
+      type: 'doughnut',
+      data: {
+        labels: ['Paid', 'Unpaid'],
+        datasets: [{
+          data: [{{ total_paid_connection }}, {{ total_unpaid_connection }}],
+      backgroundColor: ['#ff9999', '#66b3ff'],
+    }]
+        },
+    options: {
+      responsive: true,
+        plugins: {
+        legend: {
+          position: 'top',
+                },
+        title: {
+          display: true,
+            text: 'Connection Fees'
+        }
+      }
+    }
+    });
+
+    var consultationCtx = document.getElementById('consultationFeesChart').getContext('2d');
+    var consultationFeesChart = new Chart(consultationCtx, {
+      type: 'bar',
+      data: {
+        labels: ['Paid', 'Unpaid'],
+        datasets: [{
+          data: [{{ total_paid_consultation }}, {{ total_unpaid_consultation }}],
+      backgroundColor: ['#ff9999', '#66b3ff'],
+    }]
+        },
+    options: {
+      responsive: true,
+        plugins: {
+        legend: {
+          position: 'top',
+                },
+        title: {
+          display: true,
+            text: 'Consultation Fees'
+        }
+      }
+    }
+    });
+  </script>
+
+
+
 </body>
 
 </html>

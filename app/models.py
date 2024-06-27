@@ -5,12 +5,12 @@ from django.contrib.auth.models import User
 
 
 class Customer(models.Model):
-    firstname = models.CharField(max_length=100, null=False, blank=False)
-    othernames = models.CharField(max_length=100, null=True, blank=False)
-    phonenumber_1 = models.CharField(max_length=15, null=False, blank=False)
-    phonenumber_2 = models.CharField(max_length=15, null=True, blank=True)
+    firstname = models.CharField(max_length=254, null=False, blank=False)
+    othernames = models.CharField(max_length=254, null=True, blank=False)
+    phonenumber_1 = models.CharField(max_length=254, null=False, blank=False)
+    phonenumber_2 = models.CharField(max_length=254, null=True, blank=True)
     email = models.EmailField(blank=True, null=True)
-    address = models.CharField(max_length=64, null=False, blank=False)
+    address = models.CharField(max_length=254, null=False, blank=False)
     date = models.DateTimeField(auto_now_add=True, null=True)
     passport_photo = models.ImageField(upload_to="passport_photos/", null=True, blank=True)
     file_upload = models.FileField(upload_to="uploaded_files/", null=True, blank=True)
@@ -21,10 +21,10 @@ class Customer(models.Model):
     
 
 class EmployerCompany(models.Model):
-    name = models.CharField(max_length=100, null=False, blank=False)
-    email = models.CharField(max_length=64, null=False, blank=False)
-    address = models.CharField(max_length=64, null=False, blank=False)
-    phone_number = models.CharField(max_length=15, null=False, blank=False)
+    name = models.CharField(max_length=254, null=False, blank=False)
+    email = models.CharField(max_length=254, null=False, blank=False)
+    address = models.CharField(max_length=254, null=False, blank=False)
+    phone_number = models.CharField(max_length=254, null=False, blank=False)
     description = models.TextField(null=True)
     date_added = models.DateTimeField(auto_now_add=True, null=True)
 
@@ -33,16 +33,16 @@ class EmployerCompany(models.Model):
     
 
 class JobPosition(models.Model):
-    job_position = models.CharField(max_length=64)
+    job_position = models.CharField(max_length=254)
 
     def __str__(self):
         return f"{self.job_position}"
 
 
 class Job(models.Model):
-    job_title = models.CharField(max_length=64, null=False, blank=False)
+    job_title = models.CharField(max_length=254, null=False, blank=False)
     job_position = models.ForeignKey(JobPosition, null=True, on_delete=models.CASCADE)
-    job_field = models.CharField(max_length=64, null=True, blank=True)
+    job_field = models.CharField(max_length=254, null=True, blank=True)
     job_description = models.TextField(null=True, blank=True)
     # job_company = models.ForeignKey(EmployerCompany, null=True, blank=True, on_delete=models.CASCADE)
 
@@ -66,7 +66,7 @@ class RecruitmentProcess(models.Model):
     customer = models.ForeignKey(Customer, on_delete=models.CASCADE)
     job = models.ForeignKey(Job, on_delete=models.CASCADE)
     company = models.ForeignKey(EmployerCompany, on_delete=models.CASCADE, null=True, blank=False)
-    status = models.CharField(max_length=64, choices=STATUS_CHOICES, default='applied')
+    status = models.CharField(max_length=254, choices=STATUS_CHOICES, default='applied')
     application_date = models.DateTimeField(auto_now_add=True)
     expected_salary = models.IntegerField(default=0)
 
@@ -87,9 +87,9 @@ class FeesPayment(models.Model):
     ]
 
     customer = models.ForeignKey(Customer, on_delete=models.CASCADE)
-    fee_type = models.CharField(max_length=20, choices=CUSTOMER_FEE_CHOICES)
+    fee_type = models.CharField(max_length=254, choices=CUSTOMER_FEE_CHOICES)
     amount = models.DecimalField(max_digits=10, decimal_places=2)
-    payment_status = models.CharField(max_length=20, choices=STATUS_CHOICES, default='unpaid')
+    payment_status = models.CharField(max_length=254, choices=STATUS_CHOICES, default='unpaid')
     # payment_date = models.DateTimeField(auto_now_add=True)
     payment_date = models.DateTimeField()
 
@@ -136,20 +136,20 @@ class ConsultationFees(SingletonModel):
 
 
 class CompanySettings(SingletonModel):
-    name = models.CharField(max_length=100, null=False, blank=False)
-    email = models.CharField(max_length=64, null=False, blank=False)
+    name = models.CharField(max_length=254, null=False, blank=False)
+    email = models.CharField(max_length=254, null=False, blank=False)
     logo = models.ImageField(upload_to="logos/", null=True, blank=True)
     favicon = models.ImageField(upload_to="favicons/", null=True, blank=True)
-    address = models.CharField(max_length=64, null=False, blank=False)
-    phone_number = models.CharField(max_length=15, null=False, blank=False)
+    address = models.CharField(max_length=254, null=False, blank=False)
+    phone_number = models.CharField(max_length=254, null=False, blank=False)
 
     def __str__(self):
         return f"{self.name}"
     
 
 class Expense(models.Model):
-    name = models.CharField(max_length=64)
-    category = models.CharField(max_length=64)
+    name = models.CharField(max_length=254)
+    category = models.CharField(max_length=254)
     amount = models.IntegerField()
     date = models.DateTimeField(null=True)
 
