@@ -319,7 +319,7 @@
                                                             </span>
                                                             <div class="media-body text-white">
                                                                 <p class="mb-1">expenses for this week</p>
-                                                                <h3 class="text-white">UGX. {{ total_week_expenses }}
+                                                                <h3 class="text-white">UGX. {{ total_week_for_expenses}}
                                                                 </h3>
                                                             </div>
                                                         </div>
@@ -333,7 +333,7 @@
                                                             </span>
                                                             <div class="media-body text-white">
                                                                 <p class="mb-1">expenses for this month</p>
-                                                                <h3 class="text-white">UGX. {{ total_month_expenses }}
+                                                                <h3 class="text-white">UGX. {{ total_month_for_expenses}}
                                                                 </h3>
                                                             </div>
                                                         </div>
@@ -347,7 +347,7 @@
                                                             </span>
                                                             <div class="media-body text-white">
                                                                 <p class="mb-1">expenses for this year</p>
-                                                                <h3 class="text-white">UGX. {{ total_year_expenses }}
+                                                                <h3 class="text-white">UGX. {{ total_year_for_expenses}}
                                                                 </h3>
                                                             </div>
                                                         </div>
@@ -363,8 +363,9 @@
                                                             <div class="media-body text-white">
                                                                 <div class="d-flex justify-content-between">
                                                                     <div>
-                                                                        <p class="mb-1">expenses from:{{start_date}} -
-                                                                            {{end_date}}</p>
+                                                                        <p class="mb-1">expenses from:
+                                                                            {{start_date_for_expenses}} -
+                                                                            {{end_date_for_expenses}}</p>
                                                                     </div>
                                                                     <button type="button"
                                                                         class="btn btn-xs btn-success mb-2"
@@ -375,7 +376,7 @@
 
                                                                     </button>
                                                                 </div>
-                                                                <h3 class="text-white">UGX. {{ total_custom_amount }}
+                                                                <h3 class="text-white">UGX. {{total_custom_amount_for_expenses }}
                                                                 </h3>
                                                             </div>
                                                         </div>
@@ -575,7 +576,7 @@
 
         </div>
     </div>
-    
+
     <!-- MODELS  -->
     <!-- Modal for selecting date range for earnings  -->
     <div class="modal fade" id="selectDateRange">
