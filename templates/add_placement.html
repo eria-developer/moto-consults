@@ -31,56 +31,73 @@ margin-bottom: 16px;
                         <div class="card-body">
                             <div class="basic-form">
 
-                                <!-- form for adding a new placement  -->
+                                <!-- form for adding a new placement -->
                                 <form id="companyForm" method="post" action="">
-
                                     {% csrf_token %}
+                                    <input type="hidden" name="form_name" value="add_placement_form">
 
+                                    <!-- customer field -->
                                     <div class="col-md-12">
                                         <label for="id_customer" class="form-label me-3">Customer:</label>
-                                        <a href={% url "add-customer" %}
-                                            class="text-white rounded px-4 py-0 bg-success text-medium">+ Add
-                                            New</a>
+                                        <button type="button" class="btn btn-xs btn-success mb-2" data-bs-toggle="modal"
+                                            data-bs-target="#addCustomer"><i class="fa fa-plus-circle me-2"></i>Add
+                                            new
+                                        </button>
                                         <select name="customer" id="id_customer"
-                                            class="default-select  form-control wide">
+                                            class="default-select form-control wide mt-1 mr-2 ml-2 mb-4">
                                             <option value="">Select a customer</option>
                                             {% for customer in customers %}
-                                            <option value={{customer.id}}>{{ customer }}</option>
+                                            <option value="{{customer.id}}">{{ customer }}</option>
                                             {% endfor %}
                                         </select>
+
+
                                     </div>
 
-                                    <div class="my-3 col-md-12" style="margin-top: 16px;">
+                                    <!-- job field  -->
+                                    <div class="my-3 col-md-12" style="margin-top: 32px;">
                                         <label for="id_job" class="form-label me-3">Job:</label>
-                                        <a href={%url "add-job" %}
-                                            class="text-white rounded px-4 py-0 bg-success text-medium">+ Add New</a>
-                                        <select name="job" id="id_job" class="default-select  form-control wide">
+                                        <button type="button" class="btn btn-xs btn-success mb-2" data-bs-toggle="modal"
+                                            data-bs-target="#addJob"><i class="fa fa-plus-circle me-2"></i>Add
+                                            new
+                                        </button>
+                                        <select name="job" id="id_job"
+                                            class="default-select form-control wide mt-1 mr-2 ml-2 mb-4">
                                             <option value="">Select a job</option>
                                             {% for job in jobs %}
-                                            <option value={{job.id}}>{{ job }}</option>
+                                            <option value="{{job.id}}">{{ job }}</option>
                                             {% endfor %}
                                         </select>
+
 
                                     </div>
 
+
+                                    <!-- job company field -->
                                     <div class="mb-3 col-md-12">
-                                        <label for="id_job_company" class="form-label">Job Company:</label><a href=
-                                        {% url "add-company" %} class="text-success pl-3 text-medium">+ New</a>
+                                        <label for="id_job_company" class="form-label">Job Company:</label>
+                                        <button type="button" class="btn btn-xs btn-success mb-2" data-bs-toggle="modal"
+                                            data-bs-target="#addCompany"><i class="fa fa-plus-circle me-2"></i>Add
+                                            new
+                                        </button>
                                         <select name="company" id="id_company"
-                                            class="default-select  form-control wide">
+                                            class="default-select form-control wide mt-1 mr-2 ml-2 mb-4">
                                             <option value="">Select a job company</option>
                                             {% for job_company in job_companies %}
-                                            <option value={{job_company.id}}>{{ job_company }}</option>
+                                            <option value="{{job_company.id}}">{{ job_company }}</option>
                                             {% endfor %}
                                         </select>
+
+
                                     </div>
 
                                     <div class="mb-3 col-md-12">
                                         <label for="id_status" class="form-label">Status:</label>
-                                        <select name="status" id="id_status" class="default-select  form-control wide">
+                                        <select name="status" id="id_status"
+                                            class="default-select form-control wide mt-1 mr-2 ml-2 mb-4">
                                             <option value="">Select a status</option>
                                             {% for value, label in status_choices %}
-                                            <option value={{value}}>{{ label }}</option>
+                                            <option value="{{value}}">{{ label }}</option>
                                             {% endfor %}
                                         </select>
                                     </div>
@@ -89,13 +106,13 @@ margin-bottom: 16px;
                                         <label for="id_expected_salary" class="form-label">Expected salary:</label><span
                                             class="text-danger">*</span>
                                         <input type="number" name="expected_salary" required id="id_expected_salary"
-                                            class="form-control">
+                                            class="form-control mt-1 mr-2 ml-2 mb-4">
                                     </div>
 
                                     <div class="mb-3"><button type="submit" class="btn btn-primary mb-2">Save
-                                            placement</button>
-                                    </div>
+                                            placement</button></div>
                                 </form>
+
 
                             </div>
                         </div>
@@ -107,6 +124,86 @@ margin-bottom: 16px;
             </div>
         </div>
         <div id="message"></div>
+    </div>
+    <!-- MODELS  -->
+    <!-- model for adding customer  -->
+    <div class="modal fade" id="addCustomer">
+        <div class="modal-dialog" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title">Register New Customer</h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal">
+                    </button>
+                </div>
+                <div class="modal-body">
+                    <form action="" method="post">
+                        {% csrf_token %}
+                        <input type="hidden" name="form_name" value="add_customer_form">
+                        {{add_customer_form.as_p}}
+                        <div>
+                            <button type="submit" class="btn btn-primary mb-2">Register
+                                customer</button>
+                        </div>
+                    </form>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-danger light" data-bs-dismiss="modal">Close</button>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- model for adding company  -->
+<div class="modal fade" id="addCompany">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title">Register New Company</h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal">
+                </button>
+            </div>
+            <div class="modal-body">
+                <form action="" method="post">
+                    {% csrf_token %}
+                    <input type="hidden" name="form_name" value="add_company_form">
+                    {{add_company_form.as_p}}
+                    <div>
+                        <button type="submit" class="btn btn-primary mb-2">Register
+                            company</button>
+                    </div>
+                </form>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-danger light" data-bs-dismiss="modal">Close</button>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- model for adding job  -->
+<div class="modal fade" id="addJob">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title">Register New Job</h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal">
+                </button>
+            </div>
+            <div class="modal-body">
+                <form action="" method="post">
+                    {% csrf_token %}
+                    <input type="hidden" name="form_name" value="add_job_form">
+                    {{add_job_form.as_p}}
+                    <div>
+                        <button type="submit" class="btn btn-primary mb-2">Register job</button>
+                    </div>
+                </form>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-danger light" data-bs-dismiss="modal">Close</button>
+            </div>
+        </div>
     </div>
 </div>
 {% endblock content %}
