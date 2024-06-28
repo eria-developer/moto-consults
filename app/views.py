@@ -15,6 +15,7 @@ from authentication.models import CustomUser
 from django.db.models import Sum
 from django.utils import timezone
 from datetime import timedelta
+import datetime
 
 def dashboard(request):
     total_customers = models.Customer.objects.count()
@@ -56,6 +57,32 @@ def dashboard(request):
     default_registration_fee = models.RegistrationFees.objects.first().fees_amount
     default_consultation_fee = models.ConsultationFees.objects.first().fees_amount
 
+    # Get the time filter from the request (default to 'today')
+    time_filter = request.GET.get('time_filter', 'today')
+    
+    # # Determine the time range based on the filter
+    # if time_filter == 'today':
+    #     start_date_for_barchart = now().replace(hour=0, minute=0, second=0, microsecond=0)
+    #     end_date_for_barchart = now()
+    # elif time_filter == 'this_week':
+    #     start_date_for_barchart = now() - timedelta(days=now().weekday())
+    #     end_date_for_barchart = now()
+    # elif time_filter == 'this_month':
+    #     start_date_for_barchart = now().replace(day=1, hour=0, minute=0, second=0, microsecond=0)
+    #     end_date_for_barchart = now()
+    # elif time_filter == 'this_year':
+    #     start_date_for_barchart = now().replace(month=1, day=1, hour=0, minute=0, second=0, microsecond=0)
+    #     end_date_for_barchart = now()
+    # elif time_filter == 'custom':
+    #     start_date_for_barchart = request.GET.get('start_date_for_barchart')
+    #     end_date_for_barchart = request.GET.get('end_date_for_barchart')
+    #     if not start_date_for_barchart or not end_date_for_barchart:
+    #         start_date_for_barchart = now().replace(hour=0, minute=0, second=0, microsecond=0)
+    #         end_date_for_barchart = now()
+    #     else:
+    #         start_date_for_barchart = datetime.datetime.strptime(start_date_for_barchart, '%Y-%m-%d')
+    #         end_date_for_barchart = datetime.datetime.strptime(end_date_for_barchart, '%Y-%m-%d')
+
     # Initialize total amounts
     total_paid_registration = 0
     total_paid_connection = 0
@@ -67,6 +94,10 @@ def dashboard(request):
 
     # Retrieve all payments
     payments = models.FeesPayment.objects.all()
+
+    # Retrieve payments within the time range
+    payments_for_barchart = models.FeesPayment.objects.filter(payment_date__range=[start_date, end_date])
+
 
 
     # Calculate total paid and unpaid amounts for each fee type
@@ -160,5 +191,8 @@ def dashboard(request):
         'total_unpaid_connection': total_unpaid_connection,
         'total_paid_consultation': total_paid_consultation,
         'total_unpaid_consultation': total_unpaid_consultation,
+        'time_filter': time_filter,
+        # 'start_date_for_barchart': start_date_for_barchart,
+        # 'end_date_for_barchart': end_date_for_barchart,
     }
     return render(request, "dashboard.html", context)
