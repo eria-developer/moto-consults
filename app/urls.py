@@ -3,6 +3,8 @@ from . import views
 
 urlpatterns = [
     path("", views.dashboard, name="dashboard"),
+    path('aggregate_earnings/<str:timeframe>/', views.aggregate_earnings, name='aggregate_earnings'),
+
 
     # customer urls 
     path("add-customer/", views.add_customer, name="add-customer"),

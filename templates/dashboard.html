@@ -108,22 +108,39 @@
                             <div class="card-action mb-sm-0 my-2">
                                 <ul class="nav nav-tabs" role="tablist">
                                     <li class="nav-item">
-                                        <a class="nav-link active" data-bs-toggle="tab" href="#user" role="tab">
-                                            Day
-                                        </a>
+                                        <a class="nav-link active" data-bs-toggle="tab" href="#today" role="tab"
+                                            onclick="updateChart('day')">Today</a>
                                     </li>
                                     <li class="nav-item">
-                                        <a class="nav-link" data-bs-toggle="tab" href="#bounce" role="tab">
-                                            Month
-                                        </a>
+                                        <a class="nav-link" data-bs-toggle="tab" href="#this-week" role="tab"
+                                            onclick="updateChart('week')">This week</a>
                                     </li>
                                     <li class="nav-item">
-                                        <a class="nav-link" data-bs-toggle="tab" href="#session-duration" role="tab">
-                                            Year
-                                        </a>
+                                        <a class="nav-link" data-bs-toggle="tab" href="#this-month" role="tab"
+                                            onclick="updateChart('month')">This month</a>
+                                    </li>
+                                    <li class="nav-item">
+                                        <a class="nav-link" data-bs-toggle="tab" href="#this-year" role="tab"
+                                            onclick="updateChart('year')">This year</a>
+                                    </li>
+                                    <li class="nav-item">
+                                        <a class="nav-link" data-bs-toggle="tab" href="#date-range" role="tab"
+                                            onclick="showCustomDateRange()">Date range</a>
                                     </li>
                                 </ul>
                             </div>
+
+                            <!-- Custom date inputs, hidden by default -->
+                            <div id="custom-dates" style="display: none;">
+                                <label for="start-date">Start Date:</label>
+                                <input type="date" id="start-date">
+                                <label for="end-date">End Date:</label>
+                                <input type="date" id="end-date">
+                                <button onclick="updateChart('custom')">Update</button>
+                            </div>
+
+                            <canvas id="earningsChart" width="400" height="200"></canvas>
+
                         </div>
 
                         <div class="card-body">
@@ -192,14 +209,16 @@
                             <div class="row text-success">
                                 <div class="col-6 border-end text-success">
                                     <div class="pt-3 pb-3 ps-0 pe-0 text-center">
-                                        <h4 class="m-1 text-success"><span class="counter">Ugx. {{ total_paid_connection }}</span>
+                                        <h4 class="m-1 text-success"><span class="counter">Ugx. {{ total_paid_connection
+                                                }}</span>
                                         </h4>
                                         <p class="m-0">Paid</p>
                                     </div>
                                 </div>
                                 <div class="col-6">
                                     <div class="pt-3 pb-3 ps-0 pe-0 text-center text-danger">
-                                        <h4 class="m-1 text-danger"><span class="counter">Ugx. {{ total_unpaid_connection }}</span>
+                                        <h4 class="m-1 text-danger"><span class="counter">Ugx. {{
+                                                total_unpaid_connection }}</span>
                                         </h4>
                                         <p class="m-0">Unpaid</p>
                                     </div>

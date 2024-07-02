@@ -16,6 +16,7 @@ from django.db.models import Sum
 from django.utils import timezone
 from datetime import timedelta
 import datetime
+from django.http import JsonResponse
 
 def dashboard(request):
     total_customers = models.Customer.objects.count()
@@ -59,30 +60,7 @@ def dashboard(request):
 
     # Get the time filter from the request (default to 'today')
     time_filter = request.GET.get('time_filter', 'today')
-    
-    # # Determine the time range based on the filter
-    # if time_filter == 'today':
-    #     start_date_for_barchart = now().replace(hour=0, minute=0, second=0, microsecond=0)
-    #     end_date_for_barchart = now()
-    # elif time_filter == 'this_week':
-    #     start_date_for_barchart = now() - timedelta(days=now().weekday())
-    #     end_date_for_barchart = now()
-    # elif time_filter == 'this_month':
-    #     start_date_for_barchart = now().replace(day=1, hour=0, minute=0, second=0, microsecond=0)
-    #     end_date_for_barchart = now()
-    # elif time_filter == 'this_year':
-    #     start_date_for_barchart = now().replace(month=1, day=1, hour=0, minute=0, second=0, microsecond=0)
-    #     end_date_for_barchart = now()
-    # elif time_filter == 'custom':
-    #     start_date_for_barchart = request.GET.get('start_date_for_barchart')
-    #     end_date_for_barchart = request.GET.get('end_date_for_barchart')
-    #     if not start_date_for_barchart or not end_date_for_barchart:
-    #         start_date_for_barchart = now().replace(hour=0, minute=0, second=0, microsecond=0)
-    #         end_date_for_barchart = now()
-    #     else:
-    #         start_date_for_barchart = datetime.datetime.strptime(start_date_for_barchart, '%Y-%m-%d')
-    #         end_date_for_barchart = datetime.datetime.strptime(end_date_for_barchart, '%Y-%m-%d')
-
+ 
     # Initialize total amounts
     total_paid_registration = 0
     total_paid_connection = 0
@@ -191,8 +169,34 @@ def dashboard(request):
         'total_unpaid_connection': total_unpaid_connection,
         'total_paid_consultation': total_paid_consultation,
         'total_unpaid_consultation': total_unpaid_consultation,
-        'time_filter': time_filter,
         # 'start_date_for_barchart': start_date_for_barchart,
         # 'end_date_for_barchart': end_date_for_barchart,
+        'time_filter': time_filter,
     }
     return render(request, "dashboard.html", context)
+
+
+def aggregate_earnings(request, timeframe):
+    now = timezone.now()
+    
+    if timeframe == 'day':
+        start_date = now - timedelta(days=1)
+    elif timeframe == 'week':
+        start_date = now - timedelta(weeks=1)
+    elif timeframe == 'month':
+        start_date = now - timedelta(days=30)
+    elif timeframe == 'year':
+        start_date = now - timedelta(days=365)
+    else:  # Custom dates
+        start_date = request.GET.get('start_date')
+        end_date = request.GET.get('end_date')
+    
+    payments = models.FeesPayment.objects.filter(payment_date__range=[start_date, now], payment_status='paid')
+    
+    data = {
+        'registration': payments.filter(fee_type='registration').aggregate(Sum('amount'))['amount__sum'] or 0,
+        'consultation': payments.filter(fee_type='consultation').aggregate(Sum('amount'))['amount__sum'] or 0,
+        'connection': payments.filter(fee_type='connection').aggregate(Sum('amount'))['amount__sum'] or 0,
+    }
+
+    return JsonResponse(data)
