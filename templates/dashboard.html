@@ -102,14 +102,10 @@
 
                 <!-- BEGINNING OF ROW 2 -->
                 <div class="col-xl-12 col-xxl-12 col-lg-12 col-sm-12">
-                    <div id="user-activity" class="card">
-                        <div class="card-header border-0 pb-0 d-sm-flex d-block">
-                            <h4 class="card-title">Visitor Activity</h4>
-                            <div class="card-action mb-sm-0 my-2">
-                                <ul class="nav nav-tabs" role="tablist">
+                    <div class="">
+                        <div class="">
 
-                                </ul>
-                            </div>
+
 
                             <!-- Custom date inputs, hidden by default -->
                             <div id="custom-dates" style="display: none;">
@@ -123,16 +119,119 @@
 
                         </div>
 
+
+                    </div>
+                </div>
+                <div class="col-xl-12 col-lg-12 col-xxl-12 col-sm-12">
+                    <div class="card">
+                        <div class="card-header">
+                            <h4 class="card-title">Total Earnings Analysis</h4>
+                        </div>
                         <div class="card-body">
-                            <div class="tab-content" id="myTabContent">
-                                <div class="tab-pane fade show active" id="user" role="tabpanel">
-                                    <canvas id="fetch_fee_payments" width="800" height="400"></canvas>
+                            <!-- Nav tabs -->
+                            <div class="default-tab">
+                                <ul class="nav nav-tabs" role="tablist">
+                                    <li class="nav-item">
+                                        <a href="#todayBarChart" class="nav-link timeframe-button" data-timeframe="day"
+                                            role="tab">Today</a>
+                                    </li>
+                                    <li class="nav-item">
+                                        <a class="nav-link timeframe-button" data-timeframe="week" role="tab">This
+                                            Week</a>
+                                    </li>
+                                    <li class="nav-item">
+                                        <a class="nav-link timeframe-button" data-timeframe="month" role="tab">This
+                                            Month</a>
+                                    </li>
+                                    <li class="nav-item">
+                                        <a class="nav-link timeframe-button" data-timeframe="year" role="tab">This
+                                            Year</a>
+                                    </li>
+                                    <li class="nav-item">
+                                        <a class="nav-link timeframe-button active" data-timeframe="custom"
+                                            role="tab">Custom Date</a>
+                                    </li>
+                                </ul>
+                                <!-- Tab content -->
+                                <div class="tab-content">
+                                    <div class="tab-pane fade" id="todayBarChart" role="tabpanel">
+                                        <!-- Content for 'Today' tab -->
+                                        <div class="pt-4">
+                                            <div class="media">
+                                                <span class="me-3"><i class="fas fa-dollar-sign"></i></span>
+                                                <div class="media-body text-white">
+                                                    <p class="mb-1">earnings for today</p>
+                                                    <h3 class="text-white">Insert dynamic content here</h3>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="tab-pane fade" id="weekEarning" role="tabpanel">
+                                        <!-- Content for 'This Week' tab -->
+                                        <div class="pt-4">
+                                            <div class="media">
+                                                <div class="media-body text-white">
+                                                    <p class="mb-1">earnings for this week</p>
+                                                    <h3 class="text-white">Insert dynamic content here</h3>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="tab-pane fade" id="monthEarning" role="tabpanel">
+                                        <!-- Content for 'This Month' tab -->
+                                        <div class="pt-4">
+                                            <div class="media">
+                                                <span class="me-3"><i class="fas fa-dollar-sign"></i></span>
+                                                <div class="media-body text-white">
+                                                    <p class="mb-1">earnings for this month</p>
+                                                    <h3 class="text-white">Insert dynamic content here</h3>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="tab-pane fade" id="monthEarning" role="tabpanel">
+                                        <!-- Content for 'This Year' tab -->
+                                        <div class="pt-4">
+                                            <div class="media">
+                                                <span class="me-3"><i class="fas fa-dollar-sign"></i></span>
+                                                <div class="media-body text-white">
+                                                    <p class="mb-1">earnings for this Year</p>
+                                                    <h3 class="text-white">Insert dynamic content here</h3>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="tab-pane fade show active" id="customEarning" role="tabpanel">
+                                        <!-- Content for 'Custom Date' tab -->
+                                        <div class="pt-4">
+                                            <div class="media">
+                                                <span class="me-3"><i class="fas fa-dollar-sign"></i></span>
+                                                <div class="media-body text-white">
+                                                    <div class="d-flex justify-content-between">
+                                                        <div>
+                                                            <p class="mb-1">earnings: Insert dynamic date range here</p>
+                                                        </div>
+                                                        <button type="button" class="btn btn-xs btn-primary mb-2"
+                                                            data-bs-toggle="modal" data-bs-target="#selectDateRange"><i
+                                                                class="fa fa-calendar me-2"></i> date
+                                                        </button>
+                                                    </div>
+                                                    <h3 class="text-white">Insert dynamic content here</h3>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
                                 </div>
+                            </div>
+                            <!-- End Tab content -->
+
+                            <!-- Chart canvas -->
+                            <div>
+                                <canvas id="feePaymentsChart" height="200"></canvas>
                             </div>
                         </div>
                     </div>
                 </div>
-
                 <div class="col-xl-4 col-lg-12 col-sm-12">
                     <div class="card overflow-hidden">
                         <h3 class="card-title ms-5 mt-5">Registration Fee Analysis</h3>
@@ -560,98 +659,8 @@
                 </div> -->
 
 
-                <div class="col-xl-8 col-lg-8 col-xxl-8 col-sm-8">
-                    <div class="card">
-                        <div class="card-header">
-                            <h4 class="card-title">Recent registered Expenses</h4>
-                        </div>
-                        <div class="card-body">
-                            <!-- Nav tabs -->
-                            <div class="default-tab">
-                                <ul class="nav nav-tabs" role="tablist">
-                                    <li class="nav-item">
-                                        <a class="nav-link timeframe-button" data-timeframe="day" role="tab">Today</a>
-                                    </li>
-                                    <li class="nav-item">
-                                        <a class="nav-link timeframe-button" data-timeframe="week" role="tab">This Week</a>
-                                    </li>
-                                    <li class="nav-item">
-                                        <a class="nav-link timeframe-button" data-timeframe="month" role="tab">This Month</a>
-                                    </li>
-                                    <li class="nav-item">
-                                        <a class="nav-link timeframe-button active" data-timeframe="custom" role="tab">Custom Date</a>
-                                    </li>
-                                </ul>
-                                <!-- Tab content -->
-                                <div class="tab-content">
-                                    <div class="tab-pane fade" id="dayEarning" role="tabpanel">
-                                        <!-- Content for 'Today' tab -->
-                                        <div class="pt-4">
-                                            <div class="media">
-                                                <span class="me-3"><i class="fas fa-dollar-sign"></i></span>
-                                                <div class="media-body text-white">
-                                                    <p class="mb-1">earnings for today</p>
-                                                    <h3 class="text-white">Insert dynamic content here</h3>
-                                                </div>
-                                            </div>
-                                        </div>
-                                    </div>
-                                    <div class="tab-pane fade" id="weekEarning" role="tabpanel">
-                                        <!-- Content for 'This Week' tab -->
-                                        <div class="pt-4">
-                                            <div class="media">
-                                                <span class="me-3"><i class="fas fa-dollar-sign"></i></span>
-                                                <div class="media-body text-white">
-                                                    <p class="mb-1">earnings for this week</p>
-                                                    <h3 class="text-white">Insert dynamic content here</h3>
-                                                </div>
-                                            </div>
-                                        </div>
-                                    </div>
-                                    <div class="tab-pane fade" id="monthEarning" role="tabpanel">
-                                        <!-- Content for 'This Month' tab -->
-                                        <div class="pt-4">
-                                            <div class="media">
-                                                <span class="me-3"><i class="fas fa-dollar-sign"></i></span>
-                                                <div class="media-body text-white">
-                                                    <p class="mb-1">earnings for this month</p>
-                                                    <h3 class="text-white">Insert dynamic content here</h3>
-                                                </div>
-                                            </div>
-                                        </div>
-                                    </div>
-                                    <div class="tab-pane fade show active" id="customEarning" role="tabpanel">
-                                        <!-- Content for 'Custom Date' tab -->
-                                        <div class="pt-4">
-                                            <div class="media">
-                                                <span class="me-3"><i class="fas fa-dollar-sign"></i></span>
-                                                <div class="media-body text-white">
-                                                    <div class="d-flex justify-content-between">
-                                                        <div>
-                                                            <p class="mb-1">earnings: Insert dynamic date range here</p>
-                                                        </div>
-                                                        <button type="button" class="btn btn-xs btn-primary mb-2"
-                                                            data-bs-toggle="modal" data-bs-target="#selectDateRange"><i
-                                                                class="fa fa-calendar me-2"></i> date
-                                                        </button>
-                                                    </div>
-                                                    <h3 class="text-white">Insert dynamic content here</h3>
-                                                </div>
-                                            </div>
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
-                            <!-- End Tab content -->
-                
-                            <!-- Chart canvas -->
-                            <div>
-                                <canvas id="feePaymentsChart" height="200"></canvas>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-                
+
+
 
             </div>
 
