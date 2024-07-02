@@ -214,9 +214,8 @@ def fetch_fee_payments(request):
     now = timezone.now()
 
     if timeframe == 'day':
-        start_date = datetime.date.today()
-        start_date = timezone.make_aware(datetime.datetime.combine(start_date, datetime.time.min))
-        end_date = timezone.make_aware(datetime.datetime.combine(start_date, datetime.time.max))
+        start_date = now.replace(hour=0, minute=0, second=0, microsecond=0)
+        end_date = now.replace(hour=23, minute=59, second=59, microsecond=999999)
     elif timeframe == 'week':
         start_date = now - datetime.timedelta(days=now.weekday())
         start_date = start_date.replace(hour=0, minute=0, second=0, microsecond=0)
@@ -232,12 +231,18 @@ def fetch_fee_payments(request):
     elif timeframe == 'custom':
         start_date = request.GET.get('start_date')
         end_date = request.GET.get('end_date')
+        start_date = timezone.make_aware(datetime.datetime.strptime(start_date, '%Y-%m-%d %H:%M:%S'))
+        end_date = timezone.make_aware(datetime.datetime.strptime(end_date, '%Y-%m-%d %H:%M:%S'))
     else:
         return JsonResponse({'error': 'Invalid timeframe'})
 
+    print(f"Timeframe: {timeframe}")
+    print(f"Start Date: {start_date}")
+    print(f"End Date: {end_date}")
 
     payments = models.FeesPayment.objects.filter(payment_date__range=[start_date, end_date])
 
+    print(f"Payments: {payments}")
 
     data = {
         'registration': payments.filter(fee_type='registration').aggregate(Sum('amount'))['amount__sum'] or 0,
@@ -245,6 +250,6 @@ def fetch_fee_payments(request):
         'connection': payments.filter(fee_type='connection').aggregate(Sum('amount'))['amount__sum'] or 0,
     }
 
-    print(f"Now: {now}")
+    print(f"Data: {data}")
 
     return JsonResponse(data)

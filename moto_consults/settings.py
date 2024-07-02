@@ -168,3 +168,5 @@ MESSAGE_TAGS = {
     messages.WARNING: 'warning',
     messages.ERROR: 'error',
 }
+
+TIME_ZONE = "Africa/Kampala"
