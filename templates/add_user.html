@@ -48,8 +48,8 @@
                                         <label for="id_role" class="form-label">User Role:</label>
                                         <select name="role" id="id_role" class="default-select  form-control wide">
                                             <option value="">Select a user role</option>
-                                            {% for value, label in role_choices %}
-                                            <option value={{value}}>{{ label }}</option>
+                                            {% for role in role_choices %}
+                                            <option value={{role.name}}>{{ role }}</option>
                                             {% endfor %}
                                         </select>
                                     </div>
