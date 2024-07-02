@@ -30,6 +30,9 @@
   <link rel="stylesheet" href={% static '/vendor/jquery-nice-select/css/nice-select.css' %}>
   <link rel="stylesheet" href={% static 'css/style.css' %}>
 
+  <link rel="stylesheet" type="text/css" href="https://cdn.jsdelivr.net/npm/toastify-js/src/toastify.min.css">
+  <script type="text/javascript" src="https://cdn.jsdelivr.net/npm/toastify-js"></script>
+
   <style>
     {
       % block extra_css %
@@ -37,6 +40,11 @@
 
       {
       % endblock extra_css %
+    }
+
+    .toastify-custom {
+      border-radius: 12px;
+      font-weight: bolder;
     }
   </style>
 </head>
@@ -317,6 +325,24 @@
     <!--**********************************
             Content body end
         ***********************************-->
+
+    <!-- Toastify notifications -->
+    <script type="text/javascript">
+      {% if messages %}
+      {% for message in messages %}
+      Toastify({
+        text: "{{ message|escapejs }}",
+        duration: 3000,
+        close: true,
+        gravity: "top",
+        position: "right",
+        backgroundColor: "{% if message.tags == 'error' %}linear-gradient(to right, #FF5F6D, #FFC371){% elif message.tags == 'success' %}linear-gradient(to right, #00b09b, #96c93d){% else %}linear-gradient(to right, #00b09b, #96c93d){% endif %}",
+        stopOnFocus: true,
+        className: "toastify-custom"
+      }).showToast();
+      {% endfor %}
+      {% endif %}
+    </script>
 
     <!--**********************************
             Footer start

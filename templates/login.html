@@ -22,6 +22,15 @@
     <link rel="shortcut icon" type="image/png" href="images/favicon.png" />
     <link href={% static "css/style.css" %} rel="stylesheet">
 
+    <link rel="stylesheet" type="text/css" href="https://cdn.jsdelivr.net/npm/toastify-js/src/toastify.min.css">
+    <script type="text/javascript" src="https://cdn.jsdelivr.net/npm/toastify-js"></script>
+    <style>
+        .toastify-custom {
+            border-radius: 12px;
+            font-weight: bolder;
+        }
+    </style>
+
 </head>
 
 <body class="body  h-100" style="background-image: url('images/bg-1.jpg'); background-size:cover;">
@@ -94,6 +103,24 @@
     <script src={% static "vendor/global/global.min.js" %}></script>
     <script src={% static "./js/custom.js" %}></script>
     <script src={% static "./js/dlabnav-init.js" %}></script>
+
+    <!-- Toastify notifications -->
+    <script type="text/javascript">
+        {% if messages %}
+        {% for message in messages %}
+        Toastify({
+            text: "{{ message|escapejs }}",
+            duration: 3000,
+            close: true,
+            gravity: "top",
+            position: "right",
+            backgroundColor: "{% if message.tags == 'error' %}linear-gradient(to right, #FF5F6D, #FFC371){% elif message.tags == 'success' %}linear-gradient(to right, #00b09b, #96c93d){% else %}linear-gradient(to right, #00b09b, #96c93d){% endif %}",
+            stopOnFocus: true,
+            className: "toastify-custom"
+        }).showToast();
+        {% endfor %}
+        {% endif %}
+    </script>
 
 </body>
 
