@@ -472,8 +472,6 @@
 
 
 
-
-
   <script>
     const ctx = document.getElementById('feePaymentsChart').getContext('2d');
 
@@ -498,6 +496,8 @@
         }]
       },
       options: {
+        responsive: true,
+        maintainAspectRatio: false,
         scales: {
           y: {
             beginAtZero: true
@@ -518,20 +518,27 @@
         .then(data => {
           feePaymentsChart.data.datasets[0].data = [data.registration, data.consultation, data.connection];
           feePaymentsChart.update();
-        }).catch(error => console.error('Error:', error));
+          // Update active state of tabs
+          document.querySelectorAll('.nav-link').forEach(tab => {
+            tab.classList.remove('active');
+          });
+          document.querySelector(`[data-timeframe="${timeframe}"]`).classList.add('active');
+        })
+        .catch(error => console.error('Error:', error));
     }
 
-    document.addEventListener('DOMContentLoaded', () => updateChart('day')); // Default to 'day'
+    document.addEventListener('DOMContentLoaded', () => {
+      updateChart('custom'); // Default to 'Custom Date'
 
-    document.querySelectorAll('.timeframe-button').forEach(button => {
-      button.addEventListener('click', () => {
-        updateChart(button.dataset.timeframe);
+      // Add event listeners to the timeframe tabs
+      document.querySelectorAll('.timeframe-button').forEach(button => {
+        button.addEventListener('click', () => {
+          const timeframe = button.dataset.timeframe;
+          updateChart(timeframe);
+        });
       });
     });
   </script>
-
-
-
 
 
 

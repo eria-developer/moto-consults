@@ -107,26 +107,7 @@
                             <h4 class="card-title">Visitor Activity</h4>
                             <div class="card-action mb-sm-0 my-2">
                                 <ul class="nav nav-tabs" role="tablist">
-                                    <li class="nav-item">
-                                        <a class="nav-link active" data-bs-toggle="tab" href="#today" role="tab"
-                                            onclick="updateChart('day')">Today</a>
-                                    </li>
-                                    <li class="nav-item">
-                                        <a class="nav-link" data-bs-toggle="tab" href="#this-week" role="tab"
-                                            onclick="updateChart('week')">This week</a>
-                                    </li>
-                                    <li class="nav-item">
-                                        <a class="nav-link" data-bs-toggle="tab" href="#this-month" role="tab"
-                                            onclick="updateChart('month')">This month</a>
-                                    </li>
-                                    <li class="nav-item">
-                                        <a class="nav-link" data-bs-toggle="tab" href="#this-year" role="tab"
-                                            onclick="updateChart('year')">This year</a>
-                                    </li>
-                                    <li class="nav-item">
-                                        <a class="nav-link" data-bs-toggle="tab" href="#date-range" role="tab"
-                                            onclick="showCustomDateRange()">Date range</a>
-                                    </li>
+
                                 </ul>
                             </div>
 
@@ -139,7 +120,6 @@
                                 <button onclick="updateChart('custom')">Update</button>
                             </div>
 
-                            <canvas id="earningsChart" width="400" height="200"></canvas>
 
                         </div>
 
@@ -161,14 +141,16 @@
                             <div class="row text-success">
                                 <div class="col-6 border-end">
                                     <div class="pt-3 pb-3 ps-0 pe-0 text-center">
-                                        <h4 class="m-1 text-success"><span class="counter">Ugx. {{ total_paid_registration }}</span>
+                                        <h4 class="m-1 text-success"><span class="counter">Ugx. {{
+                                                total_paid_registration }}</span>
                                         </h4>
                                         <p class="m-0">Paid</p>
                                     </div>
                                 </div>
                                 <div class="col-6">
                                     <div class="pt-3 pb-3 ps-0 pe-0 text-center text-danger">
-                                        <h4 class="m-1 text-danger"><span class="counter">Ugx. {{ total_unpaid_registration }}</span>
+                                        <h4 class="m-1 text-danger"><span class="counter">Ugx. {{
+                                                total_unpaid_registration }}</span>
                                         </h4>
                                         <p class="m-0">Unpaid</p>
                                     </div>
@@ -185,14 +167,16 @@
                             <div class="row text-success">
                                 <div class="col-6 border-end text-success">
                                     <div class="pt-3 pb-3 ps-0 pe-0 text-center">
-                                        <h4 class="m-1 text-success"><span class="counter">Ugx. {{ total_paid_consultation }}</span>
+                                        <h4 class="m-1 text-success"><span class="counter">Ugx. {{
+                                                total_paid_consultation }}</span>
                                         </h4>
                                         <p class="m-0">Paid</p>
                                     </div>
                                 </div>
                                 <div class="col-6">
                                     <div class="pt-3 pb-3 ps-0 pe-0 text-center text-danger">
-                                        <h4 class="m-1 text-danger"><span class="counter">Ugx. {{ total_unpaid_consultation }}</span>
+                                        <h4 class="m-1 text-danger"><span class="counter">Ugx. {{
+                                                total_unpaid_consultation }}</span>
                                         </h4>
                                         <p class="m-0">Unpaid</p>
                                     </div>
@@ -209,14 +193,16 @@
                             <div class="row text-success">
                                 <div class="col-6 border-end text-success">
                                     <div class="pt-3 pb-3 ps-0 pe-0 text-center">
-                                        <h4 class="m-1 text-success"><span class="counter">Ugx. {{ total_paid_connection }}</span>
+                                        <h4 class="m-1 text-success"><span class="counter">Ugx. {{ total_paid_connection
+                                                }}</span>
                                         </h4>
                                         <p class="m-0">Paid</p>
                                     </div>
                                 </div>
                                 <div class="col-6">
                                     <div class="pt-3 pb-3 ps-0 pe-0 text-center text-danger">
-                                        <h4 class="m-1 text-danger"><span class="counter">Ugx. {{ total_unpaid_connection }}</span>
+                                        <h4 class="m-1 text-danger"><span class="counter">Ugx. {{
+                                                total_unpaid_connection }}</span>
                                         </h4>
                                         <p class="m-0">Unpaid</p>
                                     </div>
@@ -401,7 +387,8 @@
                                                             </span>
                                                             <div class="media-body text-white">
                                                                 <p class="mb-1">expenses for this month</p>
-                                                                <h3 class="text-white">UGX. {{ total_month_for_expenses}}
+                                                                <h3 class="text-white">UGX. {{
+                                                                    total_month_for_expenses}}
                                                                 </h3>
                                                             </div>
                                                         </div>
@@ -544,28 +531,127 @@
                             </div>
                         </div>
                     </div>
-        
+
                 </div>
 
-                <div class="col-xl-12 col-lg-12 col-xxl-12 col-sm-12">
+                <!-- <div class="col-xl-8 col-lg-8 col-xxl-8 col-sm-8">
                     <div class="card">
                         <div class="card-header">
                             <h4 class="card-title">Recent registered Expenses</h4>
                         </div>
                         <div class="card-body">
                             <div>
-                                <canvas id="feePaymentsChart"></canvas>
+                                <canvas id="feePaymentsChart" height="200"></canvas>
                             </div>
-                            <button class="timeframe-button" data-timeframe="day">Today</button>
-                            <button class="timeframe-button" data-timeframe="week">This Week</button>
-                            <button class="timeframe-button" data-timeframe="month">This Month</button>
-                            <button class="timeframe-button" data-timeframe="year">This Year</button>
-                            <button id="customDateRangeButton">Custom Date Range</button>
+                            <div class="btn-group" role="group" aria-label="Timeframe selection">
+                                <button type="button" class="btn btn-outline-primary timeframe-button"
+                                    data-timeframe="day">Today</button>
+                                <button type="button" class="btn btn-outline-primary timeframe-button"
+                                    data-timeframe="week">This Week</button>
+                                <button type="button" class="btn btn-outline-primary timeframe-button"
+                                    data-timeframe="month">This Month</button>
+                                <button type="button" class="btn btn-outline-primary timeframe-button"
+                                    data-timeframe="year">This Year</button>
+                                <button type="button" id="customDateRangeButton" class="btn btn-outline-primary">Custom
+                                    Date Range</button>
+                            </div>
                         </div>
                     </div>
-                   
-                    
+                </div> -->
+
+
+                <div class="col-xl-8 col-lg-8 col-xxl-8 col-sm-8">
+                    <div class="card">
+                        <div class="card-header">
+                            <h4 class="card-title">Recent registered Expenses</h4>
+                        </div>
+                        <div class="card-body">
+                            <!-- Nav tabs -->
+                            <div class="default-tab">
+                                <ul class="nav nav-tabs" role="tablist">
+                                    <li class="nav-item">
+                                        <a class="nav-link timeframe-button" data-timeframe="day" role="tab">Today</a>
+                                    </li>
+                                    <li class="nav-item">
+                                        <a class="nav-link timeframe-button" data-timeframe="week" role="tab">This Week</a>
+                                    </li>
+                                    <li class="nav-item">
+                                        <a class="nav-link timeframe-button" data-timeframe="month" role="tab">This Month</a>
+                                    </li>
+                                    <li class="nav-item">
+                                        <a class="nav-link timeframe-button active" data-timeframe="custom" role="tab">Custom Date</a>
+                                    </li>
+                                </ul>
+                                <!-- Tab content -->
+                                <div class="tab-content">
+                                    <div class="tab-pane fade" id="dayEarning" role="tabpanel">
+                                        <!-- Content for 'Today' tab -->
+                                        <div class="pt-4">
+                                            <div class="media">
+                                                <span class="me-3"><i class="fas fa-dollar-sign"></i></span>
+                                                <div class="media-body text-white">
+                                                    <p class="mb-1">earnings for today</p>
+                                                    <h3 class="text-white">Insert dynamic content here</h3>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="tab-pane fade" id="weekEarning" role="tabpanel">
+                                        <!-- Content for 'This Week' tab -->
+                                        <div class="pt-4">
+                                            <div class="media">
+                                                <span class="me-3"><i class="fas fa-dollar-sign"></i></span>
+                                                <div class="media-body text-white">
+                                                    <p class="mb-1">earnings for this week</p>
+                                                    <h3 class="text-white">Insert dynamic content here</h3>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="tab-pane fade" id="monthEarning" role="tabpanel">
+                                        <!-- Content for 'This Month' tab -->
+                                        <div class="pt-4">
+                                            <div class="media">
+                                                <span class="me-3"><i class="fas fa-dollar-sign"></i></span>
+                                                <div class="media-body text-white">
+                                                    <p class="mb-1">earnings for this month</p>
+                                                    <h3 class="text-white">Insert dynamic content here</h3>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="tab-pane fade show active" id="customEarning" role="tabpanel">
+                                        <!-- Content for 'Custom Date' tab -->
+                                        <div class="pt-4">
+                                            <div class="media">
+                                                <span class="me-3"><i class="fas fa-dollar-sign"></i></span>
+                                                <div class="media-body text-white">
+                                                    <div class="d-flex justify-content-between">
+                                                        <div>
+                                                            <p class="mb-1">earnings: Insert dynamic date range here</p>
+                                                        </div>
+                                                        <button type="button" class="btn btn-xs btn-primary mb-2"
+                                                            data-bs-toggle="modal" data-bs-target="#selectDateRange"><i
+                                                                class="fa fa-calendar me-2"></i> date
+                                                        </button>
+                                                    </div>
+                                                    <h3 class="text-white">Insert dynamic content here</h3>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <!-- End Tab content -->
+                
+                            <!-- Chart canvas -->
+                            <div>
+                                <canvas id="feePaymentsChart" height="200"></canvas>
+                            </div>
+                        </div>
+                    </div>
                 </div>
+                
 
             </div>
 
@@ -634,40 +720,41 @@
     <!-- Place this inside your dashboard.html where you want the chart to appear -->
 
 
-<script>
-const ctx = document.getElementById('feePaymentsChart').getContext('2d');
-const feePaymentsChart = new Chart(ctx, {
-    type: 'bar',
-    data: {
-        labels: ['Registration', 'Consultation', 'Connection'],
-        datasets: [{
-            label: 'Fees',
-            data: [], // Will be populated dynamically
-            backgroundColor: [
-                'rgba(255, 99, 132, 1, 0.2)',
-                'rgba(54, 162, 235, 1, 0.2)',
-                'rgba(255, 206, 86, 1, 0.2)'
-            ],
-            borderColor: [
-                'rgba(255, 99, 132, 1, 1)',
-                'rgba(54, 162, 235, 1)',
-                'rgba(255, 206, 86, 1)',
-            ],
-            borderWidth: 1
-        }]
-    },
-    options: {
-        scales: {
-            y: {
-                beginAtZero: true
-            }
-        }
-    });
+    <script>
+        const ctx = document.getElementById('feePaymentsChart').getContext('2d');
+        const feePaymentsChart = new Chart(ctx, {
+            type: 'bar',
+            data: {
+                labels: ['Registration', 'Consultation', 'Connection'],
+                datasets: [{
+                    label: 'Fees',
+                    data: [], // Will be populated dynamically
+                    backgroundColor: [
+                        'rgba(255, 99, 132, 1, 0.2)',
+                        'rgba(54, 162, 235, 1, 0.2)',
+                        'rgba(255, 206, 86, 1, 0.2)'
+                    ],
+                    borderColor: [
+                        'rgba(255, 99, 132, 1, 1)',
+                        'rgba(54, 162, 235, 1)',
+                        'rgba(255, 206, 86, 1)',
+                    ],
+                    borderWidth: 1
+                }]
+            },
+            options: {
+                scales: {
+                    y: {
+                        beginAtZero: true
+                    }
+                }
+            });
 
-function updateChart(timeframe) {
-    const url = `/fetch_fee_payments/?timeframe=${timeframe}`;
-    if (timeframe === 'custom') {
-        url += `&start_date=${document.getElementById('start-date').value&end_date=${document.getElementById('end-date').value`;
+        function updateChart(timeframe) {
+            const url = `/fetch_fee_payments/?timeframe=${timeframe}`;
+            if (timeframe === 'custom') {
+                url += `&start_date=${document.getElementById('start-date').value & end_date= ${
+                    document.getElementById('end-date').value`;
     }
     fetch(url)
        .then(response => {
@@ -678,7 +765,7 @@ function updateChart(timeframe) {
 
 // Call updateChart with the default timeframe on page load
 document.addEventListener('DOMContentLoaded', () => updateChart('day')); // Default to 'day'
-</script>
+    </script>
 </div>
 
 

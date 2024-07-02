@@ -94,7 +94,7 @@ class FeesPayment(models.Model):
     payment_date = models.DateTimeField()
 
     def __str__(self):
-        return f"{self.customer.firstname}'s {self.fee_type} payment"
+        return f"{self.customer.firstname}'s {self.fee_type} payment made on {self.payment_date}"
     
 
 class Consultation(models.Model):

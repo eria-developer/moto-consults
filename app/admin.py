@@ -47,6 +47,7 @@ admin.site.register(models.RecruitmentProcess, RecruitmentProcessAdmin)
 class FeesPaymentAdmin(admin.ModelAdmin):
     model = models.FeesPayment
     list_display = ("customer_fullname", "fee_type", "amount", "payment_status", "payment_date")
+    list_filter = ("fee_type",)
 
     def customer_fullname(self, obj):
         firstname = obj.customer.firstname

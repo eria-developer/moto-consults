@@ -202,26 +202,42 @@ def aggregate_earnings(request, timeframe):
     return JsonResponse(data)
 
 
+
+# from django.utils import timezone
+# from django.http import JsonResponse
+# from django.db.models import Sum
+# import datetime
+# from . import models
+
 def fetch_fee_payments(request):
     timeframe = request.GET.get('timeframe')
     now = timezone.now()
 
     if timeframe == 'day':
-        start_date = now - datetime.timedelta(days=1)
+        start_date = datetime.date.today()
+        start_date = timezone.make_aware(datetime.datetime.combine(start_date, datetime.time.min))
+        end_date = timezone.make_aware(datetime.datetime.combine(start_date, datetime.time.max))
     elif timeframe == 'week':
-        start_date = now - datetime.timedelta(weeks=1)
+        start_date = now - datetime.timedelta(days=now.weekday())
+        start_date = start_date.replace(hour=0, minute=0, second=0, microsecond=0)
+        end_date = start_date + datetime.timedelta(days=6)
+        end_date = end_date.replace(hour=23, minute=59, second=59, microsecond=999999)
     elif timeframe == 'month':
-        start_date = now - datetime.timedelta(days=30)
+        start_date = now.replace(day=1, hour=0, minute=0, second=0, microsecond=0)
+        next_month = now.replace(day=28) + datetime.timedelta(days=4)
+        end_date = (next_month - datetime.timedelta(days=next_month.day)).replace(hour=23, minute=59, second=59, microsecond=999999)
     elif timeframe == 'year':
-        start_date = now - datetime.timedelta(days=365)
+        start_date = now.replace(month=1, day=1, hour=0, minute=0, second=0, microsecond=0)
+        end_date = now.replace(month=12, day=31, hour=23, minute=59, second=59, microsecond=999999)
     elif timeframe == 'custom':
         start_date = request.GET.get('start_date')
         end_date = request.GET.get('end_date')
-        # Add validation and parsing for start_date and end_date if needed
     else:
         return JsonResponse({'error': 'Invalid timeframe'})
 
-    payments = models.FeesPayment.objects.filter(payment_date__range=[start_date, now])
+
+    payments = models.FeesPayment.objects.filter(payment_date__range=[start_date, end_date])
+
 
     data = {
         'registration': payments.filter(fee_type='registration').aggregate(Sum('amount'))['amount__sum'] or 0,
@@ -229,6 +245,6 @@ def fetch_fee_payments(request):
         'connection': payments.filter(fee_type='connection').aggregate(Sum('amount'))['amount__sum'] or 0,
     }
 
-    return JsonResponse(data)
+    print(f"Now: {now}")
 
-# def just(request)
+    return JsonResponse(data)
