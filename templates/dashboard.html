@@ -146,7 +146,7 @@
                         <div class="card-body">
                             <div class="tab-content" id="myTabContent">
                                 <div class="tab-pane fade show active" id="user" role="tabpanel">
-                                    <canvas id="paymentStatusChart" width="800" height="400"></canvas>
+                                    <canvas id="fetch_fee_payments" width="800" height="400"></canvas>
                                 </div>
                             </div>
                         </div>
@@ -544,6 +544,27 @@
                             </div>
                         </div>
                     </div>
+        
+                </div>
+
+                <div class="col-xl-12 col-lg-12 col-xxl-12 col-sm-12">
+                    <div class="card">
+                        <div class="card-header">
+                            <h4 class="card-title">Recent registered Expenses</h4>
+                        </div>
+                        <div class="card-body">
+                            <div>
+                                <canvas id="feePaymentsChart"></canvas>
+                            </div>
+                            <button class="timeframe-button" data-timeframe="day">Today</button>
+                            <button class="timeframe-button" data-timeframe="week">This Week</button>
+                            <button class="timeframe-button" data-timeframe="month">This Month</button>
+                            <button class="timeframe-button" data-timeframe="year">This Year</button>
+                            <button id="customDateRangeButton">Custom Date Range</button>
+                        </div>
+                    </div>
+                   
+                    
                 </div>
 
             </div>
@@ -605,6 +626,59 @@
             </div>
         </div>
     </div>
+
+
+
+
+
+    <!-- Place this inside your dashboard.html where you want the chart to appear -->
+
+
+<script>
+const ctx = document.getElementById('feePaymentsChart').getContext('2d');
+const feePaymentsChart = new Chart(ctx, {
+    type: 'bar',
+    data: {
+        labels: ['Registration', 'Consultation', 'Connection'],
+        datasets: [{
+            label: 'Fees',
+            data: [], // Will be populated dynamically
+            backgroundColor: [
+                'rgba(255, 99, 132, 1, 0.2)',
+                'rgba(54, 162, 235, 1, 0.2)',
+                'rgba(255, 206, 86, 1, 0.2)'
+            ],
+            borderColor: [
+                'rgba(255, 99, 132, 1, 1)',
+                'rgba(54, 162, 235, 1)',
+                'rgba(255, 206, 86, 1)',
+            ],
+            borderWidth: 1
+        }]
+    },
+    options: {
+        scales: {
+            y: {
+                beginAtZero: true
+            }
+        }
+    });
+
+function updateChart(timeframe) {
+    const url = `/fetch_fee_payments/?timeframe=${timeframe}`;
+    if (timeframe === 'custom') {
+        url += `&start_date=${document.getElementById('start-date').value&end_date=${document.getElementById('end-date').value`;
+    }
+    fetch(url)
+       .then(response => {
+            feePaymentsChart.data.datasets[0].data = [response.registration, response.consultation, response.connection];
+            feePaymentsChart.update();
+        });
+}
+
+// Call updateChart with the default timeframe on page load
+document.addEventListener('DOMContentLoaded', () => updateChart('day')); // Default to 'day'
+</script>
 </div>
 
 

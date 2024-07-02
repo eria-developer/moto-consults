@@ -200,3 +200,35 @@ def aggregate_earnings(request, timeframe):
     }
 
     return JsonResponse(data)
+
+
+def fetch_fee_payments(request):
+    timeframe = request.GET.get('timeframe')
+    now = timezone.now()
+
+    if timeframe == 'day':
+        start_date = now - datetime.timedelta(days=1)
+    elif timeframe == 'week':
+        start_date = now - datetime.timedelta(weeks=1)
+    elif timeframe == 'month':
+        start_date = now - datetime.timedelta(days=30)
+    elif timeframe == 'year':
+        start_date = now - datetime.timedelta(days=365)
+    elif timeframe == 'custom':
+        start_date = request.GET.get('start_date')
+        end_date = request.GET.get('end_date')
+        # Add validation and parsing for start_date and end_date if needed
+    else:
+        return JsonResponse({'error': 'Invalid timeframe'})
+
+    payments = models.FeesPayment.objects.filter(payment_date__range=[start_date, now])
+
+    data = {
+        'registration': payments.filter(fee_type='registration').aggregate(Sum('amount'))['amount__sum'] or 0,
+        'consultation': payments.filter(fee_type='consultation').aggregate(Sum('amount'))['amount__sum'] or 0,
+        'connection': payments.filter(fee_type='connection').aggregate(Sum('amount'))['amount__sum'] or 0,
+    }
+
+    return JsonResponse(data)
+
+# def just(request)

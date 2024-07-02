@@ -469,6 +469,73 @@
 
 
 
+
+
+
+
+
+  <script>
+    const ctx = document.getElementById('feePaymentsChart').getContext('2d');
+
+    const feePaymentsChart = new Chart(ctx, {
+      type: 'bar',
+      data: {
+        labels: ['Registration', 'Consultation', 'Connection'],
+        datasets: [{
+          label: 'Fees',
+          data: [], // Will be populated dynamically
+          backgroundColor: [
+            'rgba(255, 99, 132, 0.2)',
+            'rgba(54, 162, 235, 0.2)',
+            'rgba(255, 206, 86, 0.2)'
+          ],
+          borderColor: [
+            'rgba(255, 99, 132, 1)',
+            'rgba(54, 162, 235, 1)',
+            'rgba(255, 206, 86, 1)',
+          ],
+          borderWidth: 1
+        }]
+      },
+      options: {
+        scales: {
+          y: {
+            beginAtZero: true
+          }
+        }
+      }
+    });
+
+    function updateChart(timeframe) {
+      let url = `/app/fetch_fee_payments/?timeframe=${timeframe}`;
+      if (timeframe === 'custom') {
+        const startDate = document.getElementById('start-date').value;
+        const endDate = document.getElementById('end-date').value;
+        url += `&start_date=${startDate}&end_date=${endDate}`;
+      }
+      fetch(url)
+        .then(response => response.json())
+        .then(data => {
+          feePaymentsChart.data.datasets[0].data = [data.registration, data.consultation, data.connection];
+          feePaymentsChart.update();
+        }).catch(error => console.error('Error:', error));
+    }
+
+    document.addEventListener('DOMContentLoaded', () => updateChart('day')); // Default to 'day'
+
+    document.querySelectorAll('.timeframe-button').forEach(button => {
+      button.addEventListener('click', () => {
+        updateChart(button.dataset.timeframe);
+      });
+    });
+  </script>
+
+
+
+
+
+
+
 </body>
 
 </html>

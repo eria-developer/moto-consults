@@ -1,93 +1,85 @@
-
-<!DOCTYPE html>
-<html lang="en" class="h-100">
+<html lang="en">
 
 <head>
-        <meta charset="utf-8">
-	<meta http-equiv="X-UA-Compatible" content="IE=edge">
-	<meta name="keywords" content="" />
-	<meta name="author" content="" />
-	<meta name="robots" content="" />
-	<meta name="viewport" content="width=device-width, initial-scale=1">
-	<meta name="description" content="GetSkills  : GetSkills Online Learning Admin Bootstrap 5 Template" />
-	<meta property="og:title" content="GetSkills  : GetSkills Online Learning  Admin Bootstrap 5 Template" />
-	<meta property="og:description" content="GetSkills  : GetSkills Online Learning  Admin Bootstrap 5 Template" />
-	<meta property="og:image" content="https://getskills.dexignzone.com/xhtml/social-image.png" />
-	<meta name="format-detection" content="telephone=no">
-	
-	<!-- PAGE TITLE HERE -->
-	<title>GetSkills Online Learning Admin</title>
-	
-	<!-- FAVICONS ICON -->
-	<link rel="shortcut icon" type="image/png" href="images/favicon.png" />
-    <link href="./css/style.css" rel="stylesheet">
-
+	<meta charset="UTF-8">
+	<meta name="viewport" content="width=device-width, initial-scale=1.0">
+	<title>Document</title>
 </head>
 
-<body class="body  h-100" style="background-image: url('images/bg-1.jpg'); background-size:cover;">
-    <div class="container h-100">
-		<div class="row h-100 align-items-center justify-contain-center">
-			<div class="col-xl-12 mt-3">
-				<div class="card">
-					<div class="card-body p-0">
-						<div class="row m-0">
-							<div class="col-xl-6 col-md-6 sign text-center">
-								<div>
-									<div class="text-center my-5">
-										<a href="index.html"><img width="200" src="images/logo-full.png" alt=""></a>
-									</div>
-									<img src="images/log.png" class="education-img"></img>
-								</div>	
-							</div>
-							<div class="col-xl-6 col-md-6">
-								<div class="sign-in-your">
-									<h4 class="fs-20 font-w800 text-black">Sign in your account</h4>
-									<span>Welcome back! Login with your data that you entered<br> during registration</span>
-									<div class="login-social">
-										<a href="javascript:void(0);" class="btn font-w800 d-block my-4"><i class="fab fa-google me-2 text-primary"></i>Login with Google</a>
-										<a href="javascript:void(0);" class="btn font-w800 d-block my-4"><i class="fab fa-facebook-f me-2 facebook-log"></i>Login with Facebook</a>
-									</div>
-									<form action="index.html">
-										<div class="mb-3">
-											<label for="id_username" class="mb-1"><strong>Email</strong></label>
-											<input type="text" name="username" autofocus autocapitalize="none" autocomplete="username" maxlength="254" required id="id_username" class="form-control" value="hello@example.com">
-										</div>
-										<div class="mb-3">
-											<label for="id_password" class="mb-1"><strong>Password</strong></label>
-											<input type="password" name="password" autocomplete="current-password" required id="id_password" class="form-control" value="Password">
-										</div>
-										<div class="row d-flex justify-content-between mt-4 mb-2">
-											<div class="mb-3">
-											   <div class="form-check custom-checkbox ms-1">
-													<input type="checkbox" class="form-check-input" id="basic_checkbox_1">
-													<label class="form-check-label" for="basic_checkbox_1">Remember my preference</label>
-												</div>
-											</div>
-											<div class="mb-3">
-												<a href="page-forgot-password.html">Forgot Password?</a>
-											</div>
-										</div>
-										<div class="text-center">
-											<button type="submit" class="btn btn-primary btn-block">Sign Me In</button>
-										</div>
-									</form>
-								</div>
-							</div>
-						</div>
-					</div>
-				</div>
+<body>
+	<div class="card">
+		<div class="card-header">
+			<h4 class="card-title">Recent registered Expenses</h4>
+		</div>
+		<div class="card-body">
+			<div>
+				<canvas id="feePaymentsChart"></canvas>
 			</div>
+			<button class="timeframe-button" data-timeframe="day">Today</button>
+			<button class="timeframe-button" data-timeframe="week">This Week</button>
+			<button class="timeframe-button" data-timeframe="month">This Month</button>
+			<button class="timeframe-button" data-timeframe="year">This Year</button>
+			<button id="customDateRangeButton">Custom Date Range</button>
 		</div>
 	</div>
 
+	<script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+	<script>
+		const ctx = document.getElementById('feePaymentsChart').getContext('2d');
 
-    <!--**********************************
-        Scripts
-    ***********************************-->
-    <!-- Required vendors -->
-    <script src="./vendor/global/global.min.js"></script>
-    <script src="./js/custom.js"></script>
-    <script src="./js/dlabnav-init.js"></script>
-	
+		const feePaymentsChart = new Chart(ctx, {
+			type: 'bar',
+			data: {
+				labels: ['Registration', 'Consultation', 'Connection'],
+				datasets: [{
+					label: 'Fees',
+					data: [], // Will be populated dynamically
+					backgroundColor: [
+						'rgba(255, 99, 132, 0.2)',
+						'rgba(54, 162, 235, 0.2)',
+						'rgba(255, 206, 86, 0.2)'
+					],
+					borderColor: [
+						'rgba(255, 99, 132, 1)',
+						'rgba(54, 162, 235, 1)',
+						'rgba(255, 206, 86, 1)',
+					],
+					borderWidth: 1
+				}]
+			},
+			options: {
+				scales: {
+					y: {
+						beginAtZero: true
+					}
+				}
+			}
+		});
+
+		function updateChart(timeframe) {
+			let url = `/fetch_fee_payments/?timeframe=${timeframe}`;
+			if (timeframe === 'custom') {
+				const startDate = document.getElementById('start-date').value;
+				const endDate = document.getElementById('end-date').value;
+				url += `&start_date=${startDate}&end_date=${endDate}`;
+			}
+			fetch(url)
+				.then(response => response.json())
+				.then(data => {
+					feePaymentsChart.data.datasets[0].data = [data.registration, data.consultation, data.connection];
+					feePaymentsChart.update();
+				}).catch(error => console.error('Error:', error));
+		}
+
+		document.addEventListener('DOMContentLoaded', () => updateChart('day')); // Default to 'day'
+
+		document.querySelectorAll('.timeframe-button').forEach(button => {
+			button.addEventListener('click', () => {
+				updateChart(button.dataset.timeframe);
+			});
+		});
+	</script>
+
 </body>
+
 </html>

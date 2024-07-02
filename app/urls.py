@@ -3,7 +3,7 @@ from . import views
 
 urlpatterns = [
     path("", views.dashboard, name="dashboard"),
-    path('aggregate_earnings/<str:timeframe>/', views.aggregate_earnings, name='aggregate_earnings'),
+    path('fetch_fee_payments/', views.fetch_fee_payments, name='fetch_fee_payments'),
 
 
     # customer urls 
