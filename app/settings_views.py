@@ -5,15 +5,11 @@ from django.views.decorators.http import require_POST
 from django.views.decorators.csrf import csrf_exempt
 from . import models, forms
 from django.contrib import messages
-from authentication.forms import RoleForm
-from authentication.models import Roles
 
 
 def company_settings(request):
-    roles = Roles.objects.all()
 
     # Initialize forms
-    role_form = RoleForm()
     registration_form = forms.RegistrationForm()
 
     try:
@@ -52,7 +48,6 @@ def company_settings(request):
          # Handling form submissions based on the submitted form name
         form_name = request.POST.get('form_name')
 
-        role_form = RoleForm(request.POST)
         connection_fees_form = forms.ConnectionFeesForm(request.POST, instance=connection_fees_instance)
         registration_fees_form = forms.RegistrationFeesForm(request.POST, instance=registration_fees_instance)
         consultation_fees_form = forms.ConsultationFeesForm(request.POST, instance=consultation_fees_instance)
@@ -93,18 +88,9 @@ def company_settings(request):
             else:
                 messages.error(request, 'An error occurred when saving the consultation form.')
 
-        elif form_name == 'role_form':
-            role_form = RoleForm(request.POST)
-            if role_form.is_valid():
-                role_form.save()
-                messages.success(request, 'User role successfully added!')
-                return redirect('company-settings')
-            else:
-                messages.error(request, 'An error occurred when saving the user role.')
 
     context = {
         'settings_instance': settings_instance,
-        "role_form": role_form,
         "roles": roles,
         "registration_form": registration_form,
         "connection_fees_form": connection_fees_form,
@@ -139,63 +125,3 @@ def roles(request):
 
 def my_profile(request):
     pass
-
-
-# def add_role(request):
-#     if request.method == "POST":
-#         form = forms.RoleForm(request.POST)
-#         if form.is_valid():
-#             form.save()
-#             messages.success(request, "Role added successfully")
-#             return redirect("list-of-roles")
-#         else:
-#             for field, errors in form.errors.items():
-#                 for error in errors:
-#                     messages.error(request, f"{error} in {field}")
-#                     print(f"{error} in {field}")
-#     else:
-#         form = forms.RoleForm()
-
-#     context = {
-#         "form": form,
-#     }
-#     return render(request, "add_role.html", context)
-
-
-# def edit_role(request, role_id):
-#     role = get_object_or_404(models.Roles, id=role_id)
-#     print(role)
-#     if request.method == "POST":
-#         form = forms.EditRoleForm(request.POST, instance=role)
-#         if form.is_valid():
-#             form.save()
-#             messages.success(request, "Role updated successfully")
-#             return redirect("view_role", role_id=role.id)
-#         else:
-#             for field, errors in form.errors.items():
-#                 for error in errors:
-#                     messages.error(request, f"{error} in {field}")
-#     else:
-#         form = forms.EditRoleForm(instance=role)
-
-#     context = {
-#         "form": form,
-#         "role": role,
-#     }
-#     return render(request, "edit_role.html", context)
-
-
-# def delete_role(request, role_id):
-#     role = get_object_or_404(models.Roles, id=role_id)
-#     if request.method == "POST":
-#         role.delete()
-#         return redirect("list-of-roles")
-    
-
-# def list_of_roles(request):
-#     roles = models.Role.objects.all()
-
-#     context = {
-#         "roles": roles,
-#     }
-#     return render(request, "list_of_roles.html", context)

@@ -1,6 +1,5 @@
 from django import forms
 from . import models
-# from authentication.models import 
 
 
 class CustomerForm(forms.ModelForm):

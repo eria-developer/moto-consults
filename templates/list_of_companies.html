@@ -22,9 +22,11 @@
                     <div class="card-header d-flex justify-content-between">
                         <h4 class="card-title">List of all registered companies</h4>
                         <div>
+                            {% if request.user.role == "admin" or request.user.role == "staff" %}
                             <button type="button" class="btn btn-primary mb-2" data-bs-toggle="modal"
                                 data-bs-target="#addCompany"><i class="fa fa-plus-circle me-2"></i>register new company
                             </button>
+                            {% endif %}
                         </div>
                     </div>
                     <!-- Model for adding company  -->
@@ -95,17 +97,22 @@
                                                 class="btn btn-xs btn-info mb-2"><i class="fa fa-eye"></i>
 
                                             </a>
+                                            {% if request.user.role == "admin" or request.user.role == "staff" %}
                                             <button type="button" class="btn btn-xs btn-warning mb-2"
                                                 data-bs-toggle="modal" data-bs-target="#editCompany{{ company.id }}"><i
                                                     class="fa fa-pencil"></i>
 
                                             </button>
+                                            {% endif %}
+
+                                            {% if request.user.role == "admin"%}
                                             <button type="button" class="btn btn-xs btn-primary mb-2"
                                                 data-bs-toggle="modal"
                                                 data-bs-target="#deleteCompany{{ company.id }}"><i
                                                     class="fa fa-trash"></i>
 
                                             </button>
+                                            {% endif %}
 
                                         </td>
                                     </tr>
@@ -126,7 +133,7 @@
                                                         <div class="mb-3 col-md-12">
                                                             <label for="name" class="form-label">Company name:</label>
                                                             <input type="text" name="name" id="id_name"
-                                                                value={{company.name}}
+                                                                value="{{company.name}}"
                                                                 class="form-control mt-1 mr-2 ml-2 mb-4">
                                                         </div>
                                                         <div class="mb-3 col-md-12">
@@ -134,34 +141,31 @@
                                                                 Phonenumber:</label>
                                                             <input type="text" name="phone_number" id="id_phone_number"
                                                                 class="form-control mt-1 mr-2 ml-2 mb-4"
-                                                                value={{company.phone_number}}>
+                                                                value="{{company.phone_number}}">
                                                         </div>
                                                         <div class="mb-3 col-md-12">
                                                             <label for="address" class="form-label">Company
                                                                 Address:</label>
                                                             <input type="text" name="address" id="id_address"
                                                                 class="form-control mt-1 mr-2 ml-2 mb-4"
-                                                                value={{company.address}}>
+                                                                value="{{company.address}}">
                                                         </div>
                                                         <div class="mb-3 col-md-12">
                                                             <label for="email" class="form-label">Company Email:</label>
                                                             <input type="email" name="email" id="id_email"
                                                                 class="form-control mt-1 mr-2 ml-2 mb-4"
-                                                                value={{company.email}}>
+                                                                value="{{company.email}}">
                                                         </div>
                                                         <div class="mb-3 col-md-12">
                                                             <label for="description" class="form-label">Company
                                                                 Description:</label>
                                                             <textarea type="text" name="description" id="id_description"
-                                                                class="form-control mt-1 mr-2 ml-2 mb-4"
-                                                                value="lorem lorem loremlorem lorem loremlorem lorem loremlorem lorem loremlorem lorem loremlorem lorem loremlorem lorem loremlorem lorem loremlorem lorem loremlorem lorem loremlorem lorem loremlorem lorem loremlorem lorem loremlorem lorem loremlorem lorem loremlorem lorem loremlorem lorem loremlorem lorem loremlorem lorem loremlorem lorem loremlorem lorem loremlorem lorem loremlorem lorem loremlorem lorem loremlorem lorem loremlorem lorem loremlorem lorem loremlorem lorem loremlorem lorem loremlorem lorem loremlorem lorem lorem"></textarea>
+                                                                class="form-control mt-1 mr-2 ml-2 mb-4">{{ company.description }}</textarea>
                                                         </div>
                                                         <div>
                                                             <button type="submit" class="btn btn-primary mb-2">Update
                                                                 company</button>
                                                         </div>
-                                                        {{company.name}}
-                                                        {{company.description}}
                                                     </form>
                                                 </div>
                                                 <div class="modal-footer">

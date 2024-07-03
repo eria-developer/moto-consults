@@ -2,15 +2,15 @@ from django.shortcuts import render, redirect, HttpResponse, get_object_or_404
 from . import models
 from . import forms
 from django.contrib import messages
-from django.db.models import Sum
-from django.db.models import Q
+from django.db.models import Sum, Q
 from django.http import JsonResponse
 from django.urls import reverse
 
+# Dashboard view
 def dashboard(request):
-    return HttpResponse(request, "Hi there")
+    return HttpResponse("Hi there")
 
-
+# View to add a new customer
 def add_customer(request):
     if request.method == "POST":
         form = forms.CustomerForm(request.POST)
@@ -25,15 +25,12 @@ def add_customer(request):
     else:
         form = forms.CustomerForm()
 
-    context = {
-        "form": form,
-    }
+    context = {"form": form}
     return render(request, "add_customer.html", context)
 
-
+# View to edit an existing customer
 def edit_customer(request, customer_id):
     customer = get_object_or_404(models.Customer, id=customer_id)
-    print(customer)
     if request.method == "POST":
         form = forms.EditCustomerForm(request.POST, instance=customer)
         if form.is_valid():
@@ -53,94 +50,76 @@ def edit_customer(request, customer_id):
     }
     return render(request, "edit_customer.html", context)
 
-
-
+# View to display customer details
 def view_customer(request, customer_id):
     customer = get_object_or_404(models.Customer, id=customer_id)
     customer_placements = models.RecruitmentProcess.objects.filter(customer=customer).order_by("-application_date")
 
-    # Retrieving total paid registration fee for the customer
+    # Calculate total and default registration fees
     total_registration_fees = models.FeesPayment.objects.filter(customer=customer, fee_type="registration") \
-                                                  .aggregate(total_paid_registration=Sum('amount'))['total_paid_registration']
-    customer_registration_fees = total_registration_fees if total_registration_fees else 0
-    # Retrieving default registration fee
-    default_registration_fee_obj = models.RegistrationFees.objects.first()
-    default_registration_fee = default_registration_fee_obj.fees_amount if default_registration_fee_obj else 0
-    # Calculating registration fee balance
-    customer_registration_fees_balance = default_registration_fee - customer_registration_fees
+                                                         .aggregate(total_paid_registration=Sum('amount'))['total_paid_registration'] or 0
+    default_registration_fee = models.RegistrationFees.objects.first()
+    default_registration_fee_amount = default_registration_fee.fees_amount if default_registration_fee else 0
+    customer_registration_fees_balance = default_registration_fee_amount - total_registration_fees
 
-    # Retrieving total paid connection fee for the customer
+    # Calculate total and default connection fees
     total_connection_fees = models.FeesPayment.objects.filter(customer=customer, fee_type="connection") \
-                                               .aggregate(total_paid_connection=Sum('amount'))['total_paid_connection']
-    customer_connection_fees = total_connection_fees if total_connection_fees else 0
-    # Retrieving default connection fee
-    default_connection_fee_obj = models.ConnectionFees.objects.first()
-    default_connection_fee = default_connection_fee_obj.fees_amount if default_connection_fee_obj else 0
-    # Calculating connection fee balance
-    customer_connection_fees_balance = default_connection_fee - customer_connection_fees
+                                                      .aggregate(total_paid_connection=Sum('amount'))['total_paid_connection'] or 0
+    default_connection_fee = models.ConnectionFees.objects.first()
+    default_connection_fee_amount = default_connection_fee.fees_amount if default_connection_fee else 0
+    customer_connection_fees_balance = default_connection_fee_amount - total_connection_fees
 
-    # Handling consultations 
+    # Retrieve consultations and consultation fees
     customer_consultations = models.Consultation.objects.filter(customer=customer).order_by("-consultation_date")
-
-    # Handling consultation fees
     customer_consultation_fees_obj = models.FeesPayment.objects.filter(customer=customer, fee_type="consultation").order_by("-payment_date")
 
-    # Handling total amount paid and owed 
-    total_amount_paid = customer_registration_fees + customer_connection_fees
+    # Calculate total amount paid and owed
+    total_amount_paid = total_registration_fees + total_connection_fees
     total_amount_owed = customer_registration_fees_balance + customer_connection_fees_balance
 
     context = {
         "customer": customer,
         "customer_placements": customer_placements,
-
-        "customer_registration_fees": customer_registration_fees,
+        "customer_registration_fees": total_registration_fees,
         "customer_registration_fees_balance": customer_registration_fees_balance,
-
-        "customer_connection_fees": customer_connection_fees,
+        "customer_connection_fees": total_connection_fees,
         "customer_connection_fees_balance": customer_connection_fees_balance,
-
         "customer_consultation_fees_obj": customer_consultation_fees_obj,
-
         "total_amount_paid": total_amount_paid,
         "total_amount_owed": total_amount_owed,
-
         "customer_consultations": customer_consultations,
     }
 
     return render(request, "view_customer.html", context)
 
-
+# View to delete a customer
 def delete_customer(request, customer_id):
     customer = get_object_or_404(models.Customer, id=customer_id)
     customer.delete()
     return redirect("list-of-customers")
-    
 
+# View to list all customers
 def list_of_customers(request):
     customers = models.Customer.objects.all().order_by("-date_added")
 
-    context = {
-        "customers": customers,
-    }
+    context = {"customers": customers}
     return render(request, "list_of_customers.html", context)
 
-
-
+# View to search for customers
 def search_customers(request):
     if request.headers.get('x-requested-with') == 'XMLHttpRequest':
         query = request.GET.get("query", "")
         customers = models.Customer.objects.filter(
             Q(firstname__icontains=query) |
-            Q(othernames__icontains = query) |
+            Q(othernames__icontains=query) |
             Q(address__icontains=query) |
-            Q(email__icontains = query) |
+            Q(email__icontains=query) |
             Q(phonenumber_1__icontains=query) |
-            Q(phonenumber_2__icontains = query)
+            Q(phonenumber_2__icontains=query)
         ).order_by("-date_added")
 
-        customer_list = []
-        for customer in customers:
-            customer_data = {
+        customer_list = [
+            {
                 "firstname": customer.firstname,
                 "othernames": customer.othernames,
                 "phonenumber_1": customer.phonenumber_1,
@@ -155,9 +134,8 @@ def search_customers(request):
                 "edit_url": reverse('edit-customer', args=[customer.id]),
                 "delete_url": reverse('delete-customer', args=[customer.id]),
             }
-            customer_list.append(customer_data)
+            for customer in customers
+        ]
 
         return JsonResponse({"customers": customer_list})
     return JsonResponse({"customers": []})
-
-

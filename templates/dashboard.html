@@ -726,55 +726,7 @@
 
 
 
-    <!-- Place this inside your dashboard.html where you want the chart to appear -->
-
-
-    <script>
-        const ctx = document.getElementById('feePaymentsChart').getContext('2d');
-        const feePaymentsChart = new Chart(ctx, {
-            type: 'bar',
-            data: {
-                labels: ['Registration', 'Consultation', 'Connection'],
-                datasets: [{
-                    label: 'Fees',
-                    data: [], // Will be populated dynamically
-                    backgroundColor: [
-                        'rgba(255, 99, 132, 1, 0.2)',
-                        'rgba(54, 162, 235, 1, 0.2)',
-                        'rgba(255, 206, 86, 1, 0.2)'
-                    ],
-                    borderColor: [
-                        'rgba(255, 99, 132, 1, 1)',
-                        'rgba(54, 162, 235, 1)',
-                        'rgba(255, 206, 86, 1)',
-                    ],
-                    borderWidth: 1
-                }]
-            },
-            options: {
-                scales: {
-                    y: {
-                        beginAtZero: true
-                    }
-                }
-            });
-
-        function updateChart(timeframe) {
-            const url = `/fetch_fee_payments/?timeframe=${timeframe}`;
-            if (timeframe === 'custom') {
-                url += `&start_date=${document.getElementById('start-date').value & end_date= ${
-                    document.getElementById('end-date').value`;
-    }
-    fetch(url)
-       .then(response => {
-            feePaymentsChart.data.datasets[0].data = [response.registration, response.consultation, response.connection];
-            feePaymentsChart.update();
-        });
-}
-
-// Call updateChart with the default timeframe on page load
-document.addEventListener('DOMContentLoaded', () => updateChart('day')); // Default to 'day'
-    </script>
+    
 </div>
 
 

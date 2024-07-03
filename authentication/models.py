@@ -9,7 +9,7 @@ class CustomUserManager(BaseUserManager):
 
         # Ensure a role is provided or set a default role
         if 'role' not in extra_fields or extra_fields['role'] is None:
-            default_role = Roles.objects.get_or_create(name='user')[0]
+            default_role = "user"
             extra_fields['role'] = default_role
 
         user = self.model(email=email, **extra_fields)
@@ -22,29 +22,33 @@ class CustomUserManager(BaseUserManager):
         extra_fields.setdefault('is_superuser', True)
 
         # Set the role for superusers to 'admin'
-        default_admin_role = Roles.objects.get_or_create(name='admin')[0]
+        default_admin_role = "admin"
         extra_fields['role'] = default_admin_role
 
         return self.create_user(email, password, **extra_fields)
+    
 
-class Roles(models.Model):
-    name = models.CharField(max_length=40, default="user")
-
-    def __str__(self):
-        return f"{self.name}"
 
 class CustomUser(AbstractBaseUser, PermissionsMixin):
+    ROLE_CHOICES = (
+        ("staff", "User Staff"),
+        ("accountant", "User Accountant"),
+        ("admin", "User Admin"),
+    )
     email = models.EmailField(unique=True)
     firstname = models.CharField(max_length=30)
     othernames = models.CharField(max_length=30)
     is_active = models.BooleanField(default=True)
     is_staff = models.BooleanField(default=False)
-    role = models.ForeignKey(Roles, on_delete=models.CASCADE)
+    role = models.CharField(max_length=254, default="staff", choices=ROLE_CHOICES)
 
     objects = CustomUserManager()
 
     USERNAME_FIELD = 'email'
     REQUIRED_FIELDS = ['firstname', 'othernames']
 
+    full_name = f"{firstname} {othernames}"
+
     def __str__(self):
         return self.email
+

@@ -22,27 +22,13 @@ def add_user(request):
     else:
         form = CustomUserCreationForm()
 
-    role_choices = models.Roles.objects.all()
+    role_choices = models.CustomUser.ROLE_CHOICES
 
     context = {
         'form': form,
         "role_choices": role_choices,
         }
     return render(request, 'add_user.html', context)
-
-# def login_view(request):
-#     if request.method == 'POST':
-#         form = AuthenticationForm(request, data=request.POST)
-#         if form.is_valid():
-#             email = form.cleaned_data.get('username')
-#             password = form.cleaned_data.get('password')
-#             user = authenticate(request, username=email, password=password)
-#             if user is not None:
-#                 login(request, user)
-#                 return redirect('list-of-customers')
-#     else:
-#         form = AuthenticationForm()
-#     return render(request, 'login.html', {'form': form})
 
 
 def login_view(request):
@@ -73,63 +59,3 @@ def list_of_users(request):
         "users": users,
     }
     return render(request, "list_of_users.html", context)
-
-
-def add_role(request):
-    if request.method == "POST":
-        form = forms.RoleForm(request.POST)
-        if form.is_valid():
-            form.save()
-            messages.success(request, "Role added successfully")
-            return redirect("company-settings")
-        else:
-            for field, errors in form.errors.items():
-                for error in errors:
-                    messages.error(request, f"{error} in {field}")
-                    print(f"{error} in {field}")
-    else:
-        form = forms.RoleForm()
-
-    context = {
-        "form": form,
-    }
-    return render(request, "settings.html", context)
-
-
-def edit_role(request, role_id):
-    role = get_object_or_404(models.Roles, id=role_id)
-    print(role)
-    if request.method == "POST":
-        form = forms.EditRoleForm(request.POST, instance=role)
-        if form.is_valid():
-            form.save()
-            messages.success(request, "Role updated successfully")
-            return redirect("view_role", role_id=role.id)
-        else:
-            for field, errors in form.errors.items():
-                for error in errors:
-                    messages.error(request, f"{error} in {field}")
-    else:
-        form = forms.EditRoleForm(instance=role)
-
-    context = {
-        "form": form,
-        "role": role,
-    }
-    return render(request, "edit_role.html", context)
-
-
-def delete_role(request, role_id):
-    role = get_object_or_404(models.Roles, id=role_id)
-    if request.method == "POST":
-        role.delete()
-        return redirect("list-of-roles")
-    
-
-def list_of_roles(request):
-    roles = models.Role.objects.all()
-
-    context = {
-        "roles": roles,
-    }
-    return render(request, "list_of_roles.html", context)

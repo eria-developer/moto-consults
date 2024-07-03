@@ -218,6 +218,7 @@
               <span class="nav-text">Dashboard</span>
             </a>
           </li>
+          {% if request.user.role == "admin" or request.user.role == "staff" %}
           <li>
             <a class="has-arrow" href="javascript:void(0);" aria-expanded="false">
               <i class="bi bi-star"></i>
@@ -228,6 +229,9 @@
               <li><a href={% url "list-of-placements" %}>View placements</a></li>
             </ul>
           </li>
+          {% endif %}
+
+          {% if request.user.role == "admin" or request.user.role == "accountant" %}
           <li>
             <a class="has-arrow" href="javascript:void(0);" aria-expanded="false">
               <i class="bi bi-heart"></i>
@@ -238,6 +242,8 @@
               <li><a href={% url "list-of-fees" %}>View payment fees</a></li>
             </ul>
           </li>
+          {% endif %}
+
           <li><a class="has-arrow " href="javascript:void(0);" aria-expanded="false">
               <i class="bi bi-file-earmark-spreadsheet"></i>
               <span class="nav-text">Expenses</span>
@@ -247,6 +253,7 @@
               <li><a href={% url "list-of-expenses" %}>View expenses</a></li>
             </ul>
           </li>
+
           <li>
             <a class="has-arrow" href="javascript:void(0);" aria-expanded="false">
               <i class="bi bi-book"></i>
@@ -254,10 +261,13 @@
               <span class="nav-text">Customers</span>
             </a>
             <ul aria-expanded="false">
+              {% if request.user.role == "admin" %}
               <li><a href={% url "add-customer" %}>Add customer</a></li>
+              {% endif %}
               <li><a href={% url "list-of-customers" %}>View customers</a></li>
             </ul>
           </li>
+
           <li>
             <a class="has-arrow" href="javascript:void(0);" aria-expanded="false">
               <i class="bi bi-people"></i>
@@ -265,17 +275,22 @@
               <span class="nav-text">Companies</span>
             </a>
             <ul aria-expanded="false">
+              {% if request.user.role == "admin"%}
               <li><a href={% url "add-company" %}>Add company</a></li>
+              {% endif %}
               <li><a href={% url "list-of-companies" %}>View companies</a></li>
             </ul>
           </li>
+
           <li>
             <a class="has-arrow" href="javascript:void(0);" aria-expanded="false">
               <i class="bi bi-info-circle"></i>
               <span class="nav-text">Jobs</span>
             </a>
             <ul aria-expanded="false">
+              {% if request.user.role == "admin" or request.user.role == "staff" %}
               <li><a href={% url "add-job" %}>Add job</a></li>
+              {%endif%}
               <li><a href={% url "list-of-jobs" %}>View jobs</a></li>
             </ul>
           </li>
@@ -285,11 +300,14 @@
               <span class="nav-text">Job Positions</span>
             </a>
             <ul aria-expanded="false">
+              {% if request.user.role == "admin" or request.user.role == "staff" %}
               <li><a href={% url "add-jobposition" %}>Add job position</a></li>
+              {% endif %}
               <li><a href={% url "list-of-jobpositions" %}>View job positions</a></li>
             </ul>
           </li>
 
+          {% if request.user.role == "admin"%}
           <li><a class="has-arrow " href="javascript:void(0);" aria-expanded="false">
               <i class="bi bi-file-earmark-spreadsheet"></i>
               <span class="nav-text">System users</span>
@@ -299,6 +317,7 @@
               <li><a href={% url "list-of-users" %}>View users</a></li>
             </ul>
           </li>
+          {% endif %}
 
           <li><a class="has-arrow " href="javascript:void(0);" aria-expanded="false">
               <i class="bi bi-gear-wide"></i>
@@ -306,7 +325,6 @@
             </a>
             <ul aria-expanded="false">
               <li><a href={% url "company-settings" %}>Company details</a></li>
-              <li><a href={% url "company-settings" %}>Role & Permissions</a></li>
               <li><a href="#">My profile</a></li>
             </ul>
           </li>
@@ -332,7 +350,7 @@
       {% for message in messages %}
       Toastify({
         text: "{{ message|escapejs }}",
-        duration: 3000,
+        duration: 7000,
         close: true,
         gravity: "top",
         position: "right",

@@ -48,8 +48,8 @@
                                         <label for="id_role" class="form-label">User Role:</label>
                                         <select name="role" id="id_role" class="default-select  form-control wide">
                                             <option value="">Select a user role</option>
-                                            {% for role in role_choices %}
-                                            <option value={{role.name}}>{{ role }}</option>
+                                            {% for value, label in role_choices %}
+                                            <option value={{value}}>{{ label }}</option>
                                             {% endfor %}
                                         </select>
                                     </div>
@@ -72,10 +72,6 @@
                                         <input type="password" name="password2" maxlength="15" required
                                             id="id_password2" class="form-control" required>
                                     </div>
-
-
-
-
                                     <div><button type="submit" class="btn btn-primary mb-2">Save user</button>
                                     </div>
                                 </form>
