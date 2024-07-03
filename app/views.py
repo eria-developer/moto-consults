@@ -35,9 +35,9 @@ def dashboard(request):
     total_week = models.FeesPayment.objects.filter(payment_date__gte=start_of_week).aggregate(Sum('amount'))['amount__sum'] or 0
     total_month = models.FeesPayment.objects.filter(payment_date__gte=start_of_month).aggregate(Sum('amount'))['amount__sum'] or 0
     total_year = models.FeesPayment.objects.filter(payment_date__gte=start_of_year).aggregate(Sum('amount'))['amount__sum'] or 0
-    total_week_for_expenses = models.Expense.objects.filter(date__gte=start_of_week_for_expenses).aggregate(Sum('amount'))['amount__sum'] or 0
-    total_month_for_expenses = models.Expense.objects.filter(date__gte=start_of_month_for_expenses).aggregate(Sum('amount'))['amount__sum'] or 0
-    total_year_for_expenses = models.Expense.objects.filter(date__gte=start_of_year_for_expenses).aggregate(Sum('amount'))['amount__sum'] or 0
+    total_week_for_expenses = models.Expense.objects.filter(date_added__gte=start_of_week_for_expenses).aggregate(Sum('amount'))['amount__sum'] or 0
+    total_month_for_expenses = models.Expense.objects.filter(date_added__gte=start_of_month_for_expenses).aggregate(Sum('amount'))['amount__sum'] or 0
+    total_year_for_expenses = models.Expense.objects.filter(date_added__gte=start_of_year_for_expenses).aggregate(Sum('amount'))['amount__sum'] or 0
 
     total_custom_amount = None
     total_custom_amount_for_expenses = None
@@ -50,7 +50,7 @@ def dashboard(request):
     custom_amount_form = forms.DateRangeForm()
     custom_amount_form_for_expenses = forms.DateRangeForm()
 
-    recent_expenses = models.Expense.objects.order_by('-date')[:5]
+    recent_expenses = models.Expense.objects.order_by('-date_added')[:5]
     recent_fee_payments = models.FeesPayment.objects.order_by('-payment_date')[:5]
 
     # Retrieve default fee amounts
@@ -201,13 +201,6 @@ def aggregate_earnings(request, timeframe):
 
     return JsonResponse(data)
 
-
-
-# from django.utils import timezone
-# from django.http import JsonResponse
-# from django.db.models import Sum
-# import datetime
-# from . import models
 
 def fetch_fee_payments(request):
     timeframe = request.GET.get('timeframe')

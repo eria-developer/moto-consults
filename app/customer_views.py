@@ -112,31 +112,18 @@ def view_customer(request, customer_id):
 
 def delete_customer(request, customer_id):
     customer = get_object_or_404(models.Customer, id=customer_id)
-    if request.method == "POST":
-        customer.delete()
-        return redirect("list-of-customers")
+    customer.delete()
+    return redirect("list-of-customers")
     
 
 def list_of_customers(request):
-    customers = models.Customer.objects.all().order_by("-date")
+    customers = models.Customer.objects.all().order_by("-date_added")
 
     context = {
         "customers": customers,
     }
     return render(request, "list_of_customers.html", context)
 
-
-def search_customer(request):
-    # query = request.GET.get("query", "")
-    # customers = models.Customer.objects.filter(
-    #     Q(firstname__icontains = query) |
-    #     Q(othernames__icontains = query) |
-    #     Q(phonenumber_1__icontains = query) |
-    #     Q(email__icontains = query) |
-    #     Q(address__icontains = query) |
-    #     Q(phonenumber_2__icontains = query) |
-    # )
-    pass
 
 
 def search_customers(request):
@@ -149,7 +136,7 @@ def search_customers(request):
             Q(email__icontains = query) |
             Q(phonenumber_1__icontains=query) |
             Q(phonenumber_2__icontains = query)
-        ).order_by("-date")
+        ).order_by("-date_added")
 
         customer_list = []
         for customer in customers:
@@ -174,81 +161,3 @@ def search_customers(request):
     return JsonResponse({"customers": []})
 
 
-
-
-
-
-
-
-
-
-#  <form id="customerForm" method="post" enctype="multipart/form-data">
-
-#                                     {% csrf_token %}
-#                                     <div class="mb-3 col-md-12">
-#                                         <label for="id_firstname" class="form-label me-1">First Name:</label><span
-#                                             class="text-danger fs-16">*</span>
-#                                         <input type="text" name="firstname" maxlength="100" required id="id_firstname"
-#                                             required class="form-control" placeholder="Talemwa">
-#                                     </div>
-
-#                                     <div class="mb-3 col-md-12">
-#                                         <label for="id_othernames" class="form-label me-1">Other Names:</label><span
-#                                             class="text-danger fs-16">*</span>
-#                                         <input type="text" name="othernames" maxlength="100" required id="id_othernames"
-#                                             class="form-control" placeholder="Eria Jackson">
-#                                     </div>
-
-#                                     <div class="mb-3 col-md-12">
-#                                         <label for="id_phonenumber_1" class="form-label me-1">Phonenumber
-#                                             1:</label><span class="text-danger">*</span>
-#                                         <input type="text" name="phonenumber_1" maxlength="15" required
-#                                             id="id_phonenumber_1" class="form-control" name="phonenumber_1" required>
-#                                     </div>
-
-#                                     <div class="mb-3 col-md-12">
-#                                         <label for="id_phonenumber_2" class="form-label">Phonenumber 2:</label>
-#                                         <input type="text" name="phonenumber_2" maxlength="15" id="id_phonenumber_2"
-#                                             class="form-control" placeholder="0771445200">
-#                                     </div>
-
-#                                     <div class="mb-3 col-md-12">
-#                                         <label for="id_email" class="form-label me-1">Email:</label><span
-#                                             class="text-danger fs-16">*</span>
-#                                         <input type="email" name="email" maxlength="254" id="id_email"
-#                                             class="form-control" placeholder="example@gmail.com">
-#                                     </div>
-
-#                                     <div class="mb-3 col-md-12">
-#                                         <label for="id_address" class="form-label me-1">Address:</label><span
-#                                             class="text-danger fs-16">*</span>
-#                                         <input class="form-control" placeholder="Arua" type="text" name="address"
-#                                             maxlength="64" required id="id_address">
-#                                     </div>
-
-#                                     <div>
-#                                         <label for="id_passport_photo" class="form-label">Passport photo:</label>
-#                                     </div>
-#                                     <div class="form-file mb-3 col-md-12">
-#                                         <input type="file" name="passport_photo" accept="image/*" id="id_passport_photo"
-#                                             class="form-file-input form-control">
-#                                     </div>
-
-
-#                                     <div>
-#                                         <label for="id_file_upload" class="form-label">File upload (CV):</label>
-#                                     </div>
-#                                     <div class="form-file mb-3 col-md-12">
-#                                         <input type="file" name="file_upload" id="id_file_upload"
-#                                             class="form-file-input form-control">
-#                                     </div>
-
-#                                     <div class="mb-3">
-#                                         <label for="id_remarks" class="form-label">Remarks:</label>
-#                                         <textarea id="id_remarks" name="remarks" class="form-control"
-#                                             rows="4"></textarea>
-#                                     </div>
-
-#                                     <div><button type="submit" class="btn btn-primary mb-2">Save customer</button>
-#                                     </div>
-#                                 </form>

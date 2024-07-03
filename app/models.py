@@ -11,7 +11,7 @@ class Customer(models.Model):
     phonenumber_2 = models.CharField(max_length=254, null=True, blank=True)
     email = models.EmailField(blank=True, null=True)
     address = models.CharField(max_length=254, null=False, blank=False)
-    date = models.DateTimeField(auto_now_add=True, null=True)
+    date_added = models.DateTimeField(auto_now_add=True, null=True)
     passport_photo = models.ImageField(upload_to="passport_photos/", null=True, blank=True)
     file_upload = models.FileField(upload_to="uploaded_files/", null=True, blank=True)
     remarks = models.TextField()
@@ -34,6 +34,7 @@ class EmployerCompany(models.Model):
 
 class JobPosition(models.Model):
     job_position = models.CharField(max_length=254)
+    date_added = models.DateTimeField(null=True, auto_now_add=True)
 
     def __str__(self):
         return f"{self.job_position}"
@@ -44,6 +45,7 @@ class Job(models.Model):
     job_position = models.ForeignKey(JobPosition, null=True, on_delete=models.CASCADE)
     job_field = models.CharField(max_length=254, null=True, blank=True)
     job_description = models.TextField(null=True, blank=True)
+    date_added = models.DateTimeField(auto_now_add=True, null=True)
     # job_company = models.ForeignKey(EmployerCompany, null=True, blank=True, on_delete=models.CASCADE)
 
     def __str__(self):
@@ -90,8 +92,8 @@ class FeesPayment(models.Model):
     fee_type = models.CharField(max_length=254, choices=CUSTOMER_FEE_CHOICES)
     amount = models.DecimalField(max_digits=10, decimal_places=2)
     payment_status = models.CharField(max_length=254, choices=STATUS_CHOICES, default='unpaid')
-    # payment_date = models.DateTimeField(auto_now_add=True)
-    payment_date = models.DateTimeField()
+    payment_date = models.DateTimeField(auto_now_add=True)
+    # payment_date = models.DateTimeField()
 
     def __str__(self):
         return f"{self.customer.firstname}'s {self.fee_type} payment made on {self.payment_date}"
@@ -151,7 +153,7 @@ class Expense(models.Model):
     name = models.CharField(max_length=254)
     category = models.CharField(max_length=254)
     amount = models.IntegerField()
-    date = models.DateTimeField(null=True)
+    date_added = models.DateTimeField(null=True)
 
     def __str__(self):
         return f"{self.name} - {self.amount}"

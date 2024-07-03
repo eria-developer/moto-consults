@@ -45,10 +45,11 @@
                                             <strong>Firstname</strong>
                                         </th>
                                         <th><strong>Othernames</strong></th>
-                                        <th><strong>Phonenumber 1</strong></th>
-                                        <th><strong>Phonenumber 2</strong></th>
-                                        <th><strong>Email</strong></th>
-                                        <th><strong>Address</strong></th>
+                                        <th class="text-center"><strong>Phonenumber 1</strong></th>
+                                        <th class="text-center"><strong>Phonenumber 2</strong></th>
+                                        <th class="text-center"><strong>Email</strong></th>
+                                        <th class="text-center"><strong>Address</strong></th>
+                                        <th class="text-center"><strong>Action</strong></th>
                                     </tr>
                                 </thead>
                                 <tbody>
@@ -59,21 +60,21 @@
                                             {{customer.firstname}}
                                         </td>
                                         <td>{{customer.othernames}}</td>
-                                        <td>
+                                        <td class="text-center">
                                             {{customer.phonenumber_1}}
                                         </td>
-                                        <td>
+                                        <td class="text-center">
                                             {{customer.phonenumber_2}}
                                         </td>
-                                        <td>{{customer.email}}</td>
-                                        <td>{{customer.address}}</td>
-                                        <td>
+                                        <td class="text-center">{{customer.email}}</td>
+                                        <td class="text-center">{{customer.address}}</td>
+                                        <td class="text-center">
                                             <div class="d-flex">
                                                 <a href={% url "view-customer" customer.id %}
-                                                    class="btn btn-primary shadow btn-xs sharp me-1"><i
+                                                    class="btn btn-info shadow btn-xs sharp me-1"><i
                                                         class="fa fa-eye"></i></a>
                                                 <a href={% url "edit-customer" customer.id %}
-                                                    class="btn btn-primary shadow btn-xs sharp me-1"><i
+                                                    class="btn btn-warning shadow btn-xs sharp me-1"><i
                                                         class="fa fa-pencil"></i></a>
                                                 <a href={% url "delete-customer" customer.id %}
                                                     class="btn btn-danger shadow btn-xs sharp"><i
