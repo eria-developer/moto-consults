@@ -2,9 +2,10 @@ from django.shortcuts import render, redirect, get_object_or_404
 from . import models
 from . import forms
 from django.contrib import messages
+from django.contrib.auth.decorators import login_required
 
 
-
+@login_required(login_url="/")
 def add_job(request):
     job_positions = models.JobPosition.objects.all()
 
@@ -29,6 +30,7 @@ def add_job(request):
     return render(request, "add_job.html", context)
 
 
+@login_required(login_url="/")
 def edit_job(request, job_id):
     job = get_object_or_404(models.Job, id=job_id)
     print(job)
@@ -52,6 +54,7 @@ def edit_job(request, job_id):
     return render(request, "edit_job.html", context)
 
 
+@login_required(login_url="/")
 def view_job(request, job_id):
     job = get_object_or_404(models.Job, id=job_id)
 
@@ -61,6 +64,7 @@ def view_job(request, job_id):
     return render(request, "view_job.html", context)
 
 
+@login_required(login_url="/")
 def delete_job(request, job_id):
     job = get_object_or_404(models.Job, id=job_id)
     if request.method == "POST":
@@ -69,6 +73,7 @@ def delete_job(request, job_id):
         return redirect("list-of-jobs")
     
 
+@login_required(login_url="/")
 def list_of_jobs(request):
     if 'edit_id' in request.GET:
         job_id = request.GET['edit_id']

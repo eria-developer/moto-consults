@@ -2,9 +2,10 @@ from django.shortcuts import render, redirect, get_object_or_404
 from . import models
 from . import forms
 from django.contrib import messages
+from django.contrib.auth.decorators import login_required
 
 
-
+@login_required(login_url="/")
 def add_jobposition(request):
     if request.method == "POST":
         add_job_position_form = forms.JobpositionForm(request.POST)
@@ -26,6 +27,7 @@ def add_jobposition(request):
     return render(request, "add_jobposition.html", context)
 
 
+@login_required(login_url="/")
 def edit_jobposition(request, jobposition_id):
     jobposition = get_object_or_404(models.JobPosition, id=jobposition_id)
     print(jobposition)
@@ -49,6 +51,7 @@ def edit_jobposition(request, jobposition_id):
     return render(request, "edit_jobposition.html", context)
 
 
+@login_required(login_url="/")
 def view_jobposition(request, jobposition_id):
     jobposition = get_object_or_404(models.JobPosition, id=jobposition_id)
 
@@ -58,6 +61,7 @@ def view_jobposition(request, jobposition_id):
     return render(request, "view_jobposition.html", context)
 
 
+@login_required(login_url="/")
 def delete_jobposition(request, jobposition_id):
     jobposition = get_object_or_404(models.JobPosition, id=jobposition_id)
     if request.method == "POST":
@@ -66,6 +70,7 @@ def delete_jobposition(request, jobposition_id):
         return redirect("list-of-jobpositions")
     
 
+@login_required(login_url="/")
 def list_of_jobpositions(request):
     if 'edit_id' in request.GET:
         job_position_id = request.GET['edit_id']

@@ -5,9 +5,10 @@ from django.contrib import messages
 from django.db.models import Q
 from django.urls import reverse
 from django.http import JsonResponse
+from django.contrib.auth.decorators import login_required
 
 
-
+@login_required(login_url="/")
 def add_company(request):
     companies = models.EmployerCompany.objects.all().order_by("-date_added")
 
@@ -32,6 +33,7 @@ def add_company(request):
     return render(request, "add_company.html", context)
 
 
+@login_required(login_url="/")
 def edit_company(request, company_id):
     company = get_object_or_404(models.EmployerCompany, id=company_id)
     # print(company)
@@ -55,6 +57,7 @@ def edit_company(request, company_id):
     return render(request, "edit_company.html", context)
 
 
+@login_required(login_url="/")
 def view_company(request, company_id):
     company = get_object_or_404(models.EmployerCompany, id=company_id)
 
@@ -64,6 +67,7 @@ def view_company(request, company_id):
     return render(request, "view_company.html", context)
 
 
+@login_required(login_url="/")
 def delete_company(request, company_id):
     company = get_object_or_404(models.EmployerCompany, id=company_id)
     if request.method == "POST":
@@ -71,6 +75,7 @@ def delete_company(request, company_id):
         return redirect("list-of-companies")
     
 
+@login_required(login_url="/")
 def list_of_companies(request):
     if 'edit_id' in request.GET:
         company_id = request.GET['edit_id']
@@ -106,6 +111,7 @@ def list_of_companies(request):
     return render(request, "list_of_companies.html", context)
 
 
+@login_required(login_url="/")
 def search_companies(request):
     if request.headers.get('x-requested-with') == 'XMLHttpRequest':
         query = request.GET.get("query", "")

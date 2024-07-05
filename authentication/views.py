@@ -8,6 +8,7 @@ from . import forms
 from django.contrib import messages
 from django.contrib.auth.decorators import login_required
 
+
 def add_user(request):
     if request.method == 'POST':
         form = CustomUserCreationForm(request.POST)

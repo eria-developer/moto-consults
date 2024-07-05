@@ -5,9 +5,10 @@ from django.contrib import messages
 from django.db.models import Q
 from django.urls import reverse
 from django.http import JsonResponse
+from django.contrib.auth.decorators import login_required
 
 
-
+@login_required(login_url="/")
 def add_placement(request):
     if request.method == "POST":
         form_name = request.POST.get('form_name')
@@ -83,6 +84,7 @@ def add_placement(request):
     return render(request, "add_placement.html", context)
 
 
+@login_required(login_url="/")
 def edit_placement(request, placement_id):
     placement = get_object_or_404(models.RecruitmentProcess, id=placement_id)
     print(placement)
@@ -106,6 +108,7 @@ def edit_placement(request, placement_id):
     return render(request, "edit_placement.html", context)
 
 
+@login_required(login_url="/")
 def view_placement(request, placement_id):
     placement = get_object_or_404(models.RecruitmentProcess, id=placement_id)
 
@@ -115,6 +118,7 @@ def view_placement(request, placement_id):
     return render(request, "view_placement.html", context)
 
 
+@login_required(login_url="/")
 def delete_placement(request, placement_id):
     placement = get_object_or_404(models.RecruitmentProcess, id=placement_id)
     if request.method == "POST":
@@ -131,6 +135,7 @@ def delete_placement(request, placement_id):
 #         return redirect("list-of-jobs")
     
 
+@login_required(login_url="/")
 def list_of_placements(request):
     placements = models.RecruitmentProcess.objects.all()
 
@@ -140,6 +145,7 @@ def list_of_placements(request):
     return render(request, "list_of_placements.html", context)
 
 
+@login_required(login_url="/")
 def search_placements(request):
     if request.headers.get('x-requested-with') == 'XMLHttpRequest':
         query = request.GET.get("query", "")

@@ -5,11 +5,16 @@ from django.contrib import messages
 from django.db.models import Sum, Q
 from django.http import JsonResponse
 from django.urls import reverse
+from django.contrib.auth.decorators import login_required
 
+
+@login_required(login_url="/")
 # Dashboard view
 def dashboard(request):
     return HttpResponse("Hi there")
 
+
+@login_required(login_url="/")
 # View to add a new customer
 def add_customer(request):
     if request.method == "POST":
@@ -28,6 +33,8 @@ def add_customer(request):
     context = {"form": form}
     return render(request, "add_customer.html", context)
 
+
+@login_required(login_url="/")
 # View to edit an existing customer
 def edit_customer(request, customer_id):
     customer = get_object_or_404(models.Customer, id=customer_id)
@@ -50,6 +57,8 @@ def edit_customer(request, customer_id):
     }
     return render(request, "edit_customer.html", context)
 
+
+@login_required(login_url="/")
 # View to display customer details
 def view_customer(request, customer_id):
     customer = get_object_or_404(models.Customer, id=customer_id)
@@ -92,12 +101,16 @@ def view_customer(request, customer_id):
 
     return render(request, "view_customer.html", context)
 
+
+@login_required(login_url="/")
 # View to delete a customer
 def delete_customer(request, customer_id):
     customer = get_object_or_404(models.Customer, id=customer_id)
     customer.delete()
     return redirect("list-of-customers")
 
+
+@login_required(login_url="/")
 # View to list all customers
 def list_of_customers(request):
     customers = models.Customer.objects.all().order_by("-date_added")
@@ -105,6 +118,8 @@ def list_of_customers(request):
     context = {"customers": customers}
     return render(request, "list_of_customers.html", context)
 
+
+@login_required(login_url="/")
 # View to search for customers
 def search_customers(request):
     if request.headers.get('x-requested-with') == 'XMLHttpRequest':

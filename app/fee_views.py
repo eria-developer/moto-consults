@@ -7,8 +7,10 @@ from django.http import HttpResponse
 from django.template.loader import render_to_string
 from weasyprint import HTML
 from .models import FeesPayment
+from django.contrib.auth.decorators import login_required
 
 
+@login_required(login_url="/")
 def add_fee(request):
     if request.method == "POST":
         form = forms.FeeForm(request.POST)
@@ -36,6 +38,7 @@ def add_fee(request):
     return render(request, "add_fee.html", context)
 
 
+@login_required(login_url="/")
 def edit_fee(request, fee_id):
     fee = get_object_or_404(models.FeesPayment, id=fee_id)
     print(fee)
@@ -59,6 +62,7 @@ def edit_fee(request, fee_id):
     return render(request, "edit_fee.html", context)
 
 
+@login_required(login_url="/")
 def view_fee(request, fee_id):
     fee = get_object_or_404(models.FeesPayment, id=fee_id)
 
@@ -68,6 +72,7 @@ def view_fee(request, fee_id):
     return render(request, "view_fee.html", context)
 
 
+@login_required(login_url="/")
 def delete_fee(request, fee_id):
     fee = get_object_or_404(models.FeesPayment, id=fee_id)
     if request.method == "POST":
@@ -75,6 +80,7 @@ def delete_fee(request, fee_id):
         return redirect("list-of-fees")
     
 
+@login_required(login_url="/")
 def list_of_fees(request):
     fees = models.FeesPayment.objects.all().order_by("-payment_date")
 
@@ -84,6 +90,7 @@ def list_of_fees(request):
     return render(request, "list_of_fees.html", context)
 
 
+@login_required(login_url="/")
 def preview_receipt(request, fee_id):
     fee = get_object_or_404(FeesPayment, id=fee_id)
     formatted_date = fee.payment_date.strftime('%Y-%m-%d %H:%M:%S')
@@ -100,6 +107,7 @@ def preview_receipt(request, fee_id):
     return response
 
 
+@login_required(login_url="/")
 def generate_receipt(request, fee_id):
     fee = get_object_or_404(FeesPayment, id=fee_id)
     formatted_date = fee.payment_date.strftime('%Y-%m-%d %H:%M:%S')

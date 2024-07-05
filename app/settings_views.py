@@ -5,8 +5,10 @@ from django.views.decorators.http import require_POST
 from django.views.decorators.csrf import csrf_exempt
 from . import models, forms
 from django.contrib import messages
+from django.contrib.auth.decorators import login_required
 
 
+@login_required(login_url="/")
 def company_settings(request):
 
     # Initialize forms
@@ -105,7 +107,7 @@ def company_settings(request):
 
 
 
-
+@login_required(login_url="/")
 @csrf_exempt 
 def edit_settings(request):
     settings = CompanySettings.get_instance()

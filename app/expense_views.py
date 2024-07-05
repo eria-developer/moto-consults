@@ -1,8 +1,10 @@
 from django.shortcuts import render, redirect
 from . import forms, models
 from django.contrib import messages
+from django.contrib.auth.decorators import login_required
 
 
+@login_required(login_url="/")
 def add_expense(request):
     if request.method == "POST":
         form = forms.ExpenseForm(request.POST)
@@ -23,6 +25,7 @@ def add_expense(request):
     return render(request, "add_expense.html", context)
 
 
+@login_required(login_url="/")
 def list_of_expenses(request):
     expenses = models.Expense.objects.all().order_by("-date_added")
     add_expense_form = forms.ExpenseForm()
