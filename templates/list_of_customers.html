@@ -11,11 +11,22 @@
 
     <div class="content-body">
         <div class="container-fluid">
-            <div class="row page-titles">
-                <ol class="breadcrumb">
-                    <li class="breadcrumb-item active"><a href="javascript:void(0)">Moto consults</a></li>
-                    <li class="breadcrumb-item"><a href="javascript:void(0)">List of customers</a></li>
-                </ol>
+            <div class="row page-titles ">
+                <div class="d-flex justify-content-between">
+                    <div>
+                        <ol class="breadcrumb">
+                            <li class="breadcrumb-item active"><a href="javascript:void(0)">Moto consults</a></li>
+                            <li class="breadcrumb-item"><a href="javascript:void(0)">List of customers</a></li>
+                        </ol>
+                    </div>
+                    <div>
+                        <button type="button" class="btn btn-sm btn-primary" data-bs-toggle="modal"
+                            data-bs-target="#addCustomer"><i class="fa fa-plus-circle me-2"></i>Add customer
+                        </button>
+                    </div>
+                </div>
+
+
             </div>
             <!-- row -->
             <div class="col-lg-12">
@@ -69,19 +80,269 @@
                                         <td class="text-center">{{customer.email}}</td>
                                         <td class="text-center">{{customer.address}}</td>
                                         <td class="text-center">
-                                            <div class="d-flex">
-                                                <a href={% url "view-customer" customer.id %}
-                                                    class="btn btn-info shadow btn-xs sharp me-1"><i
-                                                        class="fa fa-eye"></i></a>
-                                                <a href={% url "edit-customer" customer.id %}
-                                                    class="btn btn-warning shadow btn-xs sharp me-1"><i
-                                                        class="fa fa-pencil"></i></a>
-                                                <a href={% url "delete-customer" customer.id %}
-                                                    class="btn btn-danger shadow btn-xs sharp"><i
-                                                        class="fa fa-trash"></i></a>
-                                            </div>
+                                            <a href="{% url 'view-customer' customer.id %}">
+                                                <button type="button" class="btn btn-xs btn-info mb-2"><i
+                                                        class="fa fa-eye"></i>
+
+                                                </button>
+                                            </a>
+                                            <button type="button" class="btn btn-xs btn-warning mb-2"
+                                                data-bs-toggle="modal"
+                                                data-bs-target="#editCustomer{{ customer.id }}"><i
+                                                    class="fa fa-pencil"></i>
+
+                                            </button>
+                                            <button type="button" class="btn btn-xs btn-primary mb-2"
+                                                data-bs-toggle="modal"
+                                                data-bs-target="#deleteCustomer{{ customer.id }}"><i
+                                                    class="fa fa-trash"></i>
+
+                                            </button>
                                         </td>
                                     </tr>
+
+                                    <!-- Modal for adding customer  -->
+                                    <div class="modal fade" id="addCustomer">
+                                        <div class="modal-dialog" role="document">
+                                            <div class="modal-content">
+                                                <div class="modal-header">
+                                                    <h5 class="modal-title">Add Customer</h5>
+                                                    <button type="button" class="btn-close" data-bs-dismiss="modal">
+                                                    </button>
+                                                </div>
+                                                <div class="modal-body">
+                                                    <form action="{% url 'add-customer' %}" method="post"
+                                                        enctype="multipart/form-data">
+
+                                                        {% csrf_token %}
+                                                        <div class="mb-3 col-md-12">
+                                                            <label for="id_firstname" class="form-label">First Name:
+                                                            </label><span class="text-danger">*</span>
+                                                            <input type="text" name="firstname" maxlength="100" required
+                                                                id="id_firstname" class="form-control">
+                                                        </div>
+
+                                                        <div class="mb-3 col-md-12">
+                                                            <label for="id_othernames" class="form-label">Other Name(s):
+                                                            </label><span class="text-danger">*</span>
+                                                            <input type="text" name="othernames" maxlength="100"
+                                                                required id="id_othernames" class="form-control">
+                                                        </div>
+
+                                                        <div class="mb-3 col-md-12">
+                                                            <label for="id_phonenumber_1" class="form-label">Phonenumber
+                                                                1: </label><span class="text-danger">*</span>
+                                                            <input type="text" name="phonenumber_1" maxlength="100"
+                                                                required id="id_phonenumber_1" class="form-control">
+                                                        </div>
+
+                                                        <div class="mb-3 col-md-12">
+                                                            <label for="id_phonenumber_2" class="form-label">Phonenumber
+                                                                2: </label><span class="text-danger">*</span>
+                                                            <input type="text" name="phonenumber_2" maxlength="100"
+                                                                required id="id_phonenumber_2" class="form-control">
+                                                        </div>
+
+                                                        <div class="mb-3 col-md-12">
+                                                            <label for="id_address" class="form-label">Address:
+                                                            </label><span class="text-danger">*</span>
+                                                            <input type="text" name="address" maxlength="100" required
+                                                                id="id_address" class="form-control">
+                                                        </div>
+
+                                                        <div class="mb-3 col-md-12">
+                                                            <label for="id_email" class="form-label">Email
+                                                                Address:</label><span class="text-danger">*</span>
+                                                            <input type="text" name="email" maxlength="100" required
+                                                                id="id_email" class="form-control">
+                                                        </div>
+
+                                                        <div class="mb-3 col-md-12">
+                                                            <label for="id_passport_photo">Passport photo:</label>
+
+                                                            <input type="file" name="passport_photo"
+                                                                class="form-control" accept="image/*"
+                                                                id="id_passport_photo">
+                                                        </div>
+
+
+                                                        <div class="mb-3 col-md-12">
+                                                            <label for="id_file_upload">File Upload (CV):</label>
+
+                                                            <input type="file" name="file_upload" class="form-control"
+                                                                accept="image/*" id="id_file_upload">
+                                                        </div>
+
+
+
+                                                        <div class="mt-3 mb-3 col-md-12">
+                                                            <label for="id_remarks" class="form-label">Remarks:</label>
+                                                            <textarea id="id_remarks" name="remarks"
+                                                                class="form-control" rows="4"></textarea>
+                                                        </div>
+
+                                                        <div class="mb-3"><button type="submit"
+                                                                class="btn btn-primary mb-2">Save
+                                                                customer</button>
+                                                        </div>
+                                                    </form>
+                                                </div>
+                                                <div class="modal-footer">
+                                                    <button type="button" class="btn btn-danger light"
+                                                        data-bs-dismiss="modal">Close</button>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+
+                                    <!-- Modal for editing customer  -->
+                                    <div class="modal fade" id="editCustomer{{ customer.id }}">
+                                        <div class="modal-dialog" role="document">
+                                            <div class="modal-content">
+                                                <div class="modal-header">
+                                                    <h5 class="modal-title">Edit Customer</h5>
+                                                    <button type="button" class="btn-close" data-bs-dismiss="modal">
+                                                    </button>
+                                                </div>
+                                                <div class="modal-body">
+                                                    <form action="{% url 'edit-customer' customer.id%}" method="post"
+                                                        enctype="multipart/form-data">
+
+                                                        {% csrf_token %}
+                                                        <div class="mb-3 col-md-12">
+                                                            <label for="id_firstname" class="form-label">First Name:
+                                                            </label><span class="text-danger">*</span>
+                                                            <input type="text" name="firstname" maxlength="100" required
+                                                                id="id_firstname" class="form-control"
+                                                                value="{{customer.firstname}}">
+                                                        </div>
+
+                                                        <div class="mb-3 col-md-12">
+                                                            <label for="id_othernames" class="form-label">Other Name(s):
+                                                            </label><span class="text-danger">*</span>
+                                                            <input type="text" name="othernames" maxlength="100"
+                                                                required id="id_othernames" class="form-control"
+                                                                value="{{customer.othernames}}">
+                                                        </div>
+
+                                                        <div class="mb-3 col-md-12">
+                                                            <label for="id_phonenumber_1" class="form-label">Phonenumber
+                                                                1: </label><span class="text-danger">*</span>
+                                                            <input type="text" name="phonenumber_1" maxlength="100"
+                                                                required id="id_phonenumber_1" class="form-control"
+                                                                value="{{customer.phonenumber_1}}">
+                                                        </div>
+
+                                                        <div class="mb-3 col-md-12">
+                                                            <label for="id_phonenumber_2" class="form-label">Phonenumber
+                                                                2: </label><span class="text-danger">*</span>
+                                                            <input type="text" name="phonenumber_2" maxlength="100"
+                                                                required id="id_phonenumber_2" class="form-control"
+                                                                value="{{customer.phonenumber_2}}">
+                                                        </div>
+
+                                                        <div class="mb-3 col-md-12">
+                                                            <label for="id_address" class="form-label">Address:
+                                                            </label><span class="text-danger">*</span>
+                                                            <input type="text" name="address" maxlength="100" required
+                                                                id="id_address" class="form-control"
+                                                                value="{{customer.address}}">
+                                                        </div>
+
+                                                        <div class="mb-3 col-md-12">
+                                                            <label for="id_email" class="form-label">Email
+                                                                Address:</label><span class="text-danger">*</span>
+                                                            <input type="text" name="email" maxlength="100" required
+                                                                id="id_email" class="form-control"
+                                                                value="{{customer.email}}">
+                                                        </div>
+
+                                                        <div class="mb-3 col-md-12">
+                                                            <label for="id_passport_photo">Passport photo:</label>
+                                                            {% if customer.passport_photo %}
+                                                            <div>
+                                                                <img src="{{ customer.passport_photo.url }}"
+                                                                    alt="Current Passport Photo" width="150">
+                                                                <p>Current photo: {{ customer.passport_photo.name }}</p>
+                                                            </div>
+                                                            {% endif %}
+                                                            <input type="file" name="passport_photo"
+                                                                class="form-control" accept="image/*"
+                                                                id="id_passport_photo">
+                                                        </div>
+
+
+                                                        <div class="mb-3 col-md-12">
+                                                            <label for="id_file_upload">File upload:</label>
+                                                            {% if customer.file_upload %}
+                                                            <div>
+                                                                <p>Current file: <a
+                                                                        href="{{ customer.file_upload.url }}">{{
+                                                                        customer.file_upload.name }}</a></p>
+                                                            </div>
+                                                            {% endif %}
+                                                            <input type="file" name="file_upload" class="form-control"
+                                                                id="id_file_upload">
+                                                        </div>
+
+
+
+                                                        <div class="mt-3 mb-3 col-md-12">
+                                                            <label for="id_remarks" class="form-label">Remarks:</label>
+                                                            <textarea id="id_remarks" name="remarks"
+                                                                class="form-control"
+                                                                rows="4">{{ customer.remarks }}</textarea>
+                                                        </div>
+
+                                                        <div class="mb-3"><button type="submit"
+                                                                class="btn btn-primary mb-2">Update
+                                                                customer</button>
+                                                        </div>
+                                                    </form>
+                                                </div>
+                                                <div class="modal-footer">
+                                                    <button type="button" class="btn btn-danger light"
+                                                        data-bs-dismiss="modal">Close</button>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+
+                                    <!-- Modal for deleting customer  -->
+                                    <div class="modal fade" id="deleteCustomer{{ customer.id }}">
+                                        <div class="modal-dialog" role="document">
+                                            <div class="modal-content">
+                                                <div class="modal-header">
+                                                    <h5 class="modal-title">Deleting Customer</h5>
+                                                    <button type="button" class="btn-close" data-bs-dismiss="modal">
+                                                    </button>
+                                                </div>
+                                                <div class="modal-body">
+                                                    <form action="{% url 'delete-customer' customer.id%}" method="post">
+                                                        {% csrf_token %}
+                                                        <input type="hidden" name="form_name"
+                                                            value="delete_customer_form">
+                                                        {{delete_customer_form.as_p}}
+                                                        <div>
+                                                            Are you sure you want to delete {{customer.firstname}}
+                                                            {{customer.othernames}}
+                                                            ?
+                                                        </div>
+                                                        <div class="d-flex modal-footer">
+                                                            <button type="submit"
+                                                                class="btn btn-sm btn-primary mb-2">Delete</button>
+
+                                                            <button type="button" class="btn btn-sm btn-danger light"
+                                                                data-bs-dismiss="modal">Cancel</button>
+
+                                                        </div>
+                                                    </form>
+                                                </div>
+
+                                            </div>
+                                        </div>
+                                    </div>
+
                                     {% endfor %}
                                 </tbody>
                             </table>

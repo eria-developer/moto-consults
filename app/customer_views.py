@@ -103,11 +103,12 @@ def view_customer(request, customer_id):
 
 
 @login_required(login_url="/")
-# View to delete a customer
 def delete_customer(request, customer_id):
     customer = get_object_or_404(models.Customer, id=customer_id)
-    customer.delete()
-    return redirect("list-of-customers")
+    if request.method == "POST":
+        customer.delete()
+        messages.success(request, f"{customer.firstname} {customer.firstname} has been deleted successfully")
+        return redirect("list-of-customers")
 
 
 @login_required(login_url="/")
@@ -135,13 +136,14 @@ def search_customers(request):
 
         customer_list = [
             {
+                "id": customer.id,
                 "firstname": customer.firstname,
                 "othernames": customer.othernames,
                 "phonenumber_1": customer.phonenumber_1,
                 "phonenumber_2": customer.phonenumber_2,
                 "email": customer.email,
                 "address": customer.address,
-                "date": customer.date.strftime("%Y-%m-%d %H:%M:%S"),
+                "date_added": customer.date_added.strftime("%Y-%m-%d %H:%M:%S"),
                 "passport_photo": customer.passport_photo.url if customer.passport_photo else "",
                 "file_upload": customer.file_upload.url if customer.file_upload else "",
                 "remarks": customer.remarks,
