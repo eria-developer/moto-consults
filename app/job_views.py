@@ -65,6 +65,7 @@ def delete_job(request, job_id):
     job = get_object_or_404(models.Job, id=job_id)
     if request.method == "POST":
         job.delete()
+        messages.success(request, f"{job.job_title} has been deleted successfully")
         return redirect("list-of-jobs")
     
 
@@ -75,7 +76,7 @@ def list_of_jobs(request):
         edit_job_form = forms.EditJobForm(instance=job)
     else:
         edit_job_form = forms.EditJobForm()
-        jobs = models.Job.objects.all()
+        jobs = models.Job.objects.all().order_by("-date_added")
 
     if request.method == 'POST':
         form_name = request.POST.get('form_name')

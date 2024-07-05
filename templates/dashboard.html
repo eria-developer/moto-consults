@@ -104,16 +104,18 @@
                 <div class="col-xl-12 col-xxl-12 col-lg-12 col-sm-12">
                     <div class="">
                         <div class="">
-
-
-
                             <!-- Custom date inputs, hidden by default -->
-                            <div id="custom-dates" style="display: none;">
-                                <label for="start-date">Start Date:</label>
-                                <input type="date" id="start-date">
-                                <label for="end-date">End Date:</label>
-                                <input type="date" id="end-date">
-                                <button onclick="updateChart('custom')">Update</button>
+                            <div class=" gap-5 mb-3 col-md-12" id="custom-dates" style="display: none;">
+                                <div>
+                                    <label for="start-date" class="form-label">Start Date:</label>
+                                    <input type="date" id="start-date" class="form-control">
+                                </div>
+                                <div>
+                                    <label for="end-date" class="form-label">End Date:</label>
+                                    <input type="date" id="end-date" class="form-control">
+                                </div>
+                                <button onclick="updateChart('custom')"
+                                    class="btn btn-primary mb-2 mt-4">Update</button>
                             </div>
 
 
@@ -201,26 +203,7 @@
                                             </div>
                                         </div>
                                     </div>
-                                    <div class="tab-pane fade show active" id="customEarning" role="tabpanel">
-                                        <!-- Content for 'Custom Date' tab -->
-                                        <div class="pt-4">
-                                            <div class="media">
-                                                <span class="me-3"><i class="fas fa-dollar-sign"></i></span>
-                                                <div class="media-body text-white">
-                                                    <div class="d-flex justify-content-between">
-                                                        <div>
-                                                            <p class="mb-1">earnings: Insert dynamic date range here</p>
-                                                        </div>
-                                                        <button type="button" class="btn btn-xs btn-primary mb-2"
-                                                            data-bs-toggle="modal" data-bs-target="#selectDateRange"><i
-                                                                class="fa fa-calendar me-2"></i> date
-                                                        </button>
-                                                    </div>
-                                                    <h3 class="text-white">Insert dynamic content here</h3>
-                                                </div>
-                                            </div>
-                                        </div>
-                                    </div>
+
                                 </div>
                             </div>
                             <!-- End Tab content -->
@@ -240,16 +223,14 @@
                             <div class="row text-success">
                                 <div class="col-6 border-end">
                                     <div class="pt-3 pb-3 ps-0 pe-0 text-center">
-                                        <h4 class="m-1 text-success"><span class="counter">Ugx. {{
-                                                total_paid_registration }}</span>
+                                        <h4 class="m-1 text-success"><span class="counter">Ugx. {{ total_paid_registration }}</span>
                                         </h4>
                                         <p class="m-0">Paid</p>
                                     </div>
                                 </div>
                                 <div class="col-6">
                                     <div class="pt-3 pb-3 ps-0 pe-0 text-center text-danger">
-                                        <h4 class="m-1 text-danger"><span class="counter">Ugx. {{
-                                                total_unpaid_registration }}</span>
+                                        <h4 class="m-1 text-danger"><span class="counter">Ugx. {{total_unpaid_registration }}</span>
                                         </h4>
                                         <p class="m-0">Unpaid</p>
                                     </div>
@@ -266,16 +247,14 @@
                             <div class="row text-success">
                                 <div class="col-6 border-end text-success">
                                     <div class="pt-3 pb-3 ps-0 pe-0 text-center">
-                                        <h4 class="m-1 text-success"><span class="counter">Ugx. {{
-                                                total_paid_consultation }}</span>
+                                        <h4 class="m-1 text-success"><span class="counter">Ugx. {{total_paid_consultation }}</span>
                                         </h4>
                                         <p class="m-0">Paid</p>
                                     </div>
                                 </div>
                                 <div class="col-6">
                                     <div class="pt-3 pb-3 ps-0 pe-0 text-center text-danger">
-                                        <h4 class="m-1 text-danger"><span class="counter">Ugx. {{
-                                                total_unpaid_consultation }}</span>
+                                        <h4 class="m-1 text-danger"><span class="counter">Ugx. {{ total_unpaid_consultation }}</span>
                                         </h4>
                                         <p class="m-0">Unpaid</p>
                                     </div>
@@ -292,16 +271,14 @@
                             <div class="row text-success">
                                 <div class="col-6 border-end text-success">
                                     <div class="pt-3 pb-3 ps-0 pe-0 text-center">
-                                        <h4 class="m-1 text-success"><span class="counter">Ugx. {{ total_paid_connection
-                                                }}</span>
+                                        <h4 class="m-1 text-success"><span class="counter">Ugx. {{ total_paid_connection }}</span>
                                         </h4>
                                         <p class="m-0">Paid</p>
                                     </div>
                                 </div>
                                 <div class="col-6">
                                     <div class="pt-3 pb-3 ps-0 pe-0 text-center text-danger">
-                                        <h4 class="m-1 text-danger"><span class="counter">Ugx. {{
-                                                total_unpaid_connection }}</span>
+                                        <h4 class="m-1 text-danger"><span class="counter">Ugx. {{ total_unpaid_connection }}</span>
                                         </h4>
                                         <p class="m-0">Unpaid</p>
                                     </div>
@@ -607,7 +584,7 @@
                                             <th scope="col">Expense Name</th>
                                             <th scope="col" class="text-center">Category</th>
                                             <th scope="col" class="text-center">Amount</th>
-                                            <th scope="col" class="text-center">Payment Date</th>
+                                            <th scope="col" class="text-center">Date Registered</th>
                                         </tr>
                                     </thead>
                                     <tbody>
@@ -617,7 +594,7 @@
                                             </td>
                                             <td class="text-center">{{ expense.category }}</td>
                                             <td class="text-center">{{ expense.amount }}</td>
-                                            <td class="text-center">{{ expense.date }}</td>
+                                            <td class="text-center">{{ expense.date_added }}</td>
                                         </tr>
                                         {% endfor %}
                                     </tbody>
@@ -632,35 +609,6 @@
                     </div>
 
                 </div>
-
-                <!-- <div class="col-xl-8 col-lg-8 col-xxl-8 col-sm-8">
-                    <div class="card">
-                        <div class="card-header">
-                            <h4 class="card-title">Recent registered Expenses</h4>
-                        </div>
-                        <div class="card-body">
-                            <div>
-                                <canvas id="feePaymentsChart" height="200"></canvas>
-                            </div>
-                            <div class="btn-group" role="group" aria-label="Timeframe selection">
-                                <button type="button" class="btn btn-outline-primary timeframe-button"
-                                    data-timeframe="day">Today</button>
-                                <button type="button" class="btn btn-outline-primary timeframe-button"
-                                    data-timeframe="week">This Week</button>
-                                <button type="button" class="btn btn-outline-primary timeframe-button"
-                                    data-timeframe="month">This Month</button>
-                                <button type="button" class="btn btn-outline-primary timeframe-button"
-                                    data-timeframe="year">This Year</button>
-                                <button type="button" id="customDateRangeButton" class="btn btn-outline-primary">Custom
-                                    Date Range</button>
-                            </div>
-                        </div>
-                    </div>
-                </div> -->
-
-
-
-
 
             </div>
 
@@ -722,11 +670,6 @@
         </div>
     </div>
 
-
-
-
-
-    
 </div>
 
 

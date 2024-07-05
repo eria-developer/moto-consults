@@ -24,7 +24,7 @@ def add_expense(request):
 
 
 def list_of_expenses(request):
-    expenses = models.Expense.objects.all().order_by("-date")
+    expenses = models.Expense.objects.all().order_by("-date_added")
     add_expense_form = forms.ExpenseForm()
 
     if request.method == "POST":
@@ -33,7 +33,6 @@ def list_of_expenses(request):
             add_expense_form.save()
             messages.success(request, "Expense added successfully!!")
             return redirect("list-of-expenses")
-            print("Expense added successfully!!")
         else:
             for errors, field in add_expense_form.errors.items():
                 for error in errors:

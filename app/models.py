@@ -153,7 +153,7 @@ class Expense(models.Model):
     name = models.CharField(max_length=254)
     category = models.CharField(max_length=254)
     amount = models.IntegerField()
-    date_added = models.DateTimeField(null=True)
+    date_added = models.DateTimeField(auto_now_add=True, null=True)
 
     def __str__(self):
         return f"{self.name} - {self.amount}"

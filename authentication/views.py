@@ -6,6 +6,7 @@ from django.shortcuts import render, redirect, get_object_or_404
 from . import models
 from . import forms
 from django.contrib import messages
+from django.contrib.auth.decorators import login_required
 
 def add_user(request):
     if request.method == 'POST':
@@ -52,6 +53,7 @@ def login_view(request):
     return render(request, 'login.html', {'form': form})
 
 
+@login_required(login_url="/")
 def list_of_users(request):
     users = models.CustomUser.objects.all()
 

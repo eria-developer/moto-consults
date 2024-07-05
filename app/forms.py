@@ -423,10 +423,6 @@ class ExpenseForm(forms.ModelForm):
             }),
             "amount": forms.NumberInput(attrs={
                 "class": "form-control",
-            }),
-            "date": forms.DateInput(attrs={
-                "class": "form-control",
-                "type": "date"
             })
         }
 

@@ -1,85 +1,14 @@
-<html lang="en">
+CUSTOMER MODULE:
+	The edit custom button should display a model for editing
+	the delete button should dispay a model for the user to onfirm
+	add button for new customer 
 
-<head>
-	<meta charset="UTF-8">
-	<meta name="viewport" content="width=device-width, initial-scale=1.0">
-	<title>Document</title>
-</head>
 
-<body>
-	<div class="card">
-		<div class="card-header">
-			<h4 class="card-title">Recent registered Expenses</h4>
-		</div>
-		<div class="card-body">
-			<div>
-				<canvas id="feePaymentsChart"></canvas>
-			</div>
-			<button class="timeframe-button" data-timeframe="day">Today</button>
-			<button class="timeframe-button" data-timeframe="week">This Week</button>
-			<button class="timeframe-button" data-timeframe="month">This Month</button>
-			<button class="timeframe-button" data-timeframe="year">This Year</button>
-			<button id="customDateRangeButton">Custom Date Range</button>
-		</div>
-	</div>
+COMPANY MODULE 
+	Add page for company details 
+	Add search form for companies
 
-	<script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
-	<script>
-		const ctx = document.getElementById('feePaymentsChart').getContext('2d');
 
-		const feePaymentsChart = new Chart(ctx, {
-			type: 'bar',
-			data: {
-				labels: ['Registration', 'Consultation', 'Connection'],
-				datasets: [{
-					label: 'Fees',
-					data: [], // Will be populated dynamically
-					backgroundColor: [
-						'rgba(255, 99, 132, 0.2)',
-						'rgba(54, 162, 235, 0.2)',
-						'rgba(255, 206, 86, 0.2)'
-					],
-					borderColor: [
-						'rgba(255, 99, 132, 1)',
-						'rgba(54, 162, 235, 1)',
-						'rgba(255, 206, 86, 1)',
-					],
-					borderWidth: 1
-				}]
-			},
-			options: {
-				scales: {
-					y: {
-						beginAtZero: true
-					}
-				}
-			}
-		});
-
-		function updateChart(timeframe) {
-			let url = `/fetch_fee_payments/?timeframe=${timeframe}`;
-			if (timeframe === 'custom') {
-				const startDate = document.getElementById('start-date').value;
-				const endDate = document.getElementById('end-date').value;
-				url += `&start_date=${startDate}&end_date=${endDate}`;
-			}
-			fetch(url)
-				.then(response => response.json())
-				.then(data => {
-					feePaymentsChart.data.datasets[0].data = [data.registration, data.consultation, data.connection];
-					feePaymentsChart.update();
-				}).catch(error => console.error('Error:', error));
-		}
-
-		document.addEventListener('DOMContentLoaded', () => updateChart('day')); // Default to 'day'
-
-		document.querySelectorAll('.timeframe-button').forEach(button => {
-			button.addEventListener('click', () => {
-				updateChart(button.dataset.timeframe);
-			});
-		});
-	</script>
-
-</body>
-
-</html>
+JOBS MODULE 
+	when adding new job, for the button to add new job posiiotn, it should display a model 
+	

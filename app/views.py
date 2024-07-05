@@ -17,7 +17,10 @@ from django.utils import timezone
 from datetime import timedelta
 import datetime
 from django.http import JsonResponse
+from django.contrib.auth.decorators import login_required
 
+
+@login_required(login_url="/")
 def dashboard(request):
     total_customers = models.Customer.objects.count()
     total_companies = models.EmployerCompany.objects.count()
@@ -176,6 +179,7 @@ def dashboard(request):
     return render(request, "dashboard.html", context)
 
 
+@login_required(login_url="/")
 def aggregate_earnings(request, timeframe):
     now = timezone.now()
     
@@ -224,8 +228,10 @@ def fetch_fee_payments(request):
     elif timeframe == 'custom':
         start_date = request.GET.get('start_date')
         end_date = request.GET.get('end_date')
-        start_date = timezone.make_aware(datetime.datetime.strptime(start_date, '%Y-%m-%d %H:%M:%S'))
-        end_date = timezone.make_aware(datetime.datetime.strptime(end_date, '%Y-%m-%d %H:%M:%S'))
+        start_date = timezone.make_aware(datetime.datetime.strptime(start_date, '%Y-%m-%d'))
+        end_date = timezone.make_aware(datetime.datetime.strptime(end_date, '%Y-%m-%d'))
+        # Set end_date to the end of the day
+        end_date = end_date.replace(hour=23, minute=59, second=59, microsecond=999999)
     else:
         return JsonResponse({'error': 'Invalid timeframe'})
 

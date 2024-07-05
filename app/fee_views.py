@@ -76,7 +76,7 @@ def delete_fee(request, fee_id):
     
 
 def list_of_fees(request):
-    fees = models.FeesPayment.objects.all()
+    fees = models.FeesPayment.objects.all().order_by("-payment_date")
 
     context = {
         "fees": fees,

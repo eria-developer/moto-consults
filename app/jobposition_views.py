@@ -62,6 +62,7 @@ def delete_jobposition(request, jobposition_id):
     jobposition = get_object_or_404(models.JobPosition, id=jobposition_id)
     if request.method == "POST":
         jobposition.delete()
+        messages.success(request, f"{jobposition.job_position} has been deleted successfully.")
         return redirect("list-of-jobpositions")
     
 

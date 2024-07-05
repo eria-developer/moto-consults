@@ -73,17 +73,17 @@
                                             {{jobposition.job_position}}
                                         </td>
                                         <td class="text-center">
-                                            <button type="button" class="btn btn-sm btn-primary mb-2"
+                                            <button type="button" class="btn btn-xs btn-warning mb-2"
                                                 data-bs-toggle="modal"
                                                 data-bs-target="#editJobPosition{{ jobposition.id }}"><i
-                                                    class="fa fa-pencil me-2"></i>Edit
-                                                position
+                                                    class="fa fa-pencil"></i>
+                                                
                                             </button>
-                                            <button type="button" class="btn btn-sm btn-primary mb-2"
+                                            <button type="button" class="btn btn-xs btn-primary mb-2"
                                                 data-bs-toggle="modal"
                                                 data-bs-target="#deleteJobPosition{{ jobposition.id }}"><i
-                                                    class="fa fa-trash me-2"></i>Delete
-                                                position
+                                                    class="fa fa-trash"></i>
+                                                
                                             </button>
 
                                         </td>
@@ -103,7 +103,12 @@
                                                         {% csrf_token %}
                                                         <input type="hidden" name="form_name"
                                                             value="edit_job_position_form">
-                                                        {{edit_job_position_form.as_p}}
+                                                            <div class="mb-3 col-md-12">
+                                                                <label for="id_job_position" class="form-label">Job position:</label><span
+                                                                    class="text-danger">*</span>
+                                                                <input type="text" name="job_position" maxlength="100" required
+                                                                    id="id_job_position" class="form-control" value="{{jobposition.job_position}}">
+                                                            </div>
                                                         <div>
                                                             <button type="submit" class="btn btn-primary mb-2">Update
                                                                 job position</button>

@@ -489,10 +489,9 @@
 
 
 
-
   <script>
     const ctx = document.getElementById('feePaymentsChart').getContext('2d');
-
+  
     const feePaymentsChart = new Chart(ctx, {
       type: 'bar',
       data: {
@@ -502,7 +501,6 @@
           data: [], // Will be populated dynamically
           backgroundColor: [
             '#49A9FF',
-
             '#56C760',
             '#FF6A59'
           ],
@@ -524,14 +522,18 @@
         }
       }
     });
-
+  
     function updateChart(timeframe) {
       let url = `/app/fetch_fee_payments/?timeframe=${timeframe}`;
       if (timeframe === 'custom') {
         const startDate = document.getElementById('start-date').value;
         const endDate = document.getElementById('end-date').value;
         url += `&start_date=${startDate}&end_date=${endDate}`;
+        document.getElementById('custom-dates').style.display = 'block';
+      } else {
+        document.getElementById('custom-dates').style.display = 'none';
       }
+  
       fetch(url)
         .then(response => response.json())
         .then(data => {
@@ -545,10 +547,10 @@
         })
         .catch(error => console.error('Error:', error));
     }
-
+  
     document.addEventListener('DOMContentLoaded', () => {
       updateChart('custom'); // Default to 'Custom Date'
-
+  
       // Add event listeners to the timeframe tabs
       document.querySelectorAll('.timeframe-button').forEach(button => {
         button.addEventListener('click', () => {
@@ -558,8 +560,7 @@
       });
     });
   </script>
-
-
+  
 
 
 </body>
