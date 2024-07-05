@@ -11,22 +11,38 @@
     <div class="content-body">
         <div class="container-fluid">
             <div class="row page-titles">
-                <ol class="breadcrumb">
-                    <li class="breadcrumb-item active"><a href="javascript:void(0)">Moto consults</a></li>
-                    <li class="breadcrumb-item"><a href="javascript:void(0)">registered companies</a></li>
-                </ol>
+                <div class="d-flex justify-content-between">
+                    <div>
+                        <ol class="breadcrumb">
+                            <li class="breadcrumb-item active"><a href="javascript:void(0)">Moto consults</a></li>
+                            <li class="breadcrumb-item"><a href="javascript:void(0)">registered companies</a></li>
+                        </ol>
+                    </div>
+                    {% if request.user.role == "admin" or request.user.role == "staff" %}
+                    <button type="button" class="btn btn-sm btn-primary mb-2" data-bs-toggle="modal"
+                        data-bs-target="#addCompany"><i class="fa fa-plus-circle me-2"></i>register new company
+                    </button>
+                    {% endif %}
+                </div>
+
             </div>
             <!-- row -->
             <div class="col-lg-12">
                 <div class="card">
                     <div class="card-header d-flex justify-content-between">
                         <h4 class="card-title">List of all registered companies</h4>
-                        <div>
-                            {% if request.user.role == "admin" or request.user.role == "staff" %}
-                            <button type="button" class="btn btn-primary mb-2" data-bs-toggle="modal"
-                                data-bs-target="#addCompany"><i class="fa fa-plus-circle me-2"></i>register new company
-                            </button>
-                            {% endif %}
+                        <div class="nav-item d-flex align-items-center">
+                            <div class="input-group search-area">
+                                <span class="input-group-text"><a href="javascript:void(0)"><svg width="24" height="24"
+                                            viewBox="0 0 32 32" fill="none" xmlns="http://www.w3.org/2000/svg">
+                                            <path
+                                                d="M27.414 24.586L22.337 19.509C23.386 17.928 24 16.035 24 14C24 8.486 19.514 4 14 4C8.486 4 4 8.486 4 14C4 19.514 8.486 24 14 24C16.035 24 17.928 23.386 19.509 22.337L24.586 27.414C25.366 28.195 26.634 28.195 27.414 27.414C28.195 26.633 28.195 25.367 27.414 24.586ZM7 14C7 10.14 10.14 7 14 7C17.86 7 21 10.14 21 14C21 17.86 17.86 21 14 21C10.14 21 7 17.86 7 14Z"
+                                                fill="var(--secondary)" />
+                                        </svg>
+                                    </a></span>
+                                <input type="text" id="search-input" class="form-control"
+                                    placeholder="Search by name, email, address or phone">
+                            </div>
                         </div>
                     </div>
                     <!-- Model for adding company  -->
@@ -55,6 +71,7 @@
                             </div>
                         </div>
                     </div>
+
                     <div class="card-body">
                         <div class="table-responsive">
                             {% if companies %}

@@ -125,7 +125,8 @@ def search_companies(request):
         company_list = []
         for company in companies:
             company_data = {
-                "name": company.name,
+                "id": company.id,
+                 "name": company.name,
                 "phone_number": company.phone_number,
                 "email": company.email,
                 "address": company.address,
