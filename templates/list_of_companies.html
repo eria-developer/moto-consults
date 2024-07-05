@@ -110,10 +110,12 @@
                                             {{company.address}}
                                         </td>
                                         <td class="text-center">
-                                            <a href={% static "view-company" company.id %} type="button"
-                                                class="btn btn-xs btn-info mb-2"><i class="fa fa-eye"></i>
+                                            <a href="{% url 'view-company' company.id %}">
+                                                <button type="button" class="btn btn-xs btn-info mb-2"><i
+                                                        class="fa fa-eye"></i>
 
-                                            </a>
+                                                </button></a>
+
                                             {% if request.user.role == "admin" or request.user.role == "staff" %}
                                             <button type="button" class="btn btn-xs btn-warning mb-2"
                                                 data-bs-toggle="modal" data-bs-target="#editCompany{{ company.id }}"><i
@@ -133,6 +135,8 @@
 
                                         </td>
                                     </tr>
+
+
                                     <!-- Modal for editing company  -->
                                     <div class="modal fade" id="editCompany{{ company.id }}">
                                         <div class="modal-dialog" role="document">
@@ -241,5 +245,8 @@
         </div>
 
     </div>
+
+
+
 
     {% endblock content %}

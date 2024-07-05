@@ -60,9 +60,11 @@ def edit_company(request, company_id):
 @login_required(login_url="/")
 def view_company(request, company_id):
     company = get_object_or_404(models.EmployerCompany, id=company_id)
+    placements = models.RecruitmentProcess.objects.filter(company=company).order_by("-application_date")
 
     context = {
         "company": company,
+        "placements": placements,
     }
     return render(request, "view_company.html", context)
 
@@ -77,13 +79,18 @@ def delete_company(request, company_id):
 
 @login_required(login_url="/")
 def list_of_companies(request):
-    if 'edit_id' in request.GET:
-        company_id = request.GET['edit_id']
-        company = get_object_or_404(models.EmployerCompany, pk=company_id)
-        edit_company_form = forms.EditCompanyForm(instance=company)
-    else:
-        edit_company_form = forms.EditCompanyForm()
-        companies = models.EmployerCompany.objects.all().order_by("-date_added")
+    placements = None
+    edit_company_form = forms.EditCompanyForm()
+    companies = models.EmployerCompany.objects.all().order_by("-date_added")
+
+    company_data = []
+    
+    for company in companies:
+        placements = models.RecruitmentProcess.objects.filter(company=company)
+        company_data.append({
+            'company': company,
+            'placements': placements
+        })
 
     if request.method == 'POST':
         form_name = request.POST.get('form_name')
@@ -106,7 +113,9 @@ def list_of_companies(request):
     context = {
         "companies": companies,
         "edit_company_form": edit_company_form,
-        "add_company_form": add_company_form
+        "add_company_form": add_company_form,
+        "placements": placements,
+        "company_data": company_data,
     }
     return render(request, "list_of_companies.html", context)
 
