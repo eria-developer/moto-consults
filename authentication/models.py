@@ -40,6 +40,8 @@ class CustomUser(AbstractBaseUser, PermissionsMixin):
     othernames = models.CharField(max_length=30)
     is_active = models.BooleanField(default=True)
     is_staff = models.BooleanField(default=False)
+    phone_number = models.CharField(max_length=64, null=True)
+    pass_port_photo = models.ImageField(upload_to="user_images/", null=True)
     role = models.CharField(max_length=254, default="staff", choices=ROLE_CHOICES)
 
     objects = CustomUserManager()

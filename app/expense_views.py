@@ -9,10 +9,11 @@ def add_expense(request):
     if request.method == "POST":
         form = forms.ExpenseForm(request.POST)
         if form.is_valid():
-            form.save()
+            expense = form.save(commit=False)
+            expense.user = request.user
+            expense.save()
             messages.success(request, "Expense added successfully!!")
             return redirect("list-of-expenses")
-            print("Expense added successfully!!")
         else:
             for errors, field in form.errors.items():
                 for error in errors:

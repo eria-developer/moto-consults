@@ -412,7 +412,7 @@ class RegistrationFeesForm(forms.ModelForm):
 class ExpenseForm(forms.ModelForm):
     class Meta:
         model = models.Expense
-        fields = "__all__"
+        fields = ("name", "category", "amount")
 
         widgets = {
             "name": forms.TextInput(attrs={

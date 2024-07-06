@@ -7,8 +7,10 @@ from . import models
 from . import forms
 from django.contrib import messages
 from django.contrib.auth.decorators import login_required
+from app.models import Expense
 
 
+@login_required(login_url="/")
 def add_user(request):
     if request.method == 'POST':
         form = CustomUserCreationForm(request.POST)
@@ -57,8 +59,68 @@ def login_view(request):
 @login_required(login_url="/")
 def list_of_users(request):
     users = models.CustomUser.objects.all()
+    role_choices = models.CustomUser.ROLE_CHOICES
+    print(role_choices)
 
     context = {
         "users": users,
+        "role_choices": role_choices,
     }
     return render(request, "list_of_users.html", context)
+
+
+@login_required(login_url="/")
+def delete_user(request, user_id):
+    user = get_object_or_404(models.CustomUser, id=user_id)
+    if request.method == "POST":
+        user.delete()
+        messages.success(request, f"{user.firstname} {user.firstname} has been deleted successfully")
+        return redirect("list-of-users")
+
+
+@login_required(login_url="/")
+def view_user(request, user_id):
+    user = get_object_or_404(models.CustomUser, id=user_id)
+    expenses = Expense.objects.filter(user=user)
+
+    context = {
+        "user": user,
+        "expenses": expenses,
+    }
+    return render(request, "view_user.html", context)
+
+
+@login_required(login_url="/")
+def edit_user(request, user_id):
+    user = get_object_or_404(models.CustomUser, id=user_id)
+    role_choices = models.CustomUser.ROLE_CHOICES
+
+    if request.method == "POST":
+        firstname = request.POST.get("firstname")
+        othernames = request.POST.get("othernames")
+        phone_number = request.POST.get("phone_number")
+        email = request.POST.get("email")
+        pass_port_photo = request.POST.get("pass_port_photo")
+        role = request.POST.get("role")
+
+        # Update the user object with new data
+        user.firstname = firstname
+        user.othernames = othernames
+        user.phone_number = phone_number
+        user.email = email
+        user.pass_port_photo = pass_port_photo
+        user.role = role
+
+        # Save the updated user object
+        user.save()
+
+        messages.success(request, f"User '{user.firstname} {user.othernames}' updated successfully.")
+
+        return redirect('view-user', user_id=user.id)
+
+
+    context = {
+        "user": user,
+        "role_choices": role_choices,
+    }
+    return render(request, "view_user.html", context)
