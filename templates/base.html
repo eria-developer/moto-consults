@@ -105,8 +105,11 @@
           <div class="collapse navbar-collapse justify-content-between">
             <div class="header-left">
               <div class="dashboard_bar">
-
+                <h3 class="badge badge-info" style="font-size: 0.8rem;">{{ request.user.firstname|title }} {{ request.user.othernames|title }}:
+                  <span class="badge badge-info" style="font-size: 0.8rem;">{{ request.user.role|title }}</span>
+                </h3>
               </div>
+
 
             </div>
             <div class="navbar-nav header-right">
@@ -133,19 +136,6 @@
                         </svg>
 
                       </a>
-                      <!-- <div class="dropdown-menu dropdown-menu-end">
-                        <div id="DZ_W_TimeLine02"
-                          class="widget-timeline dlab-scroll style-1 ps ps--active-y p-3 height370">
-                          <h4 class="text-center border-bottom pb-2">Company quick settings</h4>
-                          <ul class="timeline">
-
-
-
-                          </ul>
-                        </div>
-                        <a class="all-notification" href="javascript:void(0);">Manage all settings <i
-                            class="ti-arrow-end"></i></a>
-                      </div> -->
                     </li>
 
                   </ul>
