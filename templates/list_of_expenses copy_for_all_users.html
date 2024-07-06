@@ -2,7 +2,7 @@
 
 {% load static %}
 
-{% block title %}Muto consults | List of Expenses{% endblock title %}
+{% block title %}Muto consults | List of Expenses for all Users{% endblock title %}
 
 {% block extra_css %}{% endblock extra_css %}
 
@@ -15,7 +15,8 @@
                     <div>
                         <ol class="breadcrumb">
                             <li class="breadcrumb-item active"><a href="javascript:void(0)">Muto consults</a></li>
-                            <li class="breadcrumb-item"><a href="javascript:void(0)">List of Expenses</a></li>
+                            <li class="breadcrumb-item"><a href="javascript:void(0)">List of Expenses for all Users</a>
+                            </li>
                         </ol>
                     </div>
                     <div>
@@ -30,11 +31,10 @@
                 <div class="card">
                     <div class="card-header d-flex">
                         <div class="d-flex">
-                            <h4 class="card-title">List of my Expenses</h4>
+                            <h4 class="card-title">List of Expenses for all Users</h4>
                             {% if request.user.role == "admin" %}
-                            <div class="ms-4 text-primary mt-2"><a href="{% url 'list-of-expenses-for-all-users' %}"
-                                    class="text-primary" style="text-decoration: underline;">View Expenses for all
-                                    users</a>
+                            <div class="ms-4 text-primary mt-2"><a href="{% url 'list-of-expenses' %}"
+                                    class="text-primary" style="text-decoration: underline;">View my Expenses </a>
                             </div>
                             {% endif %}
                         </div>
@@ -80,12 +80,15 @@
                     </div>
                     <div class="card-body">
                         <div class="table-responsive">
-                            {% if my_expenses %}
+                            {% if expenses %}
                             <table class="table table-responsive-md" id="expenses-table">
                                 <thead>
                                     <tr>
                                         <th>
-                                            <strong>Expense Name</strong>
+                                            <strong>User</strong>
+                                        </th>
+                                        <th>
+                                            <strong>Expense</strong>
                                         </th>
                                         <th class="text-center">
                                             <strong>Category</strong>
@@ -100,8 +103,11 @@
                                 </thead>
                                 <tbody>
 
-                                    {% for expense in my_expenses %}
+                                    {% for expense in expenses %}
                                     <tr>
+                                        <td>
+                                            {{expense.user.firstname}} {{expense.user.othernames}}
+                                        </td>
                                         <td>
                                             {{expense.name}}
                                         </td>
