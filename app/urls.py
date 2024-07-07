@@ -76,5 +76,6 @@ urlpatterns = [
     path("list-of-expenses/", views.list_of_expenses, name="list-of-expenses"),
     path("list-of-expenses-for-all-users/", views.list_of_expenses_of_all_users, name="list-of-expenses-for-all-users"),
 
-    path("reports", views.reports, name="reports"),
+    # reports views
+    path("reports/<str:time_frame>/", views.reports, name="reports"),
 ]

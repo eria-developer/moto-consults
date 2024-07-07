@@ -46,6 +46,17 @@
       border-radius: 12px;
       font-weight: bolder;
     }
+
+    .independent-columns {
+      align-items: flex-start;
+      /* Override the default stretch behavior */
+    }
+
+    .row-clear::after {
+      content: "";
+      display: table;
+      clear: both;
+    }
   </style>
 </head>
 
@@ -111,9 +122,20 @@
                 </h3>
 
               </div>
-              <div class="ms-5"><a href="" class="btn btn-sm btn-outline-info"><i
-                    class="bi bi-file-earmark-bar-graph-fill me-2"></i>View Reports
-                </a>
+              <div class="ms-5 mt-2">
+                <div class="dropdown custom-dropdown">
+                  <div data-bs-toggle="dropdown" class="btn btn-sm btn-outline-info hover:text-white">
+                    <i class="bi bi-file-earmark-bar-graph-fill me-2"></i>View Reports
+                    <i class="fa fa-angle-down ms-3"></i>
+                  </div>
+                  <div class="dropdown-menu dropdown-menu-end">
+                    <a class="dropdown-item" href="{% url 'reports' 'today' %}">Report for Today</a>
+                    <a class="dropdown-item" href="{% url 'reports' 'week' %}">Report for this Week</a>
+                    <a class="dropdown-item" href="{% url 'reports' 'month' %}">Report for this Month</a>
+                    <a class="dropdown-item" href="{% url 'reports' 'year' %}">Report for this Year</a>
+                  </div>
+                </div>
+
               </div>
 
 
