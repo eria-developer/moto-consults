@@ -7,6 +7,7 @@ from .placement_views import add_placement, edit_placement, view_placement, dele
 from .consultation_views import add_consultation, view_consultation, list_of_consultations
 from .expense_views import add_expense, list_of_expenses, list_of_expenses_of_all_users
 from .settings_views import company_settings, roles, my_profile, edit_settings
+from .report_views import reports
 
 from django.shortcuts import render
 from . import models
