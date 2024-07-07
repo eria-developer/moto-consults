@@ -1,25 +1,420 @@
-CUSTOMER MODULE:
-	The edit custom button should display a model for editing
-	the delete button should dispay a model for the user to onfirm
-	add button for new customer 
+below is my list of placments views
+@login_required(login_url="/")
+def list_of_placements(request):
+    placements = models.RecruitmentProcess.objects.all()
+    customers = models.Customer.objects.all()
+    jobs = models.Job.objects.all()
+    status_choices = models.RecruitmentProcess.STATUS_CHOICES
+    job_companies = models.EmployerCompany.objects.all()
+
+    context = {
+        "placements": placements,
+        "customers": customers,
+        "jobs": jobs,
+        "status_choices": status_choices,
+        "job_companies": job_companies,
+    }
+    return render(request, "list_of_placements.html", context)
 
 
-COMPANY MODULE 
-	Add page for company details 
-	Add search form for companies
+below is edit placement
+@login_required(login_url="/")
+def edit_placement(request, placement_id):
+    placement = get_object_or_404(models.RecruitmentProcess, id=placement_id)
+    print(placement)
+    if request.method == "POST":
+        # form = forms.EditPlacementForm(request.POST, instance=placement)
+        # if form.is_valid():
+        #     form.save()
+        #     messages.success(request, "placement details updated successfully")
+        #     return redirect("view_placement", placement_id=placement.id)
+        # else:
+        #     for field, errors in form.errors.items():
+        #         for error in errors:
+        #             messages.error(request, f"{error} in {field}")
+        customer = request.POST.get("customer")
+        job = request.POST.get("job")
+        company = request.POST.get("company")
+        status = request.POST.get("status")
+        expected_salary = request.POST.get("expected_salary")
+
+        placement.customer = customer.id
+        placement.job = job
+        placement.company = company
+        placement.status = status
+        placement.expected_salary = expected_salary
+
+        # Save the updated user object
+        placement.save()
+
+        messages.success(request, f"'{placement.firstname}'s placement updated successfully.")
+
+    else:
+        form = forms.EditPlacementForm(instance=placement)
+
+    context = {
+        "form": form,
+        "placement": placement,
+    }
+    return render(request, "edit_placement.html", context)
 
 
-JOBS MODULE 
-	when adding new job, for the button to add new job posiiotn, it should display a model 
+below is the html 
+{% extends "base.html" %}
+
+{% load static %}
+
+{% block title %}Muto consults | List of placements{% endblock title %}
+
+{% block extra_css %}
+<style>
+    /* Add custom CSS for table borders */
+    .table-bordered td,
+    .table-bordered th {
+        border: 1px solid #dee2e6;
+        /* Light grey border */
+    }
+</style>
+{% endblock extra_css %}
+
+{% block content %}
+<div>
+    <div class="content-body">
+        <div class="container-fluid">
+            <div class="row page-titles">
+                <div class="d-flex justify-content-between">
+                    <div>
+                        <ol class="breadcrumb">
+                            <li class="breadcrumb-item active"><a href="javascript:void(0)">Muto consults</a></li>
+                            <li class="breadcrumb-item"><a href="javascript:void(0)">List of placements</a></li>
+                        </ol>
+                    </div>
+                    <div>
+                        <button type="button" class="btn btn-sm btn-primary" data-bs-toggle="modal"
+                            data-bs-target="#addPlacement"><i class="fa fa-plus-circle me-2"></i>Add placement
+                        </button>
+                    </div>
+                </div>
+            </div>
+            <!-- Modal for adding placement  -->
+            <div class="modal fade" id="addPlacement">
+                <div class="modal-dialog" role="document">
+                    <div class="modal-content">
+                        <div class="modal-header">
+                            <h5 class="modal-title">Add Placement</h5>
+                            <button type="button" class="btn-close" data-bs-dismiss="modal">
+                            </button>
+                        </div>
+                        <div class="modal-body">
+
+                            <form id="companyForm" method="post" action="{% url 'add-placement' %}">
+                                {% csrf_token %}
+                                <input type="hidden" name="form_name" value="add_placement_form">
+
+                                <!-- customer field -->
+                                <div class="col-md-12">
+                                    <label for="id_customer" class="form-label me-3">Customer:</label>
+
+                                    <select name="customer" id="id_customer"
+                                        class="default-select form-control wide mt-1 mr-2 ml-2 mb-4">
+                                        <option value="">Select a customer</option>
+                                        {% for customer in customers %}
+                                        <option value="{{customer.id}}">{{ customer }}</option>
+                                        {% endfor %}
+                                    </select>
 
 
-USERS MODULE 
-	Add page to view the users 
-		should contain information like user info, their expenses and so on 
-	Add model to edit their info 
-	Add model to delete their info 
+                                </div>
+
+                                <!-- placement field  -->
+                                <div class="my-3 col-md-12" style="margin-top: 32px;">
+                                    <label for="id_placement" class="form-label me-3">Placement:</label>
+
+                                    <select name="placement" id="id_placement"
+                                        class="default-select form-control wide mt-1 mr-2 ml-2 mb-4">
+                                        <option value="">Select a placement</option>
+                                        {% for placement in placements %}
+                                        <option value="{{placement.id}}">{{ placement }}</option>
+                                        {% endfor %}
+                                    </select>
 
 
-MY PROFILE PAGE
-	
+                                </div>
 
+
+                                <!-- placement company field -->
+                                <div class="mb-3 col-md-12">
+                                    <label for="id_placement_company" class="form-label">Placement Company:</label>
+
+                                    <select name="company" id="id_company"
+                                        class="default-select form-control wide mt-1 mr-2 ml-2 mb-4">
+                                        <option value="">Select a placement company</option>
+                                        {% for placement_company in placement_companies %}
+                                        <option value="{{placement_company.id}}">{{ placement_company }}</option>
+                                        {% endfor %}
+                                    </select>
+
+
+                                </div>
+
+                                <div class="mb-3 col-md-12">
+                                    <label for="id_status" class="form-label">Status:</label>
+                                    <select name="status" id="id_status"
+                                        class="default-select form-control wide mt-1 mr-2 ml-2 mb-4">
+                                        <option value="">Select a status</option>
+                                        {% for value, label in status_choices %}
+                                        <option value="{{value}}">{{ label }}</option>
+                                        {% endfor %}
+                                    </select>
+                                </div>
+
+                                <div class="mb-3 col-md-12">
+                                    <label for="id_expected_salary" class="form-label">Expected salary:</label><span
+                                        class="text-danger">*</span>
+                                    <input type="number" name="expected_salary" required id="id_expected_salary"
+                                        class="form-control mt-1 mr-2 ml-2 mb-4">
+                                </div>
+
+                                <div class="mb-3"><button type="submit" class="btn btn-primary mb-2">Save
+                                        placement</button></div>
+                            </form>
+
+                        </div>
+                        <div class="modal-footer">
+                            <button type="button" class="btn btn-danger light" data-bs-dismiss="modal">Close</button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <!-- row -->
+            <div class="col-lg-12">
+                <div class="card">
+                    <div class="card-header d-flex">
+                        <h4 class="card-title">List of all placements</h4>
+                        <div class="nav-item d-flex align-items-center">
+                            <div class="input-group search-area">
+                                <span class="input-group-text"><a href="javascript:void(0)"><svg width="24" height="24"
+                                            viewBox="0 0 32 32" fill="none" xmlns="http://www.w3.org/2000/svg">
+                                            <path
+                                                d="M27.414 24.586L22.337 19.509C23.386 17.928 24 16.035 24 14C24 8.486 19.514 4 14 4C8.486 4 4 8.486 4 14C4 19.514 8.486 24 14 24C16.035 24 17.928 23.386 19.509 22.337L24.586 27.414C25.366 28.195 26.634 28.195 27.414 27.414C28.195 26.633 28.195 25.367 27.414 24.586ZM7 14C7 10.14 10.14 7 14 7C17.86 7 21 10.14 21 14C21 17.86 17.86 21 14 21C10.14 21 7 17.86 7 14Z"
+                                                fill="var(--secondary)" />
+                                        </svg>
+                                    </a></span>
+                                <input type="text" id="search-input" class="form-control"
+                                    placeholder="Search by candidate, placement or company">
+                            </div>
+                        </div>
+                    </div>
+                    <div class="card-body">
+                        <div class="table-responsive">
+                            {% if placements %}
+                            <table class="table table-responsive-md table-bordered" id="placements-table">
+                                <thead>
+                                    <tr>
+                                        <th><strong>Candidate</strong></th>
+                                        <th class="text-center"><strong>Job</strong></th>
+                                        <th class="text-center"><strong>Company</strong></th>
+                                        <th class="text-center"><strong>Status</strong></th>
+                                        <th class="text-center"><strong>Action</strong></th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    {% for placement in placements %}
+                                    <tr>
+                                        <td>{{ placement.customer.firstname }} {{ placement.customer.othernames }}
+                                        </td>
+                                        <td class="text-center">{{ placement.job.job_title }}</td>
+                                        <td class="text-center">{{ placement.company.name }}</td>
+                                        <td class="text-center">{{ placement.status }}</td>
+                                        <td class="text-center">
+                                            <div class="d-flex text-center justify-content-center gap-2">
+                                                <button type="button" class="btn btn-xs btn-warning mb-2"
+                                                    data-bs-toggle="modal"
+                                                    data-bs-target="#editPlacement{{ placement.id }}"><i
+                                                        class="fa fa-pencil"></i>
+
+                                                </button>
+                                                <button type="button" class="btn btn-xs btn-primary mb-2"
+                                                    data-bs-toggle="modal"
+                                                    data-bs-target="#deletePlacement{{ placement.id }}"><i
+                                                        class="fa fa-trash"></i>
+
+                                                </button>
+                                            </div>
+                                        </td>
+                                        <!-- Modal for deleting placement -->
+                                        <div class="modal fade" id="deletePlacement{{ placement.id }}">
+                                            <div class="modal-dialog" role="document">
+                                                <div class="modal-content">
+                                                    <div class="modal-header">
+                                                        <h5 class="modal-title">Deleting Placement</h5>
+                                                        <button type="button" class="btn-close"
+                                                            data-bs-dismiss="modal"></button>
+                                                    </div>
+                                                    <div class="modal-body">
+                                                        <form action="{% url 'delete-placement' placement.id %}"
+                                                            method="post">
+                                                            {% csrf_token %}
+                                                            <input type="hidden" name="form_name"
+                                                                value="delete_placement_form">
+                                                            {{ delete_placement_form.as_p }}
+                                                            <div>Are you sure you want to delete this placement?</div>
+                                                            <div class="d-flex modal-footer">
+                                                                <button type="submit"
+                                                                    class="btn btn-sm btn-primary mb-2">Delete</button>
+                                                                <button type="button"
+                                                                    class="btn btn-sm btn-danger light"
+                                                                    data-bs-dismiss="modal">Cancel</button>
+                                                            </div>
+                                                        </form>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </tr>
+
+                                    <!-- Modal for editing placement  -->
+                                    <div class="modal fade" id="editPlacement{{ placement.id }}">
+                                        <div class="modal-dialog" role="document">
+                                            <div class="modal-content">
+                                                <div class="modal-header">
+                                                    <h5 class="modal-title">Edit Placement</h5>
+                                                    <button type="button" class="btn-close" data-bs-dismiss="modal">
+                                                    </button>
+                                                </div>
+                                                <div class="modal-body">
+                                                    <form action="{% url 'edit-placement' placement.id%}" method="post">
+
+                                                        {% csrf_token %}
+                                                        <div class="col-md-12">
+                                                            <label for="id_customer"
+                                                                class="form-label me-3">Customer:</label>
+                                                            <select disabled name="customer" id="id_customer"
+                                                                class="default-select form-control wide mt-1 mr-2 ml-2 mb-4">
+                                                                <option value="{{placement.customer.id}}">
+                                                                    {{placement.customer.firstname}}
+                                                                    {{placement.customer.othernames}}</option>
+                                                                {% for customer in customers %}
+                                                                <option value="{{customer.id}}">{{ customer }}</option>
+                                                                {% endfor %}
+                                                            </select>
+
+
+                                                        </div>
+
+                                                        <!-- job field  -->
+                                                        <div class="my-3 col-md-12" style="margin-top: 32px;">
+                                                            <label for="id_job" class="form-label me-3">Job:</label>
+                                                            <select disabled name="job" id="id_job"
+                                                                class="default-select form-control wide mt-1 mr-2 ml-2 mb-4">
+                                                                <option value="{{placement.job.id}}">
+                                                                    {{placement.job.job_title}}</option>
+                                                                {% for job in jobs %}
+                                                                <option value="{{job.id}}">{{ job }}</option>
+                                                                {% endfor %}
+                                                            </select>
+
+
+                                                        </div>
+
+
+                                                        <!-- job company field -->
+                                                        <div class="mb-3 col-md-12">
+                                                            <label for="id_job_company" class="form-label">Job
+                                                                Company:</label>
+                                                            <select disabled name="company" id="id_company"
+                                                                class="default-select form-control wide mt-1 mr-2 ml-2 mb-4">
+                                                                <option value="{{placement.company.id}}">
+                                                                    {{placement.company.name}}</option>
+                                                                {% for job_company in job_companies %}
+                                                                <option value="{{job_company.id}}">{{ job_company }}
+                                                                </option>
+                                                                {% endfor %}
+                                                            </select>
+
+
+                                                        </div>
+
+                                                        <div class="mb-3 col-md-12">
+                                                            <label for="id_status" class="form-label">Status:</label>
+                                                            <select name="status" id="id_status"
+                                                                class="default-select form-control wide mt-1 mr-2 ml-2 mb-4">
+                                                                <option value="{{placement.status}}">
+                                                                    {{placement.status}}</option>
+                                                                {% for value, label in status_choices %}
+                                                                <option value="{{value}}">{{ label }}</option>
+                                                                {% endfor %}
+                                                            </select>
+                                                        </div>
+
+                                                        <div class="mb-3 col-md-12">
+                                                            <label for="id_expected_salary" class="form-label">Expected
+                                                                salary:</label><span class="text-danger">*</span>
+                                                            <input type="number" name="expected_salary" required
+                                                                id="id_expected_salary"
+                                                                class="form-control mt-1 mr-2 ml-2 mb-4"
+                                                                value="{{placement.expected_salary}}">
+                                                        </div>
+
+                                                        <div class="mb-3"><button type="submit"
+                                                                class="btn btn-primary mb-2">Update
+                                                                placement</button></div>
+                                                    </form>
+                                                </div>
+                                                <div class="modal-footer">
+                                                    <button type="button" class="btn btn-danger light"
+                                                        data-bs-dismiss="modal">Close</button>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+
+                                    <!-- Modal for deleting placement  -->
+                                    <div class="modal fade" id="deletePlacement{{ placement.id }}">
+                                        <div class="modal-dialog" role="document">
+                                            <div class="modal-content">
+                                                <div class="modal-header">
+                                                    <h5 class="modal-title">Deleting Placement</h5>
+                                                    <button type="button" class="btn-close" data-bs-dismiss="modal">
+                                                    </button>
+                                                </div>
+                                                <div class="modal-body">
+                                                    <form action="{% url 'delete-placement' placement.id%}"
+                                                        method="post">
+                                                        {% csrf_token %}
+                                                        <input type="hidden" name="form_name"
+                                                            value="delete_placement_form">
+                                                        {{delete_placement_form.as_p}}
+                                                        <div>
+                                                            Are you sure you want to delete
+                                                            {{placement.placement_title}} ?
+                                                        </div>
+                                                        <div class="d-flex modal-footer">
+                                                            <button type="submit"
+                                                                class="btn btn-sm btn-primary mb-2">Delete</button>
+
+                                                            <button type="button" class="btn btn-sm btn-danger light"
+                                                                data-bs-dismiss="modal">Cancel</button>
+
+                                                        </div>
+                                                    </form>
+                                                </div>
+
+                                            </div>
+                                        </div>
+                                    </div>
+                                    {% endfor %}
+                                </tbody>
+                            </table>
+                            {% else %}
+                            <div class="text-center">There are no placements yet!</div>
+                            {% endif %}
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div id="message"></div>
+    </div>
+</div>
+{% endblock content %}

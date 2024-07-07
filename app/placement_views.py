@@ -87,13 +87,40 @@ def add_placement(request):
 @login_required(login_url="/")
 def edit_placement(request, placement_id):
     placement = get_object_or_404(models.RecruitmentProcess, id=placement_id)
-    print(placement)
+    
     if request.method == "POST":
         form = forms.EditPlacementForm(request.POST, instance=placement)
         if form.is_valid():
-            form.save()
-            messages.success(request, "placement details updated successfully")
-            return redirect("view_placement", placement_id=placement.id)
+            # Get related objects and ensure they are correctly assigned
+            customer_id = request.POST.get("customer")
+            job_id = request.POST.get("job")
+            company_id = request.POST.get("company")
+            
+            if customer_id:
+                customer = get_object_or_404(models.Customer, id=customer_id)
+            else:
+                customer = None
+                
+            if job_id:
+                job = get_object_or_404(models.Job, id=job_id)
+            else:
+                job = None
+
+            if company_id:
+                company = get_object_or_404(models.EmployerCompany, id=company_id)
+            else:
+                company = None
+
+            placement.customer = customer
+            placement.job = job
+            placement.company = company
+            placement.status = request.POST.get("status")
+            placement.expected_salary = request.POST.get("expected_salary")
+
+            placement.save()
+            print(f"Placement: {placement}")
+            messages.success(request, f"'{placement.customer.firstname}'s placement updated successfully.")
+            return redirect("list-of-placements")
         else:
             for field, errors in form.errors.items():
                 for error in errors:
@@ -123,24 +150,24 @@ def delete_placement(request, placement_id):
     placement = get_object_or_404(models.RecruitmentProcess, id=placement_id)
     if request.method == "POST":
         placement.delete()
+        messages.success(request, f"{placement.job.job_title} has been deleted successfully")
         return redirect("list-of-placements")
-    else:
-        # Handle GET request here, for example by rendering a confirmation page
-        return render(request, 'list_of_placements.html', {'placement': placement})
-    
-# def delete_job(request, job_id):
-#     job = get_object_or_404(models.Job, id=job_id)
-#     if request.method == "POST":
-#         job.delete()
-#         return redirect("list-of-jobs")
     
 
 @login_required(login_url="/")
 def list_of_placements(request):
     placements = models.RecruitmentProcess.objects.all()
+    customers = models.Customer.objects.all()
+    jobs = models.Job.objects.all()
+    status_choices = models.RecruitmentProcess.STATUS_CHOICES
+    job_companies = models.EmployerCompany.objects.all()
 
     context = {
         "placements": placements,
+        "customers": customers,
+        "jobs": jobs,
+        "status_choices": status_choices,
+        "job_companies": job_companies,
     }
     return render(request, "list_of_placements.html", context)
 
