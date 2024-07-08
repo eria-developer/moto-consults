@@ -1,0 +1,169 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <title>General Report for {{ report_title }}</title>
+    <style>
+        /* Reset default browser styles */
+        body,
+        h1,
+        h2,
+        h3,
+        p,
+        table {
+            margin: 0;
+            padding: 0;
+        }
+
+        body {
+            font-family: Arial, sans-serif;
+            line-height: 1.6;
+            background-color: #f9f9f9;
+            padding: 10mm;
+        }
+
+        @page {
+            size: A4;
+            /* Standard A4 size */
+            margin: 0mm;
+            /* No margins on any side */
+        }
+
+        .container {
+            width: calc(100% - 40mm);
+            /* Adjust based on desired margin */
+            margin: 0 auto;
+            /* Center the container */
+            max-width: calc(100% - 40mm);
+            /* Ensure it doesn't exceed the page width */
+            /* Other styles remain unchanged */
+        }
+
+
+        .header {
+            text-align: center;
+            margin-bottom: 10px;
+        }
+
+        .header h1 {
+            font-size: 24px;
+            margin-bottom: 5px;
+            color: #333;
+        }
+
+        .header p {
+            font-size: 12px;
+            color: #666;
+        }
+
+        .divider {
+            border-top: 1px solid #ccc;
+            margin: 10px 0;
+        }
+
+        .section {
+            margin-bottom: 20px;
+        }
+
+        .section h2 {
+            font-size: 18px;
+            color: #333;
+            margin-bottom: 5px;
+        }
+
+        .table {
+            width: 100%;
+            border-collapse: collapse;
+            margin-bottom: 10px;
+        }
+
+        .table th,
+        .table td {
+            padding: 8px;
+            font-size: 12px;
+            border-bottom: 1px solid #ddd;
+            color: #333;
+        }
+
+        .table th {
+            text-align: left;
+            background-color: #f2f2f2;
+        }
+
+        .footer {
+            text-align: center;
+            margin-top: 20px;
+            color: #666;
+            font-size: 12px;
+        }
+    </style>
+</head>
+
+<body>
+    <div class="container">
+        <div class="header">
+            <h1>Muto Consults</h1>
+            <p>Kampala, Uganda</p>
+            <p>0771445200</p>
+            <p>mutoconsults@gmail.com</p>
+        </div>
+        <div class="divider"></div>
+        <div class="section">
+            <h2>General Report for {{ report_title }}. (ugx. {{total_outstanding_balance}})</h2>
+
+            <table class="table">
+                <tr>
+                    <th>Total Registration Fees:</th>
+                    <td>Ugx. {{ total_registration_fee }}</td>
+                </tr>
+                <tr>
+                    <th>Total Connection Fees:</th>
+                    <td>Ugx. {{ total_connection_fee }}</td>
+                </tr>
+                <tr>
+                    <th>Total Consultation Fees:</th>
+                    <td>Ugx. {{ total_consultation_fee }}</td>
+                </tr>
+                <tr>
+                    <th>Total Sales:</th>
+                    <td>Ugx. {{ total_sales }}</td>
+                </tr>
+                <tr>
+                    <th>Total Expenses:</th>
+                    <td>Ugx. {{ total_expenses }}</td>
+                </tr>
+                <tr>
+                    <th>Profit/Loss:</th>
+                    <td> {% if profit > 0 %} {{ profit }} profit {% elif profit < 0 %} {{profit}} loss {% else %}
+                            {{profit}} {%endif%}</td>
+                </tr>
+                <tr>
+                    <th>Total in Outstanding balances:</th>
+                    <td>{{ total_outstanding_balance }}</td>
+                </tr>
+                <tr>
+                    <th>Highest Sale:</th>
+                    <td> {{ highest_payment_amount }} made by {{ highest_payment_customer }}</td>
+                </tr>
+                <tr>
+                    <th>Lowest Sale:</th>
+                    <td> {{ lowest_payment_amount }} made by {{ lowest_payment_customer }}</td>
+                </tr>
+                <tr>
+                    <th>Highest expense:</th>
+                    <td> {{ highest_expense_amount }} made by {{ highest_expense_user }} </td>
+                </tr>
+                <tr>
+                    <th>Lowest expense:</th>
+                    <td> {{ lowest_expense_amount }} made by {{ lowest_expense_user }} </td>
+                </tr>
+            </table>
+            <div class="footer">
+                <p>&copy; Muto Consults {{current_year}} | All rights reserved.</p>
+                <p>Contact us at mutoconsults@gmail.com</p>
+            </div>
+        </div>
+</body>
+
+</html>

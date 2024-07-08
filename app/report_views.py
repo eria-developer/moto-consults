@@ -5,7 +5,7 @@ from django.http import HttpResponse
 from django.template.loader import render_to_string
 from weasyprint import HTML
 from .models import FeesPayment, Expense, RegistrationFees, ConsultationFees, ConnectionFees, Customer
-from django.db.models import Sum, F, Max
+from django.db.models import Sum, F, Max, Min
 
 def generate_pdf(template_src, context_dict):
     html_string = render_to_string(template_src, context_dict)
@@ -21,7 +21,6 @@ def get_week_of_month(date):
     adjusted_dom = dom + first_day.weekday()
     return int((adjusted_dom - 1) / 7) + 1
 
-
 def reports(request, time_frame, export_type=None):
     now = timezone.now()
     current_year = now.year
@@ -35,14 +34,9 @@ def reports(request, time_frame, export_type=None):
         start_date = now.replace(hour=0, minute=0, second=0, microsecond=0)
         report_title = f'Day: {current_date}'
     elif time_frame == 'week':
-        # Calculate the start of the current week
         start_of_week = now - timedelta(days=now.weekday())
-        # Calculate the end of the current week
-        end_of_week = start_of_week + timedelta(days=6)
-        # Filter payments for the current week
-        payments = FeesPayment.objects.filter(payment_date__range=[start_of_week, end_of_week])
+        start_date = start_of_week
         report_title = f'Week {current_week} of {month_name}'
-
     elif time_frame == 'month':
         start_date = now.replace(day=1, hour=0, minute=0, second=0, microsecond=0)
         report_title = f'Month: {current_month}'
@@ -68,12 +62,10 @@ def reports(request, time_frame, export_type=None):
     total_expenses = expenses.aggregate(total=Sum('amount'))['total'] or 0
     profit = total_sales - total_expenses
 
-    # Get default fee amounts
     registration_fee_default = RegistrationFees.objects.first().fees_amount
     consultation_fee_default = ConsultationFees.objects.first().fees_amount
     connection_fee_default = ConnectionFees.objects.first().fees_amount
 
-    # Calculate outstanding balances
     outstanding_customers = []
     total_outstanding_balance = 0
     for customer in Customer.objects.all():
@@ -99,6 +91,26 @@ def reports(request, time_frame, export_type=None):
 
         total_outstanding_balance += total_owed
 
+    # Highest and Lowest Payments
+    highest_payment = payments.order_by('-amount').first()
+    lowest_payment = payments.order_by('amount').first()
+    
+    highest_payment_amount = highest_payment.amount if highest_payment else 0
+    highest_payment_customer = highest_payment.customer if highest_payment else "N/A"
+    
+    lowest_payment_amount = lowest_payment.amount if lowest_payment else 0
+    lowest_payment_customer = lowest_payment.customer if lowest_payment else "N/A"
+
+    # Highest and Lowest Expenses
+    highest_expense = expenses.order_by('-amount').first()
+    lowest_expense = expenses.order_by('amount').first()
+    
+    highest_expense_amount = highest_expense.amount if highest_expense else 0
+    highest_expense_user = highest_expense.user if highest_expense else "N/A"
+    
+    lowest_expense_amount = lowest_expense.amount if lowest_expense else 0
+    lowest_expense_user = lowest_expense.user if lowest_expense else "N/A"
+
     context = {
         'time_frame': time_frame,
         'total_registration_fee': total_registration_fee,
@@ -113,10 +125,18 @@ def reports(request, time_frame, export_type=None):
         "current_year": current_year,
         "current_month": current_month,
         "current_week": current_week,
-        "current_date,": current_date,
+        "current_date": current_date,
         "month_name": month_name,
         "report_title": report_title,
         "total_outstanding_balance": total_outstanding_balance,
+        "highest_payment_amount": highest_payment_amount,
+        "highest_payment_customer": highest_payment_customer,
+        "lowest_payment_amount": lowest_payment_amount,
+        "lowest_payment_customer": lowest_payment_customer,
+        "highest_expense_amount": highest_expense_amount,
+        "highest_expense_user": highest_expense_user,
+        "lowest_expense_amount": lowest_expense_amount,
+        "lowest_expense_user": lowest_expense_user,
     }
 
     if export_type == 'earnings':
@@ -125,5 +145,7 @@ def reports(request, time_frame, export_type=None):
         return generate_pdf('expenses_pdf_template.html', context)
     elif export_type == 'outstanding':
         return generate_pdf('outstanding_pdf_template.html', context)
+    elif export_type == 'general':
+        return generate_pdf('general_report.html', context)
 
     return render(request, 'reports.html', context)
