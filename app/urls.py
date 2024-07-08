@@ -78,4 +78,5 @@ urlpatterns = [
 
     # reports views
     path("reports/<str:time_frame>/", views.reports, name="reports"),
+    path('reports/<str:time_frame>/export/<str:export_type>/', views.reports, name='export_report'),
 ]

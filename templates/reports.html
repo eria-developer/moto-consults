@@ -8,187 +8,156 @@
 
 {% block content %}
 <div>
-
     <div class="content-body">
         <div class="container-fluid">
             <div class="row page-titles">
                 <ol class="breadcrumb">
                     <li class="breadcrumb-item active"><a href="javascript:void(0)">Muto Consults</a></li>
-                    <li class="breadcrumb-item"><a href="javascript:void(0)">Report DEtails for this {{time_frame}}</a>
-                    </li>
+                    <li class="breadcrumb-item"><a href="javascript:void(0)">Report DEtails for this {{time_frame}}</a></li>
                 </ol>
             </div>
             <!-- row -->
             <div class="row">
                 <div class="col-xl-12 col-xxl-12 col-lg-12">
                     <div class="card instructors-box">
-
                         <div class="card-body text-center pb-3">
-
                             <div class="bio text-start my-4">
                                 <h4 class="mb-3">Report for {{ time_frame|title }}</h4>
                                 <div class="bio-content mb-3">
                                     <div class="fs-18">
                                         <div class="d-flex mb-2">
                                             <div class="col-lg-8">Totoal Registration Fees:</div>
-                                            <div>{{ total_registration_fee }}</di>
-                                            </div>
+                                            <div>{{ total_registration_fee }}</div>
                                         </div>
-
                                         <div class="d-flex mb-2">
                                             <div class="col-lg-8">Total Connection Fees:</div>
-                                            <div>{{ total_connection_fee }}</di>
-                                            </div>
+                                            <div>{{ total_connection_fee }}</div>
                                         </div>
-
                                         <div class="d-flex mb-2">
                                             <div class="col-lg-8">Totoal Consultation Fees:</div>
-                                            <div>{{ total_consultation_fee }}</di>
-                                            </div>
+                                            <div>{{ total_consultation_fee }}</div>
                                         </div>
-
                                         <div class="d-flex mb-2">
                                             <div class="col-lg-8">Total Sales:</div>
-                                            <div>{{ total_slaes }}</di>
-                                            </div>
+                                            <div>{{ total_slaes }}</div>
                                         </div>
-
                                         <div class="d-flex mb-2">
                                             <div class="col-lg-8">Total Expenses:</div>
-                                            <div>{{ total_expenses }}</di>
-                                            </div>
+                                            <div>{{ total_expenses }}</div>
                                         </div>
-
                                         <div class="d-flex mb-2">
                                             <div class="col-lg-8">Profit/Loss:</div>
-                                            <div
-                                                class="badge badge-pill {% if profit > 0 %}badge-success{% elif profit < 0 %}badge-danger{% else %}badge-warning{% endif %}">
-                                                {{ profit }}</di>
+                                            <div class="badge badge-pill {% if profit > 0 %}badge-success{% elif profit < 0 %}badge-danger{% else %}badge-warning{% endif %}">
+                                                {{ profit }}
                                             </div>
                                         </div>
                                     </div>
                                 </div>
                             </div>
                         </div>
-
-
                     </div>
                 </div>
-                <div class="col-xl-6 col-xxl-6 col-lg-12 ">
-                    <div class="row">
-                        <div class="col-xl-12 col-lg-12 col-sm-12">
-                            <div class="card profile-widget">
-                                <div class="card-body">
-                                    <div
-                                        class="widget-courses align-items-center d-flex justify-content-between style-1 flex-wrap">
-                                        <div class="d-flex justify-content-between">
-                                            <h4 class="mb-3">This {{time_frame}}'s Earnings</h4>
-                                            <div>
-                                                <button class="btn btn-sm btn-outline-primary"><i class="bi bi-download me-2"></i>Export pdf</button>
-                                            </div>
-                                        </div>
-                                        <div class="table-responsive">
-                                            {% if payments %}
-                                            <table class="table table-responsive-md" id="payments-table">
-                                                <thead>
-                                                    <tr class="table-bordered">
-                                                        <th style="width: 50%;"><strong>Customer</strong></th>
-                                                        <th class="text-center"><strong>Fee type</strong></th>
-                                                        <th class="text-center"><strong>Amount</strong></th>
-                                                        <th class="text-center"><strong>Pyment Status</strong></th>
-                                                        <th class="text-center"><strong>Pyment Date</strong></th>
-                                                    </tr>
-                                                </thead>
-                                                <tbody>
-                                                    {% for payment in payments %}
-                                                    <tr>
-                                                        <td>{{ payment.customer.firstname }}
-                                                            {{payment.customer.othernames }}</td>
-                                                        <td class="text-center">{{ payment.fee_type }}</td>
-                                                        <td class="text-center">{{ payment.amount }}</td>
-                                                        <td class="text-center">{{ payment.payment_status }}</td>
-                                                        <td class="text-center">{{ payment.payment_date }}</td>
-                                                    </tr>
-                                                    {% endfor %}
-                                                </tbody>
-                                            </table>
-                                            {% else %}
-                                            <div class="text-center">There are no payments yet!</div>
-                                            {% endif %}
-                                        </div>
-                                    </div>
+                <div class="col-xl-6 col-xxl-6 col-lg-6">
+                    <div class="card profile-widget">
+                        <div class="card-body">
+                            <div class="d-flex justify-content-between">
+                                <h4 class="mb-3">This {{time_frame}}'s Earnings</h4>
+                                <div>
+                                    <button class="btn btn-sm btn-outline-primary" onclick="window.location.href='{% url 'export_report' time_frame 'earnings' %}'">
+                                        <i class="bi bi-download me-2"></i>Export pdf
+                                    </button>
                                 </div>
                             </div>
+                            <div class="table-responsive">
+                                <table class="table table-responsive-md" id="payments-table">
+                                {% if payments %}
+                                    <thead>
+                                        <tr class="table-bordered">
+                                            <th style="width: 50%;"><strong>Customer</strong></th>
+                                            <th class="text-center"><strong>Fee type</strong></th>
+                                            <th class="text-center"><strong>Amount</strong></th>
+                                            <th class="text-center"><strong>Payment Status</strong></th>
+                                            <th class="text-center"><strong>Payment Date</strong></th>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        {% for payment in payments %}
+                                        <tr>
+                                            <td>{{ payment.customer.firstname }} {{payment.customer.othernames }}</td>
+                                            <td class="text-center">{{ payment.fee_type }}</td>
+                                            <td class="text-center">{{ payment.amount }}</td>
+                                            <td class="text-center">{{ payment.payment_status }}</td>
+                                            <td class="text-center">{{ payment.payment_date }}</td>
+                                        </tr>
+                                        {% endfor %}
+                                    </tbody>
+                                {% else %}
+                                <div class="text-center">There are no Earnings yet!</div>
+                                {% endif %}
+                            </table>
+                            </div>
                         </div>
-
-
                     </div>
                 </div>
-                <div class="col-xl-6 col-xxl-6 col-lg-12 ">
-                    <div class="row">
-                        <div class="col-xl-12 col-lg-12 col-sm-12">
-                            <div class="card profile-widget">
-                                <div class="card-body">
-                                    <div
-                                        class="widget-courses align-items-center d-flex justify-content-between style-1 flex-wrap">
-                                        <div class="d-flex justify-content-between">
-                                            <h4 class="mb-3">This {{time_frame}}'s Expenses</h4>
-                                            <div>
-                                                <button class="btn btn-sm btn-outline-primary"><i class="bi bi-download me-2"></i>Export pdf</button>
-                                            </div>
-                                        </div>
-                                        <div class="table-responsive">
-                                            {% if expenses %}
-                                            <table class="table table-responsive-md" id="expenses-table">
-                                                <thead>
-                                                    <tr class="table-bordered">
-                                                        <th style="width: 50%;"><strong>User Name</strong></th>
-                                                        <th style="width: 50%;"><strong>Expense</strong></th>
-                                                        <th class="text-center"><strong>Category</strong></th>
-                                                        <th class="text-center"><strong>Amount</strong></th>
-                                                        <th class="text-center"><strong>Date Added</strong></th>
-                                                    </tr>
-                                                </thead>
-                                                <tbody>
-                                                    {% for expense in expenses %}
-                                                    <tr>
-                                                        <td>{{ expense.user.firstname }}
-                                                            {{expense.user.othernames }}</td>
-                                                        <td class="text-center">{{ expense.name }}</td>
-                                                        <td class="text-center">{{ expense.category }}</td>
-                                                        <td class="text-center">{{ expense.amount }}</td>
-                                                        <td class="text-center">{{ expense.date_added }}</td>
-                                                    </tr>
-                                                    {% endfor %}
-                                                </tbody>
-                                            </table>
-                                            {% else %}
-                                            <div class="text-center">There are no expenses yet!</div>
-                                            {% endif %}
-                                        </div>
+                <div class="col-xl-6 col-xxl-6 col-lg-6">
+                    <div class="card profile-widget">
+                        <div class="card-body">
+                            <div class="bio text-start mt-4">
+                                <div class="d-flex justify-content-between">
+                                    <h4 class="mb-3">This {{time_frame}}'s Expenses</h4>
+                                    <div>
+                                        <button class="btn btn-sm btn-outline-primary" onclick="window.location.href='{% url 'export_report' time_frame 'expenses' %}'">
+                                            <i class="bi bi-download me-2"></i>Export pdf
+                                        </button>
                                     </div>
+                                </div>
+                                <div class="table-responsive">
+                                    <table class="table table-responsive-md" id="expenses-table">
+                                    {% if expenses %}
+                                        <thead>
+                                            <tr class="table-bordered">
+                                                <th style="width: 50%;"><strong>User Name</strong></th>
+                                                <th style="width: 50%;"><strong>Expense</strong></th>
+                                                <th class="text-center"><strong>Category</strong></th>
+                                                <th class="text-center"><strong>Amount</strong></th>
+                                                <th class="text-center"><strong>Date Added</strong></th>
+                                            </tr>
+                                        </thead>
+                                        <tbody>
+                                            {% for expense in expenses %}
+                                            <tr>
+                                                <td>{{ expense.user.firstname }} {{expense.user.othernames }}</td>
+                                                <td class="text-center">{{ expense.name }}</td>
+                                                <td class="text-center">{{ expense.category }}</td>
+                                                <td class="text-center">{{ expense.amount }}</td>
+                                                <td class="text-center">{{ expense.date_added }}</td>
+                                            </tr>
+                                            {% endfor %}
+                                        </tbody>
+                                    {% else %}
+                                    <div class="text-center">There are no expenses yet!</div>
+                                    {% endif %}
+                                </table>
                                 </div>
                             </div>
                         </div>
-
-
                     </div>
                 </div>
                 <div class="col-xl-12 col-xxl-12 col-lg-12">
                     <div class="card instructors-box">
-
                         <div class="card-body text-center pb-3">
-
                             <div class="bio text-start mt-4">
                                 <div class="d-flex justify-content-between">
                                     <h4 class="mb-3">All Outstanding balances</h4>
                                     <div>
-                                        <button class="btn btn-sm btn-outline-primary"><i class="bi bi-download me-2"></i>Export pdf</button>
+                                        <button class="btn btn-sm btn-outline-primary" onclick="window.location.href='{% url 'export_report' time_frame 'outstanding' %}'">
+                                            <i class="bi bi-download me-2"></i>Export pdf
+                                        </button>
                                     </div>
                                 </div>
                                 <div class="table-responsive">
-                                    {% if outstanding_customers %}
                                     <table class="table table-responsive-md" id="expenses-table">
+                                    {% if outstanding_customers %}
                                         <thead>
                                             <tr>
                                                 <th>Name</th>
@@ -215,18 +184,16 @@
                                             </tr>
                                             {% endfor %}
                                         </tbody>
-                                    </table>
                                     {% else %}
                                     <div class="text-center">There are no expenses yet!</div>
                                     {% endif %}
+                                </table>
                                 </div>
                             </div>
                         </div>
-
-
                     </div>
                 </div>
             </div>
         </div>
     </div>
-    {% endblock content %}
+{% endblock content %}
