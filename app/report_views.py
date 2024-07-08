@@ -29,13 +29,20 @@ def reports(request, time_frame, export_type=None):
     current_month = now.strftime('%B %Y')
     current_week = get_week_of_month(now)
     month_name = now.strftime('%B')
+    start_date = None
     
     if time_frame == 'today':
         start_date = now.replace(hour=0, minute=0, second=0, microsecond=0)
         report_title = f'Day: {current_date}'
     elif time_frame == 'week':
-        start_date = now - timezone.timedelta(days=now.weekday())
+        # Calculate the start of the current week
+        start_of_week = now - timedelta(days=now.weekday())
+        # Calculate the end of the current week
+        end_of_week = start_of_week + timedelta(days=6)
+        # Filter payments for the current week
+        payments = FeesPayment.objects.filter(payment_date__range=[start_of_week, end_of_week])
         report_title = f'Week {current_week} of {month_name}'
+
     elif time_frame == 'month':
         start_date = now.replace(day=1, hour=0, minute=0, second=0, microsecond=0)
         report_title = f'Month: {current_month}'
@@ -68,6 +75,7 @@ def reports(request, time_frame, export_type=None):
 
     # Calculate outstanding balances
     outstanding_customers = []
+    total_outstanding_balance = 0
     for customer in Customer.objects.all():
         registration_paid = customer.feespayment_set.filter(fee_type='registration').aggregate(total=Sum('amount'))['total'] or 0
         consultation_paid = customer.feespayment_set.filter(fee_type='consultation').aggregate(total=Sum('amount'))['total'] or 0
@@ -89,6 +97,8 @@ def reports(request, time_frame, export_type=None):
             'last_payment_date': last_payment_date,
         })
 
+        total_outstanding_balance += total_owed
+
     context = {
         'time_frame': time_frame,
         'total_registration_fee': total_registration_fee,
@@ -106,6 +116,7 @@ def reports(request, time_frame, export_type=None):
         "current_date,": current_date,
         "month_name": month_name,
         "report_title": report_title,
+        "total_outstanding_balance": total_outstanding_balance,
     }
 
     if export_type == 'earnings':

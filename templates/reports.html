@@ -39,7 +39,7 @@
                                         </div>
                                         <div class="d-flex mb-2">
                                             <div class="col-lg-8">Total Sales:</div>
-                                            <div>{{ total_slaes }}</div>
+                                            <div>{{ total_sales }}</div>
                                         </div>
                                         <div class="d-flex mb-2">
                                             <div class="col-lg-8">Total Expenses:</div>
@@ -63,7 +63,7 @@
                             <div class="d-flex justify-content-between">
                                 <h4 class="mb-3">This {{time_frame}}'s Earnings</h4>
                                 <div>
-                                    <button class="btn btn-sm btn-outline-primary" onclick="window.location.href='{% url 'export_report' time_frame 'earnings' %}'">
+                                    <button class="btn btn-sm btn-outline-primary" target="_blank" onclick="window.location.href='{% url 'export_report' time_frame 'earnings' %}'">
                                         <i class="bi bi-download me-2"></i>Export pdf
                                     </button>
                                 </div>
@@ -106,7 +106,7 @@
                                 <div class="d-flex justify-content-between">
                                     <h4 class="mb-3">This {{time_frame}}'s Expenses</h4>
                                     <div>
-                                        <button class="btn btn-sm btn-outline-primary" onclick="window.location.href='{% url 'export_report' time_frame 'expenses' %}'">
+                                        <button class="btn btn-sm btn-outline-primary" target="_blank" onclick="window.location.href='{% url 'export_report' time_frame 'expenses' %}'">
                                             <i class="bi bi-download me-2"></i>Export pdf
                                         </button>
                                     </div>
@@ -150,7 +150,7 @@
                                 <div class="d-flex justify-content-between">
                                     <h4 class="mb-3">All Outstanding balances</h4>
                                     <div>
-                                        <button class="btn btn-sm btn-outline-primary" onclick="window.location.href='{% url 'export_report' time_frame 'outstanding' %}'">
+                                        <button class="btn btn-sm btn-outline-primary" target="_blank" onclick="window.location.href='{% url 'export_report' time_frame 'outstanding' %}'">
                                             <i class="bi bi-download me-2"></i>Export pdf
                                         </button>
                                     </div>
