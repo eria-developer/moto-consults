@@ -3,6 +3,8 @@ from django.conf import settings
 from django.contrib.auth.models import User
 from django.contrib.auth.decorators import login_required
 from authentication.models import CustomUser
+from datetime import timedelta
+from django.utils import timezone
 
 
 
@@ -21,6 +23,23 @@ class Customer(models.Model):
     def __str__(self):
         return f"{self.firstname.title()} {self.othernames.title()} from {self.address}"
     
+    def calculate_progress():
+        now = timezone.now()
+        total_customers = Customer.objects.count()
+
+        # Customers added in the last 30 days
+        current_period_customers = Customer.objects.filter(date_added__gte=now - timedelta(days=30)).count()
+
+        # Customers added in the 30 days before the last 30 days
+        previous_period_customers = Customer.objects.filter(date_added__gte=now - timedelta(days=60), date_added__lt=now - timedelta(days=30)).count()
+
+        if previous_period_customers == 0:
+            increase_percentage = 0 if current_period_customers == 0 else 100
+        else:
+            increase_percentage = ((current_period_customers - previous_period_customers) / previous_period_customers) * 100
+
+        return current_period_customers, increase_percentage
+    
 
 class EmployerCompany(models.Model):
     name = models.CharField(max_length=254, null=False, blank=False)
@@ -32,6 +51,23 @@ class EmployerCompany(models.Model):
 
     def __str__(self):
         return f"{self.name} found in {self.address}"
+    
+    def calculate_progress():
+        now = timezone.now()
+        total_companies = EmployerCompany.objects.count()
+
+        # Companies added in the last 30 days
+        current_period_companies = EmployerCompany.objects.filter(date_added__gte=now - timedelta(days=30)).count()
+
+        # Companies added in the 30 days before the last 30 days
+        previous_period_companies = EmployerCompany.objects.filter(date_added__gte=now - timedelta(days=60), date_added__lt=now - timedelta(days=30)).count()
+
+        if previous_period_companies == 0:
+            increase_percentage = 0 if current_period_companies == 0 else 100
+        else:
+            increase_percentage = ((current_period_companies - previous_period_companies) / previous_period_companies) * 100
+
+        return current_period_companies, increase_percentage
     
 
 class JobPosition(models.Model):
@@ -55,6 +91,23 @@ class Job(models.Model):
             return f"{self.job_position} {self.job_title}"
         return f"{self.job_title}"
     
+    def calculate_progress():
+        now = timezone.now()
+        total_jobs = Job.objects.count()
+
+        # Jobs added in the last 30 days
+        current_period_jobs = Job.objects.filter(date_added__gte=now - timedelta(days=30)).count()
+
+        # Jobs added in the 30 days before the last 30 days
+        previous_period_jobs = Job.objects.filter(date_added__gte=now - timedelta(days=60), date_added__lt=now - timedelta(days=30)).count()
+
+        if previous_period_jobs == 0:
+            increase_percentage = 0 if current_period_jobs == 0 else 100
+        else:
+            increase_percentage = ((current_period_jobs - previous_period_jobs) / previous_period_jobs) * 100
+
+        return current_period_jobs, increase_percentage
+    
 
 
 class RecruitmentProcess(models.Model):
@@ -76,6 +129,23 @@ class RecruitmentProcess(models.Model):
 
     def __str__(self):
         return f"{self.customer.firstname} - {self.job} - {self.company.name}"
+    
+    def calculate_progress():
+        now = timezone.now()
+        total_placements = RecruitmentProcess.objects.count()
+
+        # Placements added in the last 30 days
+        current_period_placements = RecruitmentProcess.objects.filter(application_date__gte=now - timedelta(days=30)).count()
+
+        # Placements added in the 30 days before the last 30 days
+        previous_period_placements = RecruitmentProcess.objects.filter(application_date__gte=now - timedelta(days=60), application_date__lt=now - timedelta(days=30)).count()
+
+        if previous_period_placements == 0:
+            increase_percentage = 0 if current_period_placements == 0 else 100
+        else:
+            increase_percentage = ((current_period_placements - previous_period_placements) / previous_period_placements) * 100
+
+        return current_period_placements, increase_percentage
     
 
 class FeesPayment(models.Model):

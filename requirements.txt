@@ -14,6 +14,7 @@ cssselect2==0.7.0
 defusedxml==0.7.1
 dj-database-url==2.2.0
 Django==5.0.6
+django-jazzmin==3.0.0
 fonttools==4.53.0
 gunicorn==22.0.0
 html5lib==1.1
@@ -31,6 +32,7 @@ pypdf==4.2.0
 pyphen==0.15.0
 pypng==0.20220715.0
 python-bidi==0.4.2
+pytz==2024.1
 PyYAML==6.0.1
 qrcode==7.4.2
 reportlab==4.2.0

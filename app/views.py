@@ -80,6 +80,22 @@ def dashboard(request):
     # Retrieve payments within the time range
     payments_for_barchart = models.FeesPayment.objects.filter(payment_date__range=[start_date, end_date])
 
+    # Data for the progress bar for customers 
+    current_period_customers, increase_percentage_for_customers = models.Customer.calculate_progress()
+    trend_for_customers = "Increase" if increase_percentage_for_customers >= 0 else "Decrease"
+
+     # Data for the progress bar for companies 
+    current_period_companies, increase_percentage_for_companies = models.EmployerCompany.calculate_progress()
+    trend_for_companies = "Increase" if increase_percentage_for_companies >= 0 else "Decrease"
+
+     # Data for the progress bar for jobs 
+    current_period_jobs, increase_percentage_for_jobs = models.Job.calculate_progress()
+    trend_for_jobs = "Increase" if increase_percentage_for_jobs >= 0 else "Decrease"
+
+     # Data for the progress bar for placements 
+    current_period_placements, increase_percentage_for_placements = models.RecruitmentProcess.calculate_progress()
+    trend_for_placements = "Increase" if increase_percentage_for_placements >= 0 else "Decrease"
+
 
 
     # Calculate total paid and unpaid amounts for each fee type
@@ -173,9 +189,19 @@ def dashboard(request):
         'total_unpaid_connection': total_unpaid_connection,
         'total_paid_consultation': total_paid_consultation,
         'total_unpaid_consultation': total_unpaid_consultation,
-        # 'start_date_for_barchart': start_date_for_barchart,
-        # 'end_date_for_barchart': end_date_for_barchart,
         'time_filter': time_filter,
+        "current_period_customers": current_period_customers,
+        "increase_percentage_for_customers": increase_percentage_for_customers,
+        "trend_for_customers": trend_for_customers,
+        "current_period_companies": current_period_companies,
+        "increase_percentage_for_companies": increase_percentage_for_companies,
+        "trend_for_companies": trend_for_companies,
+        "current_period_jobs": current_period_jobs,
+        "increase_percentage_for_jobs": increase_percentage_for_jobs,
+        "trend_for_jobs": trend_for_jobs,
+        "current_period_placements": current_period_placements,
+        "increase_percentage_for_placements": increase_percentage_for_placements,
+        "trend_for_placements": trend_for_placements,
     }
     return render(request, "dashboard.html", context)
 

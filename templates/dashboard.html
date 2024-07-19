@@ -29,10 +29,18 @@
                                 <div class="media-body text-white">
                                     <p class="mb-1 text-center">Total Customers</p>
                                     <h3 class="text-white text-center">{{total_customers}}</h3>
-                                    <div class="progress mb-2 bg-secondary">
+                                    <!--  <div class="progress mb-2 bg-secondary">
                                         <div class="progress-bar progress-animated bg-light" style="width: 80%"></div>
                                     </div>
-                                    <small>80% Increase in 20 Days</small>
+                                    <small>80% Increase in 20 Days</small> -->
+                                    <!-- Progress bar section -->
+                                    <div class="progress mb-2 bg-secondary">
+                                        <div class="progress-bar progress-animated bg-light"
+                                            style="width: {{ increase_percentage_for_customers }}%"></div>
+                                    </div>
+                                    <small>{{ increase_percentage_for_customers|floatformat:2 }}% {{ trend_for_customers }} in the last 30
+                                        Days</small>
+
                                 </div>
                             </div>
                         </div>
@@ -48,10 +56,12 @@
                                 <div class="media-body text-white">
                                     <p class="mb-1 text-center">Total companies</p>
                                     <h3 class="text-white text-center">{{total_companies}}</h3>
-                                    <div class="progress mb-2 bg-primary">
-                                        <div class="progress-bar progress-animated bg-light" style="width: 50%"></div>
+                                    <div class="progress mb-2 bg-secondary">
+                                        <div class="progress-bar progress-animated bg-light"
+                                            style="width: {{ increase_percentage_for_companies }}%"></div>
                                     </div>
-                                    <small>50% Increase in 25 Days</small>
+                                    <small>{{ increase_percentage_for_companies|floatformat:2 }}% {{ trend_for_companies }} in the last 30
+                                        Days</small>
                                 </div>
                             </div>
                         </div>
@@ -67,10 +77,12 @@
                                 <div class="media-body text-white">
                                     <p class="mb-1 text-center">Total Jobs</p>
                                     <h3 class="text-white text-center">{{total_jobs}}</h3>
-                                    <div class="progress mb-2 bg-primary">
-                                        <div class="progress-bar progress-animated bg-light" style="width: 76%"></div>
+                                    <div class="progress mb-2 bg-secondary">
+                                        <div class="progress-bar progress-animated bg-light"
+                                            style="width: {{ increase_percentage_for_jobs }}%"></div>
                                     </div>
-                                    <small>76% Increase in 20 Days</small>
+                                    <small>{{ increase_percentage_for_jobs|floatformat:2 }}% {{ trend_for_jobs }} in the last 30
+                                        Days</small>
                                 </div>
                             </div>
                         </div>
@@ -87,9 +99,11 @@
                                     <p class="mb-1 text-center">Total placements</p>
                                     <h3 class="text-white text-center">{{total_placements}}</h3>
                                     <div class="progress mb-2 bg-secondary">
-                                        <div class="progress-bar progress-animated bg-light" style="width: 30%"></div>
+                                        <div class="progress-bar progress-animated bg-light"
+                                            style="width: {{ increase_percentage_for_placements }}%"></div>
                                     </div>
-                                    <small>30% Increase in 30 Days</small>
+                                    <small>{{ increase_percentage_for_placements|floatformat:2 }}% {{ trend_for_placements }} in the last 30
+                                        Days</small>
                                 </div>
                             </div>
                         </div>
@@ -223,14 +237,15 @@
                             <div class="row text-success">
                                 <div class="col-6 border-end">
                                     <div class="pt-3 pb-3 ps-0 pe-0 text-center">
-                                        <h4 class="m-1 text-success"><span class="counter">Ugx. {{ total_paid_registration }}</span>
+                                        <h4 class="m-1 text-success"><span class="counter">Ugx. {{total_paid_registration }}</span>
                                         </h4>
                                         <p class="m-0">Paid</p>
                                     </div>
                                 </div>
                                 <div class="col-6">
                                     <div class="pt-3 pb-3 ps-0 pe-0 text-center text-danger">
-                                        <h4 class="m-1 text-danger"><span class="counter">Ugx. {{total_unpaid_registration }}</span>
+                                        <h4 class="m-1 text-danger"><span class="counter">Ugx.
+                                                {{total_unpaid_registration }}</span>
                                         </h4>
                                         <p class="m-0">Unpaid</p>
                                     </div>
@@ -247,14 +262,15 @@
                             <div class="row text-success">
                                 <div class="col-6 border-end text-success">
                                     <div class="pt-3 pb-3 ps-0 pe-0 text-center">
-                                        <h4 class="m-1 text-success"><span class="counter">Ugx. {{total_paid_consultation }}</span>
+                                        <h4 class="m-1 text-success"><span class="counter">Ugx.
+                                                {{total_paid_consultation }}</span>
                                         </h4>
                                         <p class="m-0">Paid</p>
                                     </div>
                                 </div>
                                 <div class="col-6">
                                     <div class="pt-3 pb-3 ps-0 pe-0 text-center text-danger">
-                                        <h4 class="m-1 text-danger"><span class="counter">Ugx. {{ total_unpaid_consultation }}</span>
+                                        <h4 class="m-1 text-danger"><span class="counter">Ugx. {{total_unpaid_consultation }}</span>
                                         </h4>
                                         <p class="m-0">Unpaid</p>
                                     </div>
@@ -271,14 +287,14 @@
                             <div class="row text-success">
                                 <div class="col-6 border-end text-success">
                                     <div class="pt-3 pb-3 ps-0 pe-0 text-center">
-                                        <h4 class="m-1 text-success"><span class="counter">Ugx. {{ total_paid_connection }}</span>
+                                        <h4 class="m-1 text-success"><span class="counter">Ugx. {{ total_paid_connection}}</span>
                                         </h4>
                                         <p class="m-0">Paid</p>
                                     </div>
                                 </div>
                                 <div class="col-6">
                                     <div class="pt-3 pb-3 ps-0 pe-0 text-center text-danger">
-                                        <h4 class="m-1 text-danger"><span class="counter">Ugx. {{ total_unpaid_connection }}</span>
+                                        <h4 class="m-1 text-danger"><span class="counter">Ugx. {{total_unpaid_connection }}</span>
                                         </h4>
                                         <p class="m-0">Unpaid</p>
                                     </div>
