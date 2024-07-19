@@ -3,13 +3,15 @@ from django.urls import path, include
 from django.conf import settings
 from django.conf.urls.static import static
 from django.contrib.staticfiles.urls import staticfiles_urlpatterns
-from authentication.views import login_view
+from authentication.views import login_view, CustomLogoutView
+from django.contrib.auth import views as auth_views
 
 urlpatterns = [
     path('admin/', admin.site.urls),
     path("", login_view, name="login"), 
     path("app/", include("app.urls")),
     path('app/', include('authentication.urls')),
+    path("logout/", CustomLogoutView.as_view(next_page="/"), name="logout"),
 
 ]
 

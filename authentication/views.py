@@ -8,6 +8,8 @@ from . import forms
 from django.contrib import messages
 from django.contrib.auth.decorators import login_required
 from app.models import Expense
+from django.contrib.auth.views import LogoutView
+from django.urls import reverse_lazy
 
 
 @login_required(login_url="/")
@@ -33,6 +35,14 @@ def add_user(request):
         "role_choices": role_choices,
         }
     return render(request, 'add_user.html', context)
+
+
+class CustomLogoutView(LogoutView):
+    next_page = reverse_lazy('login')
+
+    def dispatch(self, request, *args, **kwargs):
+        messages.success(request, "You have been logged out successfully.")
+        return super().dispatch(request, *args, **kwargs)
 
 
 def login_view(request):
