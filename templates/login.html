@@ -19,7 +19,7 @@
     <title>Moto Consults | Login page</title>
 
     <!-- FAVICONS ICON -->
-    <link rel="shortcut icon" type="image/png" href="images/favicon.png" />
+    <link rel="shortcut icon" type="image/png" href="images/Favicon-Logo.png" />
     <link href={% static "css/style.css" %} rel="stylesheet">
 
     <link rel="stylesheet" type="text/css" href="https://cdn.jsdelivr.net/npm/toastify-js/src/toastify.min.css">
@@ -42,35 +42,31 @@
                         <div class="row m-0">
                             <div class="col-xl-6 col-md-6 sign text-center">
                                 <div>
-                                    <div class="text-center my-5">
+                                    <!-- <div class="text-center my-5">
                                         <a href=""><img width="200" src={% static "images/logo-full.png" %} alt=""></a>
-                                    </div>
+                                    </div> -->
                                     <img src={% static "images/log.png" %} class="education-img"></img>
                                 </div>
                             </div>
                             <div class="col-xl-6 col-md-6">
                                 <div class="sign-in-your">
-                                    <h4 class="fs-20 font-w800 text-black">Sign in your account</h4>
-                                    <span>Welcome back! Login with your data that you entered<br> during
-                                        registration</span>
-                                    <div class="login-social">
-                                        <a href="javascript:void(0);" class="btn font-w800 d-block my-4"><i
-                                                class="fab fa-google me-2 text-primary"></i>Login with Google</a>
-                                        <a href="javascript:void(0);" class="btn font-w800 d-block my-4"><i
-                                                class="fab fa-facebook-f me-2 facebook-log"></i>Login with Facebook</a>
-                                    </div>
-                                    <form action="" method="post">
+                                    <h4 class="fs-20 font-w800 text-center text-black">Sign in your account</h4>
+                                    <p class="text-center">Welcome back! Login with your data that you entered<br>
+                                        during
+                                        registration</p>
+
+                                    <form action="" method="post" class="mt-4">
                                         {% csrf_token %}
                                         <div class="mb-3">
                                             <label for="id_username" class="mb-1"><strong>Email</strong></label>
                                             <input type="text" name="username" autofocus autocapitalize="none"
                                                 autocomplete="username" maxlength="254" required id="id_username"
-                                                class="form-control">
+                                                class="form-control" value="admin@admin.com">
                                         </div>
                                         <div class="mb-3">
                                             <label for="id_password" class="mb-1"><strong>Password</strong></label>
                                             <input type="password" name="password" autocomplete="current-password"
-                                                required id="id_password" class="form-control">
+                                                required id="id_password" class="form-control" value="admin">
                                         </div>
                                         <div class="row d-flex justify-content-between mt-4 mb-2">
                                             <div class="mb-3">
