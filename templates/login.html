@@ -19,7 +19,7 @@
     <title>Moto Consults | Login page</title>
 
     <!-- FAVICONS ICON -->
-    <link rel="shortcut icon" type="image/png" href="images/Favicon-Logo.png" />
+    <link rel="shortcut icon" type="image/png" href="{% static 'images/Favicon-Logo.png' %}" />
     <link href={% static "css/style.css" %} rel="stylesheet">
 
     <link rel="stylesheet" type="text/css" href="https://cdn.jsdelivr.net/npm/toastify-js/src/toastify.min.css">
@@ -42,9 +42,9 @@
                         <div class="row m-0">
                             <div class="col-xl-6 col-md-6 sign text-center">
                                 <div>
-                                    <!-- <div class="text-center my-5">
-                                        <a href=""><img width="200" src={% static "images/logo-full.png" %} alt=""></a>
-                                    </div> -->
+                                    <div class="text-center my-5">
+                                        <a href=""><img width="" src={% static "images/logo-full.png" %} alt=""></a>
+                                    </div>
                                     <img src={% static "images/log.png" %} class="education-img"></img>
                                 </div>
                             </div>
@@ -54,6 +54,13 @@
                                     <p class="text-center">Welcome back! Login with your data that you entered<br>
                                         during
                                         registration</p>
+
+                                    <div class="login-social" style="display: none;">
+                                        <a href="javascript:void(0);" class="btn font-w800 d-block my-4"><i
+                                                class="fab fa-google me-2 text-primary"></i>Login with Google</a>
+                                        <a href="javascript:void(0);" class="btn font-w800 d-block my-4"><i
+                                                class="fab fa-facebook-f me-2 facebook-log"></i>Login with Facebook</a>
+                                    </div>
 
                                     <form action="" method="post" class="mt-4">
                                         {% csrf_token %}
