@@ -1,5 +1,6 @@
 from django.urls import path
-from .views import  login_view, add_user, list_of_users, view_user, delete_user, edit_user
+from .views import  login_view, add_user, list_of_users, view_user, delete_user, edit_user, CustomPasswordChangeView, CustomPasswordChangeDoneView
+
 
 
 urlpatterns = [
@@ -13,6 +14,11 @@ urlpatterns = [
     path("view-user/<int:user_id>", view_user, name="view-user"),
     path("delete-user/<int:user_id>", delete_user, name="delete-user"),
     # path("search-user/", views.search_user, name="search-user"),
+
+    # changing passwords
+    path('password-change/', CustomPasswordChangeView.as_view(), name='password_change'),
+    path('password-change/done/', CustomPasswordChangeDoneView.as_view(), name='password_change_done'),
+
 
 ] 
 

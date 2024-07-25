@@ -10,6 +10,9 @@ from django.contrib.auth.decorators import login_required
 from app.models import Expense
 from django.contrib.auth.views import LogoutView
 from django.urls import reverse_lazy
+from django.contrib.auth.decorators import login_required
+from django.utils.decorators import method_decorator
+from django.contrib.auth.views import PasswordChangeView, PasswordChangeDoneView
 
 
 @login_required(login_url="/")
@@ -43,6 +46,18 @@ class CustomLogoutView(LogoutView):
     def dispatch(self, request, *args, **kwargs):
         messages.success(request, "You have been logged out successfully.")
         return super().dispatch(request, *args, **kwargs)
+    
+
+@method_decorator(login_required, name='dispatch')
+class CustomPasswordChangeView(PasswordChangeView):
+    form_class = forms.CustomPasswordChangeForm
+    template_name = 'password_change_form.html'
+    success_url = reverse_lazy('password_change_done')
+
+
+@method_decorator(login_required, name='dispatch')
+class CustomPasswordChangeDoneView(PasswordChangeDoneView):
+    template_name = 'password_change_done.html'
 
 
 def login_view(request):
