@@ -183,7 +183,7 @@
                         </svg>
                         <span class="ms-2">Profile </span>
                       </a>
-                      <a href="{% url 'company-settings' %}" class="dropdown-item ai-icon">
+                      <!-- <a href="{% url 'company-settings' %}" class="dropdown-item ai-icon">
                         <svg id="icon-inbox1" xmlns="http://www.w3.org/2000/svg" class="text-success" width="18"
                           height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"
                           stroke-linecap="round" stroke-linejoin="round">
@@ -191,7 +191,7 @@
                           <polyline points="22,6 12,13 2,6"></polyline>
                         </svg>
                         <span class="ms-2">Settings </span>
-                      </a>
+                      </a> -->
                       <form id="logout-form" action="{% url 'logout' %}" method="post" style="display: none;">
                         {% csrf_token %}
                       </form>
