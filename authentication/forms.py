@@ -107,3 +107,26 @@ class CustomPasswordChangeForm(PasswordChangeForm):
                 code='password_mismatch',
             )
         return password2
+    
+    
+    
+class UserProfileForm(forms.ModelForm):
+    class Meta:
+        model = CustomUser
+        fields = ['email', 'firstname', 'othernames', 'phone_number', 'pass_port_photo', 'role']
+        widgets = {
+            'email': forms.EmailInput(attrs={'class': 'form-control mb-3'}),
+            'firstname': forms.TextInput(attrs={'class': 'form-control mb-3'}),
+            'othernames': forms.TextInput(attrs={'class': 'form-control mb-3'}),
+            'phone_number': forms.TextInput(attrs={'class': 'form-control mb-3'}),
+            'pass_port_photo': forms.FileInput(attrs={'class': 'form-control mb-3'}),
+            'role': forms.Select(attrs={'class': 'form-control mb-3'}),
+        }
+
+    def __init__(self, *args, **kwargs):
+        super().__init__(*args, **kwargs)
+        self.fields['othernames'].required = False
+        self.fields['phone_number'].required = False
+        self.fields['pass_port_photo'].required = False
+        # self.fields['role'].required = False
+

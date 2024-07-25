@@ -1,0 +1,84 @@
+{% extends "base.html" %}
+
+{% load static %}
+
+{% block title %}Moto consults | My Profile{% endblock title %}
+
+{% block extra_css %}{% endblock extra_css %}
+
+{% block content %}
+<div>
+
+    <div class="content-body">
+        <div class="container-fluid">
+            <div class="row page-titles">
+                <ol class="breadcrumb">
+                    <li class="breadcrumb-item active"><a href="javascript:void(0)">Moto Consults</a></li>
+                    <li class="breadcrumb-item"><a href="javascript:void(0)">My profile</a></li>
+                </ol>
+            </div>
+            <!-- row -->
+            <div class="row">
+                <div class="col-xl-12 col-lg-12">
+                    <div class="card">
+                        <div class="card-header">
+                            <h4 class="card-title">My profile</h4>
+                        </div>
+                        <div class="card-body">
+                            <div class="basic-form">
+                                <div class="text-center">
+                                    {% if user.pass_port_photo %}
+                                    <p><strong>Passport photo:</strong></p>
+                                    <img src="{{ user.pass_port_photo.url }}" alt="Passport Photo"
+                                        style="width: 150px; height: 150px;">
+                                    {% else %}
+                                    <p>You have no profile picture</p>
+                                    <p class="text-primary"><a href="{% url 'edit_profile' %}"
+                                            class="btn btn-warning btn-xs">Add Image</a></p>
+                                    {% endif %}
+                                </div>
+
+
+                                <div class="container">
+                                    <table class="table table-borderless">
+                                        <tbody>
+                                            <tr>
+                                                <td style="width: 100px;"><strong>First name:</strong></td>
+                                                <td>{{ user.firstname|title }}</td>
+                                            </tr>
+                                            <tr>
+                                                <td><strong>Other names:</strong></td>
+                                                <td>{{ user.othernames |title }}</td>
+                                            </tr>
+                                            <tr>
+                                                <td><strong>Email:</strong></td>
+                                                <td>{{ user.email }}</td>
+                                            </tr>
+                                            <tr>
+                                                <td><strong>Phone number:</strong></td>
+                                                <td>{{ user.phone_number }}</td>
+                                            </tr>
+                                            <tr>
+                                                <td><strong>Role:</strong></td>
+                                                <td>{{ user.get_role_display |title }}</td>
+                                            </tr>
+                                        </tbody>
+                                    </table>
+                                </div>
+
+
+                                <a href="{% url 'edit_profile' %}" class="btn btn-xs btn-warning">Edit Profile</a></p>
+
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+
+
+            </div>
+        </div>
+        <div id="message"></div>
+    </div>
+</div>
+{% endblock content %}

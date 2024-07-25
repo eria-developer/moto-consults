@@ -149,3 +149,27 @@ def edit_user(request, user_id):
         "role_choices": role_choices,
     }
     return render(request, "view_user.html", context)
+
+
+@login_required(login_url="/")
+def view_profile(request):
+    user = request.user
+    context = {
+        "user": user,
+    }
+    return render(request, "profile.html" ,context)
+
+
+@login_required(login_url="/")
+def edit_profile(request):
+    if request.method == 'POST':
+        form = forms.UserProfileForm(request.POST, request.FILES, instance=request.user)
+        if form.is_valid():
+            form.save()
+            messages.success(request, 'Your profile was successfully updated!')
+            return redirect('profile')
+        else:
+            messages.error(request, 'Please correct the error below.')
+    else:
+        form = forms.UserProfileForm(instance=request.user)
+    return render(request, 'edit_profile.html', {'form': form})
