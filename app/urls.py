@@ -75,6 +75,8 @@ urlpatterns = [
     path("add-expense/", views.add_expense, name="add-expense"),
     path("list-of-expenses/", views.list_of_expenses, name="list-of-expenses"),
     path("list-of-expenses-for-all-users/", views.list_of_expenses_of_all_users, name="list-of-expenses-for-all-users"),
+    path("edit-expense/<int:expense_id>/", views.edit_expense, name="edit-expense"),
+    path("delete-expense/<int:expense_id>/", views.delete_expense, name="delete-expense"),
 
     # reports views
     path("reports/<str:time_frame>/", views.reports, name="reports"),

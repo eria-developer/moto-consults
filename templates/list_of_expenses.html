@@ -96,6 +96,9 @@
                                         <th class="text-center">
                                             <strong>Added Date</strong>
                                         </th>
+                                        <th class="text-center">
+                                            <strong>Actions</strong>
+                                        </th>
                                     </tr>
                                 </thead>
                                 <tbody>
@@ -114,8 +117,104 @@
                                         <td class="text-center">
                                             {{expense.date_added}}
                                         </td>
+                                        <td class="text-center">
+                                            <button type="button" class="btn btn-xs btn-warning mb-2"
+                                                data-bs-toggle="modal" data-bs-target="#editExpense{{ expense.id }}"><i
+                                                    class="fa fa-pencil"></i>
 
+                                            </button>
+                                            <button type="button" class="btn btn-xs btn-primary mb-2"
+                                                data-bs-toggle="modal"
+                                                data-bs-target="#deleteExpense{{ expense.id }}"><i
+                                                    class="fa fa-trash"></i>
+
+                                            </button>
+
+                                        </td>
                                     </tr>
+                                    <!-- Modal for editing expense  -->
+                                    <div class="modal fade" id="editExpense{{ expense.id }}">
+                                        <div class="modal-dialog" role="document">
+                                            <div class="modal-content">
+                                                <div class="modal-header">
+                                                    <h5 class="modal-title">Edit Expense</h5>
+                                                    <button type="button" class="btn-close" data-bs-dismiss="modal">
+                                                    </button>
+                                                </div>
+                                                <div class="modal-body">
+                                                    <form action="{% url 'edit-expense' expense.id%}" method="post">
+
+                                                        {% csrf_token %}
+                                                        <div class="mb-3 col-md-12">
+                                                            <label for="id_name" class="form-label">Expense
+                                                                title:</label><span class="text-danger">*</span>
+                                                            <input type="text" name="name" maxlength="100" required
+                                                                id="id_name" class="form-control"
+                                                                value="{{expense.name}}">
+                                                        </div>
+
+                                                        <div class="mb-3 col-md-12">
+                                                            <label for="id_category" class="form-label">Expense
+                                                                title:</label><span class="text-danger">*</span>
+                                                            <input type="text" name="category" maxlength="100" required
+                                                                id="id_category" class="form-control"
+                                                                value="{{expense.category}}">
+                                                        </div>
+
+                                                        <div class="mb-3 col-md-12">
+                                                            <label for="id_amount" class="form-label">Expense
+                                                                field:</label><span class="text-danger">*</span>
+                                                            <input type="number" name="amount" maxlength="100" required
+                                                                id="id_amount" class="form-control"
+                                                                value="{{expense.amount}}">
+                                                        </div>
+
+                                                        <div class="mb-3"><button type="submit"
+                                                                class="btn btn-primary mb-2">Save
+                                                                expense</button>
+                                                        </div>
+                                                    </form>
+                                                </div>
+                                                <div class="modal-footer">
+                                                    <button type="button" class="btn btn-danger light"
+                                                        data-bs-dismiss="modal">Close</button>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+
+                                    <!-- Modal for deleting expense  -->
+                                    <div class="modal fade" id="deleteExpense{{ expense.id }}">
+                                        <div class="modal-dialog" role="document">
+                                            <div class="modal-content">
+                                                <div class="modal-header">
+                                                    <h5 class="modal-title">Deleting Expense</h5>
+                                                    <button type="button" class="btn-close" data-bs-dismiss="modal">
+                                                    </button>
+                                                </div>
+                                                <div class="modal-body">
+                                                    <form action="{% url 'delete-expense' expense.id%}" method="post">
+                                                        {% csrf_token %}
+                                                        <input type="hidden" name="form_name"
+                                                            value="delete_expense_form">
+                                                        {{delete_expense_form.as_p}}
+                                                        <div>
+                                                            Are you sure you want to delete {{expense.name}} ?
+                                                        </div>
+                                                        <div class="d-flex modal-footer">
+                                                            <button type="submit"
+                                                                class="btn btn-sm btn-primary mb-2">Delete</button>
+
+                                                            <button type="button" class="btn btn-sm btn-danger light"
+                                                                data-bs-dismiss="modal">Cancel</button>
+
+                                                        </div>
+                                                    </form>
+                                                </div>
+
+                                            </div>
+                                        </div>
+                                    </div>
                                     {%endfor%}
 
                                 </tbody>

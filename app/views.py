@@ -5,7 +5,7 @@ from .jobposition_views import add_jobposition, edit_jobposition, view_jobpositi
 from .fee_views import add_fee, edit_fee, view_fee, delete_fee, list_of_fees, generate_receipt, preview_receipt
 from .placement_views import add_placement, edit_placement, view_placement, delete_placement, list_of_placements, search_placements
 from .consultation_views import add_consultation, view_consultation, list_of_consultations
-from .expense_views import add_expense, list_of_expenses, list_of_expenses_of_all_users
+from .expense_views import add_expense, list_of_expenses, list_of_expenses_of_all_users, edit_expense, delete_expense
 from .settings_views import company_settings, roles, my_profile, edit_settings
 from .report_views import reports
 

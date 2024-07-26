@@ -427,6 +427,24 @@ class ExpenseForm(forms.ModelForm):
         }
 
 
+
+class EditExpenseForm(forms.ModelForm):
+    class Meta:
+        model = models.Expense
+        fields = ("name", "category", "amount")
+
+        widgets = {
+            "name": forms.TextInput(attrs={
+                "class": "form-control",
+            }),
+            "category": forms.TextInput(attrs={
+                "class": "form-control",
+            }),
+            "amount": forms.NumberInput(attrs={
+                "class": "form-control",
+            })
+        }
+
 # END FOR REGISTRATION FORMS 
 
 
