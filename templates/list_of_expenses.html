@@ -96,9 +96,11 @@
                                         <th class="text-center">
                                             <strong>Added Date</strong>
                                         </th>
+                                        {%if request.user.role == "admin"%}
                                         <th class="text-center">
                                             <strong>Actions</strong>
                                         </th>
+                                        {% endif %}
                                     </tr>
                                 </thead>
                                 <tbody>
@@ -117,6 +119,7 @@
                                         <td class="text-center">
                                             {{expense.date_added}}
                                         </td>
+                                        {%if request.user.role == "admin"%}
                                         <td class="text-center">
                                             <button type="button" class="btn btn-xs btn-warning mb-2"
                                                 data-bs-toggle="modal" data-bs-target="#editExpense{{ expense.id }}"><i
@@ -131,6 +134,7 @@
                                             </button>
 
                                         </td>
+                                        {%endif%}
                                     </tr>
                                     <!-- Modal for editing expense  -->
                                     <div class="modal fade" id="editExpense{{ expense.id }}">
