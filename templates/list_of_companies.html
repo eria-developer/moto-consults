@@ -2,7 +2,7 @@
 
 {% load static %}
 
-{% block title %}Moto consults | List of Companies{% endblock title %}
+{% block title %}Muto consults | List of Companies{% endblock title %}
 
 {% block extra_css %}{% endblock extra_css %}
 
@@ -14,7 +14,7 @@
                 <div class="d-flex justify-content-between">
                     <div>
                         <ol class="breadcrumb">
-                            <li class="breadcrumb-item active"><a href="javascript:void(0)">Moto consults</a></li>
+                            <li class="breadcrumb-item active"><a href="javascript:void(0)">Muto consults</a></li>
                             <li class="breadcrumb-item"><a href="javascript:void(0)">registered companies</a></li>
                         </ol>
                     </div>
@@ -163,6 +163,14 @@
                                                             <input type="text" name="phone_number" id="id_phone_number"
                                                                 class="form-control mt-1 mr-2 ml-2 mb-4"
                                                                 value="{{company.phone_number}}">
+                                                        </div>
+                                                        <div class="mb-3 col-md-12">
+                                                            <label for="id_phone_number2" class="form-label">Phonenumber
+                                                                2
+                                                                (optional):</label>
+                                                            <input type="text" name="phone_number2" maxlength="15"
+                                                                required id="id_phone_number2" class="form-control"
+                                                                value="{{company.phone_number2}}" required>
                                                         </div>
                                                         <div class="mb-3 col-md-12">
                                                             <label for="address" class="form-label">Company

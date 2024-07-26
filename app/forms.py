@@ -96,6 +96,9 @@ class CompanyForm(forms.ModelForm):
             "phone_number": forms.TextInput(attrs={
                 "class": "form-control",
             }),
+            "phone_number2": forms.TextInput(attrs={
+                "class": "form-control",
+            }),
             "address": forms.TextInput(attrs={
                 "class": "form-control",
             }),

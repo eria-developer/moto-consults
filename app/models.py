@@ -46,6 +46,7 @@ class EmployerCompany(models.Model):
     email = models.CharField(max_length=254, null=False, blank=False)
     address = models.CharField(max_length=254, null=False, blank=False)
     phone_number = models.CharField(max_length=254, null=False, blank=False)
+    phone_number2 = models.CharField(max_length=254, null=True)
     description = models.TextField(null=True)
     date_added = models.DateTimeField(auto_now_add=True, null=True)
 
