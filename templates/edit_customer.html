@@ -31,7 +31,8 @@
                                 <form id="customerForm" method="post" enctype="multipart/form-data">
 
                                     {% csrf_token %}
-                                    <div class="mb-3 col-md-12">
+                                    {{form.as_p}}
+                                    <!-- <div class="mb-3 col-md-12">
                                         <label for="id_firstname" class="form-label">First Name:</label><span
                                             class="text-danger">*</span>
                                         {{form.firstname}}
@@ -80,7 +81,7 @@
                                     <div class="mb-3">
                                         <label for="id_remarks" class="form-label">Remarks:</label>
                                         {{form.remarks}}
-                                    </div>
+                                    </div> -->
 
                                     <div><button type="submit" class="btn btn-primary mb-2">Save customer
                                             details</button>

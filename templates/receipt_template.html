@@ -103,10 +103,11 @@
 <body>
     <div class="container">
         <div class="header">
-            <h1>Muto Consults</h1>
-            <p>Kampala, Uganda</p>
-            <p>0771445200</p>
-            <p>mutoconsults@gmail.com</p>
+
+            <h1>{{company_details.name | title}}</h1>
+            <p>{{company_details.address}}, Uganda</p>
+            <p>{{company_details.phone_number}} / {{company_details.phonenumber_2}}</p>
+            <p>{{company_details.email}}</p>
         </div>
         <div class="divider"></div>
         <div class="section">
@@ -155,9 +156,11 @@
             </table>
         </div>
         <div class="footer">
-            <p>&copy; Muto Consults 2024 | All rights reserved.</p>
-            <p>Contact us at mutoconsults@gmail.com</p>
+            <p>&copy; {{company_details.name}} 2024 | All rights reserved.</p>
+            <p>Contact us at {{company_details.email}}</p>
         </div>
+
+
     </div>
 </body>
 

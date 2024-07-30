@@ -7,6 +7,7 @@ from django.http import HttpResponse
 from django.template.loader import render_to_string
 from weasyprint import HTML
 from .models import FeesPayment
+from django.conf import settings
 from django.contrib.auth.decorators import login_required
 
 
@@ -93,10 +94,13 @@ def list_of_fees(request):
 @login_required(login_url="/")
 def preview_receipt(request, fee_id):
     fee = get_object_or_404(FeesPayment, id=fee_id)
+    company_details = models.CompanySettings.objects.all().first()
     formatted_date = fee.payment_date.strftime('%Y-%m-%d %H:%M:%S')
     context = {
         'fee': fee,
         'formatted_date': formatted_date,
+        "company_details": company_details,
+        'media_url': settings.MEDIA_URL,
     }
     html_content = render_to_string('receipt_template.html', context)
     

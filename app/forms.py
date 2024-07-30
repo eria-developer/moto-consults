@@ -26,9 +26,7 @@ class CustomerForm(forms.ModelForm):
             "email": forms.EmailInput(attrs={
                 "class": "form-control",
             }),
-            "passport_photo": forms.FileInput(attrs={
-                "class": "form-control",
-            }),
+            "passport_photo": forms.ClearableFileInput(attrs={'accept': 'image/*', 'class': 'form-control'}),
             "file_upload": forms.FileInput(attrs={
                 "class": "form-control",
             }),
@@ -62,9 +60,7 @@ class EditCustomerForm(forms.ModelForm):
             "email": forms.EmailInput(attrs={
                 "class": "form-control",
             }),
-            "passport_photo": forms.FileInput(attrs={
-                "class": "form-control",
-            }),
+            "passport_photo": forms.ClearableFileInput(attrs={'accept': 'image/*', 'class': 'form-control'}),
             "file_upload": forms.FileInput(attrs={
                 "class": "form-control",
             }),
