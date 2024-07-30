@@ -329,7 +329,7 @@ class ConsultationForm(forms.ModelForm):
 class CompanySettingsForm(forms.ModelForm):
     class Meta:
         model = models.CompanySettings
-        fields = ['name', 'email', 'logo', 'favicon', 'address', 'phone_number']
+        fields = ['name', 'email', 'logo', 'favicon', 'address', 'phone_number', "phonenumber_2"]
         widgets = {
             'logo': forms.ClearableFileInput(attrs={'accept': 'image/*', 'class': 'form-control'}),
             'favicon': forms.ClearableFileInput(attrs={'accept': 'image/x-icon,image/vnd.microsoft.icon', 'class': 'form-control'}),
@@ -337,6 +337,7 @@ class CompanySettingsForm(forms.ModelForm):
             'email': forms.EmailInput(attrs={'class': 'form-control'}),
             'address': forms.Textarea(attrs={'class': 'form-control'}),
             'phone_number': forms.TextInput(attrs={'class': 'form-control'}),
+            'phonenumber_2': forms.TextInput(attrs={'class': 'form-control'}),
         }
 
 
