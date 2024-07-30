@@ -12,7 +12,7 @@ def add_jobposition(request):
         if add_job_position_form.is_valid():
             add_job_position_form.save()
             messages.success(request, "Job position added successfully")
-            return redirect("list-of-jobpositions")
+            return redirect("list-of-jobcategories")
         else:
             for field, errors in add_job_position_form.errors.items():
                 for error in errors:
@@ -28,15 +28,15 @@ def add_jobposition(request):
 
 
 @login_required(login_url="/")
-def edit_jobposition(request, jobposition_id):
-    jobposition = get_object_or_404(models.JobPosition, id=jobposition_id)
+def edit_jobposition(request, jobcategory_id):
+    jobposition = get_object_or_404(models.JobPosition, id=jobcategory_id)
     print(jobposition)
     if request.method == "POST":
         form = forms.EditJobpositionForm(request.POST, instance=jobposition)
         if form.is_valid():
             form.save()
             messages.success(request, "Job position details updated successfully")
-            return redirect("list-of-jobpositions")
+            return redirect("list-of-jobcategories")
         else:
             for field, errors in form.errors.items():
                 for error in errors:
@@ -62,12 +62,12 @@ def view_jobposition(request, jobposition_id):
 
 
 @login_required(login_url="/")
-def delete_jobposition(request, jobposition_id):
-    jobposition = get_object_or_404(models.JobPosition, id=jobposition_id)
+def delete_jobposition(request, jobcategory_id):
+    jobposition = get_object_or_404(models.JobPosition, id=jobcategory_id)
     if request.method == "POST":
         jobposition.delete()
         messages.success(request, f"{jobposition.job_position} has been deleted successfully.")
-        return redirect("list-of-jobpositions")
+        return redirect("list-of-jobcategories")
     
 
 @login_required(login_url="/")
@@ -78,7 +78,7 @@ def list_of_jobpositions(request):
         edit_job_position_form = forms.EditJobpositionForm(instance=job_position)
     else:
         edit_job_position_form = forms.EditJobpositionForm()
-        jobpositions = models.JobPosition.objects.all()
+        jobcategories = models.JobPosition.objects.all()
 
     if request.method == 'POST':
         form_name = request.POST.get('form_name')
@@ -89,17 +89,17 @@ def list_of_jobpositions(request):
             if edit_job_position_form.is_valid():
                 edit_job_position_form.save()
                 messages.success(request, "Job position updated successfully!")
-                return redirect('list-of-jobpositions')
+                return redirect('list-of-jobcategories')
         elif form_name == "add_job_position_form":
             add_job_position_form = forms.JobpositionForm(request.POST)
             if add_job_position_form.is_valid():
                 add_job_position_form.save()
                 messages.success(request, "Job position added successfully!")
-                return redirect('list-of-jobpositions')
+                return redirect('list-of-jobcategories')
     
     add_job_position_form = forms.JobpositionForm()
     context = {
-        "jobpositions": jobpositions,
+        "jobcategories": jobcategories,
         "edit_job_position_form": edit_job_position_form,
         "add_job_position_form": add_job_position_form
     }

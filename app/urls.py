@@ -31,14 +31,14 @@ urlpatterns = [
     path("list-of-jobs/", views.list_of_jobs, name="list-of-jobs"),
     path('search_placements/', views.search_placements, name='search_placements'),
 
-    # job position urls 
-    path("add-jobposition/", views.add_jobposition, name="add-jobposition"),
-    path("edit-jobposition/<int:jobposition_id>/", views.edit_jobposition, name="edit-jobposition"),
-    path("view-jobposition/<int:jobposition_id>/", views.view_jobposition, name="view-jobposition"),
-    path("delete-jobposition/<int:jobposition_id>/", views.delete_jobposition, name="delete-jobposition"),
-    path("list-of-jobpositions/", views.list_of_jobpositions, name="list-of-jobpositions"),
-    path("list-of-jobpositions/<int:job_position_id>", views.list_of_jobpositions, name="list-of-jobpositions"),
-    # path("search-jobposition/", views.search_jobposition, name="search-jobposition"),
+    # jobbcategory urls 
+    path("add-jobcategory/", views.add_jobposition, name="add-jobcategory"),
+    path("edit-jobcategory/<int:jobcategory_id>/", views.edit_jobposition, name="edit-jobcategory"),
+    path("view-jobcategory/<int:jobcategory_id>/", views.view_jobposition, name="view-jobcategory"),
+    path("delete-jobcategory/<int:jobcategory_id>/", views.delete_jobposition, name="delete-jobcategory"),
+    path("list-of-jobcategories/", views.list_of_jobpositions, name="list-of-jobcategories"),
+    path("list-of-jobcategories/<int:jobcategory_id>", views.list_of_jobpositions, name="list-of-jobcategories"),
+    # path("search-jobcategory/", views.search_jobposition, name="search-jobcategory"),
 
     # fee urls 
     path("add-fee/", views.add_fee, name="add-fee"),

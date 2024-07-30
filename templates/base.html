@@ -309,13 +309,13 @@
           <li>
             <a class="has-arrow" href="javascript:void(0);" aria-expanded="false">
               <i class="bi bi-diagram-3-fill"></i>
-              <span class="nav-text">Job Positions</span>
+              <span class="nav-text">Job categories</span>
             </a>
             <ul aria-expanded="false">
               {% if request.user.role == "admin" or request.user.role == "staff" %}
-              <li><a href={% url "add-jobposition" %}>Add job position</a></li>
+              <li><a href={% url "add-jobcategory" %}>Add job category</a></li>
               {% endif %}
-              <li><a href={% url "list-of-jobpositions" %}>View job positions</a></li>
+              <li><a href={% url "list-of-jobcategories" %}>View job categories</a></li>
             </ul>
           </li>
 

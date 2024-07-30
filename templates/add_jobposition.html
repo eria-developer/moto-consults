@@ -2,7 +2,7 @@
 
 {% load static %}
 
-{% block title %}Muto consults | Add job position{% endblock title %}
+{% block title %}Muto consults | Add job category{% endblock title %}
 
 {% block extra_css %}{% endblock extra_css %}
 
@@ -14,7 +14,7 @@
             <div class="row page-titles">
                 <ol class="breadcrumb">
                     <li class="breadcrumb-item active"><a href="javascript:void(0)">Muto Consults</a></li>
-                    <li class="breadcrumb-item"><a href="javascript:void(0)">Adding a new job position</a></li>
+                    <li class="breadcrumb-item"><a href="javascript:void(0)">Adding a new job category</a></li>
                 </ol>
             </div>
             <!-- row -->
@@ -22,7 +22,7 @@
                 <div class="col-xl-12 col-lg-12">
                     <div class="card">
                         <div class="card-header">
-                            <h4 class="card-title">New Job position</h4>
+                            <h4 class="card-title">New Job category</h4>
                         </div>
                         <div class="card-body">
                             <div class="basic-form">
@@ -32,14 +32,14 @@
 
                                     {% csrf_token %}
                                     <div class="mb-3 col-md-12">
-                                        <label for="id_job_position" class="form-label">Job position:</label><span
+                                        <label for="id_job_position" class="form-label">Job category:</label><span
                                             class="text-danger">*</span>
                                         <input type="text" name="job_position" maxlength="100" required
                                             id="id_job_position" class="form-control">
                                     </div>
 
                                     <div class="mb-3"><button type="submit" class="btn btn-primary mb-2">Save
-                                            job position</button>
+                                            job category</button>
                                     </div>
                                 </form>
 

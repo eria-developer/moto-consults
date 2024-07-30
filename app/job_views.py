@@ -7,7 +7,7 @@ from django.contrib.auth.decorators import login_required
 
 @login_required(login_url="/")
 def add_job(request):
-    job_positions = models.JobPosition.objects.all()
+    job_categories = models.JobPosition.objects.all()
 
     if request.method == "POST":
         add_job_form = forms.JobForm(request.POST)
@@ -25,7 +25,7 @@ def add_job(request):
 
     context = {
         "add_job_form": add_job_form,
-        "job_positions": job_positions,
+        "job_categories": job_categories,
     }
     return render(request, "add_job.html", context)
 
