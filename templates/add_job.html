@@ -32,68 +32,13 @@
                         <div class="card-body">
                             <div class="basic-form">
 
-                                <!-- form for adding a new customer  -->
-                                <form id="customerForm" method="post" enctype="multipart/form-data">
-
+                                <!-- form for adding a new job  -->
+                                <form action="" method="post">
                                     {% csrf_token %}
-                                    <div class="mb-3 col-md-12">
-                                        <label for="id_firstname" class="form-label">First Name:</label><span
-                                            class="text-danger">*</span>
-                                        <input type="text" name="firstname" maxlength="100" required id="id_firstname" required
-                                            class="form-control" placeholder="Talemwa">
-                                    </div>
-
-                                    <div class="mb-3 col-md-12">
-                                        <label for="id_othernames" class="form-label">Other Names:</label>
-                                        <input type="text" name="othernames" maxlength="100" required id="id_othernames" class="form-control"
-                                            placeholder="Eria Jackson">
-                                    </div>
-
-                                    <div class="mb-3 col-md-12">
-                                        <label for="id_phonenumber_1" class="form-label">Phonenumber 1:</label>
-                                        <input type="text" name="phonenumber_1" maxlength="15" required id="id_phonenumber_1" class="form-control" name="phonenumber_1" required>
-                                    </div>
-
-                                    <div class="mb-3 col-md-12">
-                                        <label for="id_phonenumber_2" class="form-label">Phonenumber 2:</label>
-                                        <input type="text" name="phonenumber_2" maxlength="15" id="id_phonenumber_2"
-                                            class="form-control" placeholder="0771445200">
-                                    </div>
-
-                                    <div class="mb-3 col-md-12">
-                                        <label for="id_email" class="form-label">Email:</label>
-                                        <input type="email" name="email" maxlength="254" id="id_email" class="form-control"
-                                            placeholder="example@gmail.com">
-                                    </div>
-
-                                    <div class="mb-3 col-md-12">
-                                        <label for="id_address" class="form-label">Address:</label>
-                                        <input class="form-control" placeholder="Arua" type="text" name="address" maxlength="64" required id="id_address">
-                                    </div>
-
-                                    <div>
-                                        <label for="id_passport_photo" class="form-label">Passport photo:</label>
-                                    </div>
-                                    <div class="form-file mb-3 col-md-12">
-                                        <input type="file" name="passport_photo" accept="image/*" id="id_passport_photo" class="form-file-input form-control">
-                                    </div>
-
-
-                                    <div>
-                                        <label for="id_file_upload" class="form-label">File upload (CV):</label>
-                                    </div>
-                                    <div class="form-file mb-3 col-md-12">
-                                        <input type="file" name="file_upload" id="id_file_upload"
-                                            class="form-file-input form-control">
-                                    </div>
-
-                                    <div class="mb-3">
-                                        <label for="id_remarks" class="form-label">Remarks:</label>
-                                        <textarea id="id_remarks" name="remarks" class="form-control"
-                                            rows="4"></textarea>
-                                    </div>
-
-                                    <div><button type="submit" class="btn btn-primary mb-2">Save customer</button>
+                                    <input type="hidden" name="form_name" value="add_job_form">
+                                    {{add_job_form.as_p}}
+                                    <div><button type="submit" class="btn btn-primary mb-2">Add
+                                            job</button>
                                     </div>
                                 </form>
                             </div>
