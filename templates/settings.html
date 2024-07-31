@@ -76,31 +76,8 @@
 
         </div>
         <div class="row">
-            <div class="col-md-4 d-flex flex-column">
-                <div class="card instructors-box">
 
-                    <div class="card-body text-center">
-
-
-                        <div class="bio text-start my-2">
-                            <h4 class="mb-4">Default Registration Fee</h4>
-                            <hr>
-                            <div class="d-flex justify-content-between">
-                                <div class="mt-2">
-                                    <strong class="text-lg text-success">Ugx. {{ default_registration_fee }}</strong>
-                                </div>
-                                <div>
-                                    <button type="button" class="btn btn-sm btn-primary mb-2" data-bs-toggle="modal"
-                                        data-bs-target="#registrationFee"><i class="fa fa-plus-circle me-2"></i>set New
-                                    </button>
-                                </div>
-                            </div>
-
-                        </div>
-                    </div>
-                </div>
-            </div>
-            <div class="col-md-4 d-flex flex-column">
+            <div class="col-md-6 d-flex flex-column">
                 <div class="card instructors-box">
 
                     <div class="card-body text-center">
@@ -124,22 +101,23 @@
                     </div>
                 </div>
             </div>
-            <div class="col-md-4 d-flex flex-column">
+            <div class="col-md-6 d-flex flex-column">
                 <div class="card instructors-box">
 
                     <div class="card-body text-center">
 
 
                         <div class="bio text-start my-2">
-                            <h4 class="mb-4">Default Consultation Fee</h4>
+                            <h4 class="mb-4">Default Consultation/Registration Fee</h4>
                             <hr>
                             <div class="d-flex justify-content-between">
                                 <div class="mt-2">
-                                    <strong class="text-lg text-success">Ugx. {{ default_consultation_fee }}</strong>
+                                    <strong class="text-lg text-success">Ugx.
+                                        {{ default_consultation_registration_fee}}</strong>
                                 </div>
                                 <div>
                                     <button type="button" class="btn btn-sm btn-primary mb-2" data-bs-toggle="modal"
-                                        data-bs-target="#consultationFee"><i class="fa fa-plus-circle me-2"></i>set New
+                                        data-bs-target="#registrationFee"><i class="fa fa-plus-circle me-2"></i>set New
                                     </button>
                                 </div>
                             </div>
@@ -159,7 +137,7 @@
             <div class="modal-dialog" role="document">
                 <div class="modal-content">
                     <div class="modal-header">
-                        <h5 class="modal-title">Setting new Registration Fee</h5>
+                        <h5 class="modal-title">Setting new Registration / Consultation Fee</h5>
                         <button type="button" class="btn-close" data-bs-dismiss="modal">
                         </button>
                     </div>
@@ -167,7 +145,7 @@
                         <form action="" method="post">
                             {% csrf_token %}
                             <input type="hidden" name="form_name" value="registration_fee_form">
-                            {{registration_fees_form.as_p}}
+                            {{consultation_registration_fees_form.as_p}}
                             <div><button type="submit" class="btn btn-primary mb-2">Save Fee</button>
                             </div>
                         </form>
@@ -205,7 +183,7 @@
         </div>
 
         <!-- Model for adding consultation fee  -->
-        <div class="modal fade" id="consultationFee">
+        <!-- <div class="modal fade" id="consultationFee">
             <div class="modal-dialog" role="document">
                 <div class="modal-content">
                     <div class="modal-header">
@@ -227,10 +205,10 @@
                     </div>
                 </div>
             </div>
-        </div>
+        </div> -->
 
 
-        <!-- Model for updating settings  -->
+        <!-- Model for updating settiFngs  -->
         <div class="modal fade" id="updateSettings">
             <div class="modal-dialog" role="document">
                 <div class="modal-content">

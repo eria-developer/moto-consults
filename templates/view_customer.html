@@ -121,23 +121,23 @@
             </div>
             <div class="col-xl-8 col-xxl-7 col-lg-12 ">
                 <div class="row">
-                    <div class="col-xl-6 col-lg-6 col-sm-6">
+                    <div class="col-xl-12 col-lg-12 col-sm-12">
                         <div class="card profile-widget">
                             <div class="card-body">
                                 <div
                                     class="widget-courses align-items-center d-flex justify-content-between style-1 flex-wrap">
                                     <div class="d-flex">
                                         <div class="ms-4">
-                                            <h4>Registration fees</h4>
+                                            <h4>Registration / Consultation fees</h4>
                                             <div class="mb-3">
                                                 <span class="fs-18">Paid:</span>
                                                 <span class="text-success rounded">ugx.
-                                                    {{customer_registration_fees}}</span>
+                                                    {{customer_consultation_registration_fees}}</span>
                                             </div>
                                             <div class="mb-3">
                                                 <span class="fs-18">Balance:</span>
                                                 <span class="text-danger text-sm rounded">ugx
-                                                    {{customer_registration_fees_balance }}</span>
+                                                    {{customer_consultation_registration_fees_balance }}</span>
                                             </div>
                                             <a href={% url "add-fee" %}
                                                 class="btn btn-primary btn-sm shadow sharp me-1"><i
@@ -149,7 +149,7 @@
                         </div>
                     </div>
 
-                    <div class="col-xl-6 col-lg-6 col-sm-6">
+                    <div class="col-xl-12 col-lg-12 col-sm-12">
                         <div class="card profile-widget">
                             <div class="card-body">
                                 <div
@@ -178,39 +178,49 @@
                     </div>
 
                     <div class="col-xl-12">
+
+                    </div>
+
+                    <div class="col-xl-12 mb-5">
                         <div class="card score-active style-1">
                             <div
                                 class="card-header border-0 pb-2 flex-wrap d-flex justify-content-between align-items-center">
-                                <h4 class="me-4">Consultation fees</h4>
-                                <a href={% url "add-fee" %} class="btn btn-primary btn-sm shadow sharp me-1"><i
+                                <h4 class="me-4">Recent Placements</h4>
+                                <a href={% url "add-placement" %} class="btn btn-primary shadow sharp me-1"><i
                                         class="fa fa-plus me-1"></i> New
-                                    consultation</a>
+                                    placement</a>
                             </div>
 
                             <div class="card-body pb-1 custome-tooltip pt-0">
                                 <div>
-                                    <div class="table-responsive">
-                                        {% if customer_consultations %}
+                                    <div class="table-responsive mb-3">
+                                        {% if customer_placements %}
                                         <table class="table table-responsive-md">
                                             <thead>
                                                 <tr>
                                                     <th>
-                                                        <strong>Consultation Fee</strong>
+                                                        <strong>Job title</strong>
                                                     </th>
-                                                    <th><strong>Consultation Date</strong></th>
-                                                    <th><strong>Status</strong></th>
+                                                    <th><strong>Position</strong></th>
+                                                    <th><strong>Company</strong></th>
+                                                    <th><strong>status</strong></th>
                                                 </tr>
                                             </thead>
 
                                             <tbody>
 
-                                                {% for consultation in customer_consultation_fees_obj %}
+                                                {% for placement in customer_placements %}
                                                 <tr>
                                                     <td>
-                                                        {{consultation.amount}}
+                                                        {{placement.job.job_title}}
                                                     </td>
-                                                    <td>{{consultation.payment_date}}</td>
-                                                    <td>{{consultation.payment_status}}</td>
+                                                    <td>{{placement.job.job_position}}</td>
+                                                    <td>
+                                                        {{placement.job.job_company}}
+                                                    </td>
+                                                    <td>
+                                                        {{placement.status}}
+                                                    </td>
                                                 </tr>
                                                 {% endfor %}
 
@@ -218,67 +228,9 @@
 
                                         </table>
                                         {% else %}
-                                        <div class="text-center my-4">No consultations for
-                                            {{ customer.firstname }}
+                                        <div class="text-center my-4">No placements for {{ customer.firstname }}
                                             yet!!</>
                                             {% endif %}
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-
-                        <div class="col-xl-12 mb-5">
-                            <div class="card score-active style-1">
-                                <div
-                                    class="card-header border-0 pb-2 flex-wrap d-flex justify-content-between align-items-center">
-                                    <h4 class="me-4">Recent Placements</h4>
-                                    <a href={% url "add-placement" %} class="btn btn-primary shadow sharp me-1"><i
-                                            class="fa fa-plus me-1"></i> New
-                                        placement</a>
-                                </div>
-
-                                <div class="card-body pb-1 custome-tooltip pt-0">
-                                    <div>
-                                        <div class="table-responsive mb-3">
-                                            {% if customer_placements %}
-                                            <table class="table table-responsive-md">
-                                                <thead>
-                                                    <tr>
-                                                        <th>
-                                                            <strong>Job title</strong>
-                                                        </th>
-                                                        <th><strong>Position</strong></th>
-                                                        <th><strong>Company</strong></th>
-                                                        <th><strong>status</strong></th>
-                                                    </tr>
-                                                </thead>
-
-                                                <tbody>
-
-                                                    {% for placement in customer_placements %}
-                                                    <tr>
-                                                        <td>
-                                                            {{placement.job.job_title}}
-                                                        </td>
-                                                        <td>{{placement.job.job_position}}</td>
-                                                        <td>
-                                                            {{placement.job.job_company}}
-                                                        </td>
-                                                        <td>
-                                                            {{placement.status}}
-                                                        </td>
-                                                    </tr>
-                                                    {% endfor %}
-
-                                                </tbody>
-
-                                            </table>
-                                            {% else %}
-                                            <div class="text-center my-4">No placements for {{ customer.firstname }}
-                                                yet!!</>
-                                                {% endif %}
-                                            </div>
                                         </div>
                                     </div>
                                 </div>
@@ -288,9 +240,10 @@
                 </div>
             </div>
         </div>
+    </div>
 
-        <!--**********************************
+    <!--**********************************
             Content body end
         ***********************************-->
 
-        {% endblock content %}
+    {% endblock content %}

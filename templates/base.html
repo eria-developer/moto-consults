@@ -452,7 +452,7 @@
       data: {
         labels: ['Paid', 'Unpaid'],
         datasets: [{
-          data: [{{ total_paid_registration }}, {{ total_unpaid_registration }}],
+          data: [{{ total_paid_consultation_registration }}, {{ total_unpaid_consultation_registration }}],
       backgroundColor: ['#ff9999', '#66b3ff'],
     }]
         },
@@ -464,7 +464,7 @@
                 },
         title: {
           display: true,
-            text: 'Registration Fees'
+            text: 'Registration / Connection Fees'
         }
       }
     }
@@ -494,53 +494,29 @@
     }
     });
 
-    var consultationCtx = document.getElementById('consultationFeesChart').getContext('2d');
-    var consultationFeesChart = new Chart(consultationCtx, {
-      type: 'bar',
-      data: {
-        labels: ['Paid', 'Unpaid'],
-        datasets: [{
-          data: [{{ total_paid_consultation }}, {{ total_unpaid_consultation }}],
-      backgroundColor: ['#ff9999', '#66b3ff'],
-    }]
-        },
-    options: {
-      responsive: true,
-        plugins: {
-        legend: {
-          position: 'top',
-                },
-        title: {
-          display: true,
-            text: 'Consultation Fees'
-        }
-      }
-    }
-    });
+    
   </script>
 
 
 
 
-
+  <!-- JAVASCRIPT FOR THE BARCHART ON DASHBOARD  -->
   <script>
     const ctx = document.getElementById('feePaymentsChart').getContext('2d');
 
     const feePaymentsChart = new Chart(ctx, {
       type: 'bar',
       data: {
-        labels: ['Registration Fee', 'Consultation Fee', 'Connection Fee'],
+        labels: ['Registration / Consultation Fee', 'Connection Fee'],
         datasets: [{
           label: 'Fees',
           data: [], // Will be populated dynamically
           backgroundColor: [
             '#49A9FF',
-            '#56C760',
             '#FF6A59'
           ],
           borderColor: [
             'rgba(255, 99, 132, 1)',
-            'rgba(54, 162, 235, 1)',
             'rgba(255, 206, 86, 1)',
           ],
           borderWidth: 1
@@ -571,7 +547,7 @@
       fetch(url)
         .then(response => response.json())
         .then(data => {
-          feePaymentsChart.data.datasets[0].data = [data.registration, data.consultation, data.connection];
+          feePaymentsChart.data.datasets[0].data = [data.consultation_registration, data.connection];
           feePaymentsChart.update();
           // Update active state of tabs
           document.querySelectorAll('.nav-link').forEach(tab => {

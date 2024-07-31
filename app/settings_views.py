@@ -12,7 +12,7 @@ from django.contrib.auth.decorators import login_required
 def company_settings(request):
 
     # Initialize forms
-    registration_form = forms.RegistrationForm()
+    consultation_registration_form = forms.RegistrationForm()
 
     try:
         settings_instance = models.CompanySettings.objects.get()
@@ -29,30 +29,30 @@ def company_settings(request):
         default_connection_fee = 0
 
     try:
-        registration_fees_instance = models.RegistrationFees.objects.get()
-        default_registration_fee = registration_fees_instance.fees_amount
+        consultation_registration_fees_instance = models.RegistrationFees.objects.get()
+        default_consultation_registration_fee = consultation_registration_fees_instance.fees_amount
     except models.RegistrationFees.DoesNotExist:
-        registration_fees_instance = None
-        default_registration_fee = 0
+        consultation_registration_fees_instance = None
+        default_consultation_registration_fee = 0
 
-    try:
-        consultation_fees_instance = models.ConsultationFees.objects.get()
-        default_consultation_fee = consultation_fees_instance.fees_amount
-    except models.ConsultationFees.DoesNotExist:
-        consultation_fees_instance = None
-        default_consultation_fee = 0
+    # try:
+    #     consultation_fees_instance = models.ConsultationFees.objects.get()
+    #     default_consultation_fee = consultation_fees_instance.fees_amount
+    # except models.ConsultationFees.DoesNotExist:
+    #     consultation_fees_instance = None
+    #     default_consultation_fee = 0
 
     connection_fees_form = forms.ConnectionFeesForm(instance=connection_fees_instance)
-    registration_fees_form = forms.RegistrationFeesForm(instance=registration_fees_instance)
-    consultation_fees_form = forms.ConsultationFeesForm(instance=consultation_fees_instance)
+    registration_fees_form = forms.RegistrationFeesForm(instance=consultation_registration_fees_instance)
+    # consultation_fees_form = forms.ConsultationFeesForm(instance=consultation_fees_instance)
 
     if request.method == 'POST':
          # Handling form submissions based on the submitted form name
         form_name = request.POST.get('form_name')
 
         connection_fees_form = forms.ConnectionFeesForm(request.POST, instance=connection_fees_instance)
-        registration_fees_form = forms.RegistrationFeesForm(request.POST, instance=registration_fees_instance)
-        consultation_fees_form = forms.ConsultationFeesForm(request.POST, instance=consultation_fees_instance)
+        registration_fees_form = forms.RegistrationFeesForm(request.POST, instance=consultation_registration_fees_instance)
+        # consultation_fees_form = forms.ConsultationFeesForm(request.POST, instance=consultation_fees_instance)
 
         if form_name == 'update_company_settings_form':
             update_company_settings_form = forms.CompanySettingsForm(request.POST, request.FILES, instance=settings_instance)
@@ -94,13 +94,13 @@ def company_settings(request):
     context = {
         'settings_instance': settings_instance,
         "roles": roles,
-        "registration_form": registration_form,
+        "consultation_registration_form": consultation_registration_form,
         "connection_fees_form": connection_fees_form,
-        "registration_fees_form": registration_fees_form,
-        "consultation_fees_form": consultation_fees_form,
+        "consultation_registration_fees_form": registration_fees_form,
+        # "consultation_fees_form": consultation_fees_form,
         "default_connection_fee": default_connection_fee,
-        "default_consultation_fee": default_consultation_fee,
-        "default_registration_fee": default_registration_fee,
+        # "default_consultation_fee": default_consultation_fee,
+        "default_consultation_registration_fee": default_consultation_registration_fee,
         "update_company_settings_form": update_company_settings_form,
     }
     return render(request, 'settings.html', context)

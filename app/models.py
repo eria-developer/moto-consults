@@ -151,8 +151,7 @@ class RecruitmentProcess(models.Model):
 
 class FeesPayment(models.Model):
     CUSTOMER_FEE_CHOICES = [
-        ('registration', 'Registration Fee'),
-        ('consultation', 'Consultation Fee'),
+        ('consultation_registration', 'Consultation / Registration Fee'),
         ('connection', 'Connection Fee'),
     ]
     STATUS_CHOICES = [

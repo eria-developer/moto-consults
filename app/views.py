@@ -59,20 +59,20 @@ def dashboard(request):
 
     # Retrieve default fee amounts
     default_connection_fee = models.ConnectionFees.objects.first().fees_amount
-    default_registration_fee = models.RegistrationFees.objects.first().fees_amount
-    default_consultation_fee = models.ConsultationFees.objects.first().fees_amount
+    default_consultation_registration_fee = models.RegistrationFees.objects.first().fees_amount
+    # default_consultation_fee = models.ConsultationFees.objects.first().fees_amount
 
     # Get the time filter from the request (default to 'today')
     time_filter = request.GET.get('time_filter', 'today')
  
     # Initialize total amounts
-    total_paid_registration = 0
+    total_paid_consultation_registration = 0
     total_paid_connection = 0
-    total_paid_consultation = 0
+    # total_paid_consultation = 0
 
-    total_unpaid_registration = 0
+    total_unpaid_consultation_registration = 0
     total_unpaid_connection = 0
-    total_unpaid_consultation = 0
+    # total_unpaid_consultation = 0
 
     # Retrieve all payments
     payments = models.FeesPayment.objects.all()
@@ -100,14 +100,14 @@ def dashboard(request):
 
     # Calculate total paid and unpaid amounts for each fee type
     for payment in payments:
-        if payment.fee_type == 'registration':
+        if payment.fee_type == 'consultation_registration':
             if payment.payment_status == 'paid':
-                total_paid_registration += payment.amount
+                total_paid_consultation_registration += payment.amount
             elif payment.payment_status == 'partially_paid':
-                total_paid_registration += payment.amount
-                total_unpaid_registration += default_registration_fee - payment.amount
+                total_paid_consultation_registration += payment.amount
+                total_unpaid_consultation_registration += default_consultation_registration_fee - payment.amount
             elif payment.payment_status == 'unpaid':
-                total_unpaid_registration += default_registration_fee
+                total_unpaid_consultation_registration += default_consultation_registration_fee
 
         elif payment.fee_type == 'connection':
             if payment.payment_status == 'paid':
@@ -118,14 +118,14 @@ def dashboard(request):
             elif payment.payment_status == 'unpaid':
                 total_unpaid_connection += default_connection_fee
 
-        elif payment.fee_type == 'consultation':
-            if payment.payment_status == 'paid':
-                total_paid_consultation += payment.amount
-            elif payment.payment_status == 'partially_paid':
-                total_paid_consultation += payment.amount
-                total_unpaid_consultation += default_consultation_fee - payment.amount
-            elif payment.payment_status == 'unpaid':
-                total_unpaid_consultation += default_consultation_fee
+        # elif payment.fee_type == 'consultation':
+        #     if payment.payment_status == 'paid':
+        #         total_paid_consultation += payment.amount
+        #     elif payment.payment_status == 'partially_paid':
+        #         total_paid_consultation += payment.amount
+        #         total_unpaid_consultation += default_consultation_fee - payment.amount
+        #     elif payment.payment_status == 'unpaid':
+        #         total_unpaid_consultation += default_consultation_fee
 
 
 
@@ -183,12 +183,12 @@ def dashboard(request):
         "custom_amount_form_for_expenses": custom_amount_form_for_expenses,
         "recent_expenses": recent_expenses,
         "recent_fee_payments": recent_fee_payments,
-        'total_paid_registration': total_paid_registration,
-        'total_unpaid_registration': total_unpaid_registration,
+        'total_paid_consultation_registration': total_paid_consultation_registration,
+        'total_unpaid_consultation_registration': total_unpaid_consultation_registration,
         'total_paid_connection': total_paid_connection,
         'total_unpaid_connection': total_unpaid_connection,
-        'total_paid_consultation': total_paid_consultation,
-        'total_unpaid_consultation': total_unpaid_consultation,
+        # 'total_paid_consultation': total_paid_consultation,
+        # 'total_unpaid_consultation': total_unpaid_consultation,
         'time_filter': time_filter,
         "current_period_customers": current_period_customers,
         "increase_percentage_for_customers": increase_percentage_for_customers,
@@ -225,8 +225,8 @@ def aggregate_earnings(request, timeframe):
     payments = models.FeesPayment.objects.filter(payment_date__range=[start_date, now], payment_status='paid')
     
     data = {
-        'registration': payments.filter(fee_type='registration').aggregate(Sum('amount'))['amount__sum'] or 0,
-        'consultation': payments.filter(fee_type='consultation').aggregate(Sum('amount'))['amount__sum'] or 0,
+        'consultation_registration': payments.filter(fee_type='consultation_registration').aggregate(Sum('amount'))['amount__sum'] or 0,
+        # 'consultation': payments.filter(fee_type='consultation').aggregate(Sum('amount'))['amount__sum'] or 0,
         'connection': payments.filter(fee_type='connection').aggregate(Sum('amount'))['amount__sum'] or 0,
     }
 
@@ -271,8 +271,8 @@ def fetch_fee_payments(request):
     print(f"Payments: {payments}")
 
     data = {
-        'registration': payments.filter(fee_type='registration').aggregate(Sum('amount'))['amount__sum'] or 0,
-        'consultation': payments.filter(fee_type='consultation').aggregate(Sum('amount'))['amount__sum'] or 0,
+        'consultation_registration': payments.filter(fee_type='consultation_registration').aggregate(Sum('amount'))['amount__sum'] or 0,
+        # 'consultation': payments.filter(fee_type='consultation').aggregate(Sum('amount'))['amount__sum'] or 0,
         'connection': payments.filter(fee_type='connection').aggregate(Sum('amount'))['amount__sum'] or 0,
     }
 
