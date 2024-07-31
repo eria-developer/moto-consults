@@ -195,7 +195,7 @@ class ConnectionFees(SingletonModel):
     percentage = models.IntegerField(null=True)
     
     def __str__(self):
-        return f"{self.fees_amount}"
+        return f"{self.percentage}"
 
 class RegistrationFees(SingletonModel):
     fees_amount = models.IntegerField(null=False, blank=False)
