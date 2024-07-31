@@ -61,41 +61,55 @@
                         <div class="bio text-start my-4">
                             <h4 class="mb-3">Details</h4>
                             <div class="bio-content mb-3">
-                                <div class="fs-18">
-                                    <span>Firstname:</span>
-                                    <span>{{ customer.firstname }}</span>
-                                </div>
-                                <div class="fs-18">
-                                    <span>Othernames:</span>
-                                    <span>{{ customer.othernames }}</span>
-                                </div>
-                                <div class="fs-18">
-                                    <span>Phonenumber 1:</span>
-                                    <span>{{ customer.phonenumber_1 }}</span>
-                                </div>
-                                <div class="fs-18">
-                                    <span>Phonenumber 2:</span>
-                                    <span>{{ customer.phonenumber_2 }}</span>
-                                </div>
-                                <div class="fs-18">
-                                    <span>Address:</span>
-                                    <span>{{ customer.address }}</span>
-                                </div>
-                                <div class="fs-18">
-                                    <span>Curriculum vitae:</span>
-                                    <span>
-                                        {% if customer.file_upload %}
-                                        <a href="{{ customer.file_upload.url }}" download>Download file</a>
-                                        {% else %}
-                                        <span>No file available</span>
-                                        {% endif %}
-                                    </span>
-                                </div>
-                                <div class="fs-18">
-                                    <span>Description:</span>
-                                    <span>{{ customer.remarks }}</span>
-                                </div>
+                                <table class="table">
+                                    <thead>
+                                        <tr>
+                                            <th scope="col">Details</th>
+                                            <th scope="col">Value</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        <tr>
+                                            <td>Firstname:</td>
+                                            <td>{{ customer.firstname }}</td>
+                                        </tr>
+                                        <tr>
+                                            <td>Othernames:</td>
+                                            <td>{{ customer.othernames }}</td>
+                                        </tr>
+                                        <tr>
+                                            <td>Phonenumber 1:</td>
+                                            <td>{{ customer.phonenumber_1 }}</td>
+                                        </tr>
+                                        <tr>
+                                            <td>Phonenumber 2:</td>
+                                            <td>{{ customer.phonenumber_2 }}</td>
+                                        </tr>
+                                        <tr>
+                                            <td>Address:</td>
+                                            <td>{{ customer.address }}</td>
+                                        </tr>
+                                        <tr>
+                                            <td>Curriculum Vitae:</td>
+                                            <td>
+                                                {% if customer.file_upload %}
+                                                <a href="{{ customer.file_upload.url }}" download>
+                                                    Download file
+                                                    <span class="download-icon"></span>
+                                                </a>
+                                                {% else %}
+                                                <span>No file available</span>
+                                                {% endif %}
+                                            </td>
+                                        </tr>
+                                        <tr>
+                                            <td>Description:</td>
+                                            <td>{{ customer.remarks }}</td>
+                                        </tr>
+                                    </tbody>
+                                </table>
                             </div>
+
                             <div class="widget-heading d-flex justify-content-between align-items-center">
                                 <a href={% url "edit-customer" customer.id %}
                                     class="btn btn-primary shadow sharp me-1"><i class="fa fa-pencil me-1"></i> Edit
