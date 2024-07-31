@@ -191,7 +191,8 @@ class SingletonModel(models.Model):
         super().save(*args, **kwargs)
 
 class ConnectionFees(SingletonModel):
-    fees_amount = models.IntegerField(null=False, blank=False)
+    # fees_amount = models.IntegerField(null=False, blank=False)
+    percentage = models.IntegerField(null=True)
     
     def __str__(self):
         return f"{self.fees_amount}"

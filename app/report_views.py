@@ -6,6 +6,8 @@ from django.template.loader import render_to_string
 from weasyprint import HTML
 from .models import FeesPayment, Expense, RegistrationFees, ConsultationFees, ConnectionFees, Customer
 from django.db.models import Sum, F, Max, Min
+from . import models
+from decimal import Decimal
 
 def generate_pdf(template_src, context_dict):
     html_string = render_to_string(template_src, context_dict)
@@ -50,40 +52,94 @@ def reports(request, time_frame, export_type=None):
     if start_date:
         payments = FeesPayment.objects.filter(payment_date__gte=start_date)
         expenses = Expense.objects.filter(date_added__gte=start_date)
+        hired_placements = models.RecruitmentProcess.objects.filter(status='hired', application_date__gte=start_date)
     else:
         payments = FeesPayment.objects.all()
         expenses = Expense.objects.all()
+        hired_placements = models.RecruitmentProcess.objects.filter(status='hired')
 
-    total_registration_fee = payments.filter(fee_type='registration').aggregate(total=Sum('amount'))['total'] or 0
+
+    total_consultation_registration_fee = payments.filter(fee_type='consultation_registration').aggregate(total=Sum('amount'))['total'] or 0
     total_consultation_fee = payments.filter(fee_type='consultation').aggregate(total=Sum('amount'))['total'] or 0
-    total_connection_fee = payments.filter(fee_type='connection').aggregate(total=Sum('amount'))['total'] or 0
-    total_sales = total_registration_fee + total_consultation_fee + total_connection_fee
+    # total_connection_fee = payments.filter(fee_type='connection').aggregate(total=Sum('amount'))['total'] or 0
+    # total_sales = total_consultation_registration_fee + total_consultation_fee + total_connection_fee
+
+    # Calculate total connection fee owed
+    connection_fee_percentage = ConnectionFees.objects.first().percentage if ConnectionFees.objects.exists() else Decimal('0')
+    total_connection_fee_owed = Decimal('0')
+    for placement in hired_placements:
+        connection_fee = (Decimal(connection_fee_percentage) / Decimal('100')) * Decimal(placement.expected_salary)
+        total_connection_fee_owed += connection_fee
+
+    # Calculate total connection fee paid
+    total_connection_fee_paid = payments.filter(fee_type='connection').aggregate(total=Sum('amount'))['total'] or Decimal('0')
+
+    # Calculate outstanding connection fee
+    outstanding_connection_fee = total_connection_fee_owed - total_connection_fee_paid
+
+    total_sales = total_consultation_registration_fee + total_consultation_fee + total_connection_fee_paid
+
+
 
     total_expenses = expenses.aggregate(total=Sum('amount'))['total'] or 0
     profit = total_sales - total_expenses
 
-    registration_fee_default = RegistrationFees.objects.first().fees_amount
+    consultation_registration_fee_default = RegistrationFees.objects.first().fees_amount
     consultation_fee_default = ConsultationFees.objects.first().fees_amount
-    connection_fee_default = ConnectionFees.objects.first().fees_amount
+    connection_fee_default = ConnectionFees.objects.first().percentage
+
+    # outstanding_customers = []
+    # total_outstanding_balance = 0
+    # for customer in Customer.objects.all():
+    #     consultation_registration_paid = customer.feespayment_set.filter(fee_type='consultation_registration').aggregate(total=Sum('amount'))['total'] or 0
+    #     consultation_paid = customer.feespayment_set.filter(fee_type='consultation').aggregate(total=Sum('amount'))['total'] or 0
+    #     connection_paid = customer.feespayment_set.filter(fee_type='connection').aggregate(total=Sum('amount'))['total'] or 0
+        
+    #     consultation_registration_owed = consultation_registration_fee_default - consultation_registration_paid
+    #     consultation_owed = consultation_fee_default - consultation_paid
+    #     connection_owed = connection_fee_default - connection_paid
+    #     total_owed = consultation_registration_owed + connection_owed
+
+    #     last_payment_date = customer.feespayment_set.aggregate(last_payment=Max('payment_date'))['last_payment']
+
+    #     outstanding_customers.append({
+    #         'customer': customer,
+    #         'registration_owed': consultation_registration_owed,
+    #         'consultation_owed': consultation_owed,
+    #         'connection_owed': connection_owed,
+    #         'total_owed': total_owed,
+    #         'last_payment_date': last_payment_date,
+    #     })
+
+    #     total_outstanding_balance += total_owed
 
     outstanding_customers = []
-    total_outstanding_balance = 0
+    total_outstanding_balance = Decimal('0')
     for customer in Customer.objects.all():
-        registration_paid = customer.feespayment_set.filter(fee_type='registration').aggregate(total=Sum('amount'))['total'] or 0
-        consultation_paid = customer.feespayment_set.filter(fee_type='consultation').aggregate(total=Sum('amount'))['total'] or 0
-        connection_paid = customer.feespayment_set.filter(fee_type='connection').aggregate(total=Sum('amount'))['total'] or 0
+        consultation_registration_paid = customer.feespayment_set.filter(fee_type='consultation_registration').aggregate(total=Sum('amount'))['total'] or Decimal('0')
+        consultation_paid = customer.feespayment_set.filter(fee_type='consultation').aggregate(total=Sum('amount'))['total'] or Decimal('0')
+        connection_paid = customer.feespayment_set.filter(fee_type='connection').aggregate(total=Sum('amount'))['total'] or Decimal('0')
         
-        registration_owed = registration_fee_default - registration_paid
-        consultation_owed = consultation_fee_default - consultation_paid
-        connection_owed = connection_fee_default - connection_paid
-        total_owed = registration_owed + consultation_owed + connection_owed
+        consultation_registration_owed = Decimal(consultation_registration_fee_default) - consultation_registration_paid
+        consultation_owed = Decimal(consultation_fee_default) - consultation_paid
+        
+        # Calculate connection fee owed for this customer
+        customer_hired_placements = hired_placements.filter(customer=customer)
+        customer_connection_fee_owed = Decimal('0')
+        for placement in customer_hired_placements:
+            connection_fee = (Decimal(connection_fee_percentage) / Decimal('100')) * Decimal(placement.expected_salary)
+            customer_connection_fee_owed += connection_fee
+        
+        connection_owed = customer_connection_fee_owed - connection_paid
+        total_owed = consultation_registration_owed + connection_owed
 
         last_payment_date = customer.feespayment_set.aggregate(last_payment=Max('payment_date'))['last_payment']
 
         outstanding_customers.append({
             'customer': customer,
-            'registration_owed': registration_owed,
-            'consultation_owed': consultation_owed,
+            'registration_paid': consultation_registration_paid,
+            'registration_owed': consultation_registration_owed ,
+            'connection_paid': connection_paid,
             'connection_owed': connection_owed,
             'total_owed': total_owed,
             'last_payment_date': last_payment_date,
@@ -113,9 +169,11 @@ def reports(request, time_frame, export_type=None):
 
     context = {
         'time_frame': time_frame,
-        'total_registration_fee': total_registration_fee,
+        'total_registration_fee': total_consultation_registration_fee,
         'total_consultation_fee': total_consultation_fee,
-        'total_connection_fee': total_connection_fee,
+        'total_connection_fee_owed': total_connection_fee_owed,
+        'total_connection_fee_paid': total_connection_fee_paid,
+        'outstanding_connection_fee': outstanding_connection_fee,
         'total_sales': total_sales,
         'total_expenses': total_expenses,
         'profit': profit,

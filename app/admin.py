@@ -58,7 +58,7 @@ admin.site.register(models.FeesPayment, FeesPaymentAdmin)
 
 class ConnectionFeesAdmin(admin.ModelAdmin):
     model = models.ConnectionFees
-    list_display = ("fees_amount", )
+    list_display = ("percentage", )
 admin.site.register(models.ConnectionFees, ConnectionFeesAdmin)
 
 

@@ -5,61 +5,42 @@
     <meta charset="UTF-8">
     <title>Outstanding balances Report for {{ report_title }}</title>
     <style>
-        /* Reset default browser styles */
-        body,
-        h1,
-        h2,
-        h3,
-        p,
-        table {
-            margin: 0;
-            padding: 0;
+        @page {
+            size: A4 landscape;
+            margin: 1cm;
         }
 
         body {
             font-family: Arial, sans-serif;
             line-height: 1.6;
-            background-color: #f9f9f9;
-            padding: 10mm;
-        }
-
-        @page {
-            size: A4;
-            /* Standard A4 size */
-            margin: 0mm;
-            /* No margins on any side */
+            color: #333;
+            margin: 0;
+            padding: 0;
         }
 
         .container {
-            width: calc(100% - 40mm);
-            /* Adjust based on desired margin */
+            width: 100%;
             margin: 0 auto;
-            /* Center the container */
-            max-width: calc(100% - 40mm);
-            /* Ensure it doesn't exceed the page width */
-            /* Other styles remain unchanged */
         }
-
 
         .header {
             text-align: center;
-            margin-bottom: 10px;
+            margin-bottom: 20px;
+            padding: 20px 0;
+            background-color: #f8f9fa;
+            border-bottom: 2px solid #dee2e6;
         }
 
         .header h1 {
             font-size: 24px;
-            margin-bottom: 5px;
-            color: #333;
+            margin: 0;
+            color: #e02121;
         }
 
         .header p {
-            font-size: 12px;
-            color: #666;
-        }
-
-        .divider {
-            border-top: 1px solid #ccc;
-            margin: 10px 0;
+            font-size: 14px;
+            margin: 5px 0;
+            color: #6c757d;
         }
 
         .section {
@@ -68,33 +49,55 @@
 
         .section h2 {
             font-size: 18px;
-            color: #333;
-            margin-bottom: 5px;
+            color: #28a745;
+            margin-bottom: 10px;
         }
 
         .table {
             width: 100%;
             border-collapse: collapse;
-            margin-bottom: 10px;
+            margin-bottom: 20px;
         }
 
         .table th,
         .table td {
-            padding: 8px;
-            font-size: 12px;
-            border-bottom: 1px solid #ddd;
-            color: #333;
+            padding: 12px 8px;
+            text-align: left;
+            border: 1px solid #dee2e6;
         }
 
         .table th {
-            text-align: left;
+            background-color: #007bff;
+            color: white;
+            font-weight: bold;
+        }
+
+        .table tr:nth-child(even) {
             background-color: #f2f2f2;
+        }
+
+        .table td {
+            font-size: 12px;
+        }
+
+        .text-center {
+            text-align: center;
+        }
+
+        .text-success {
+            color: #28a745;
+        }
+
+        .text-primary {
+            color: #ff2600;
         }
 
         .footer {
             text-align: center;
             margin-top: 20px;
-            color: #666;
+            padding-top: 10px;
+            border-top: 1px solid #dee2e6;
+            color: #6c757d;
             font-size: 12px;
         }
     </style>
@@ -108,43 +111,62 @@
             <p>0771445200</p>
             <p>mutoconsults@gmail.com</p>
         </div>
-        <div class="divider"></div>
         <div class="section">
-            <h2>Outstanding balances Report for {{ report_title }}. (ugx. {{total_outstanding_balance}})</h2>
-
+            <h2>Outstanding balances Report for {{ report_title }} (UGX. {{ total_outstanding_balance }})</h2>
         </div>
         <div class="section">
             <table class="table">
                 <thead>
                     <tr>
                         <th>Name</th>
-                        <th style="align-items: center;">Registration</th>
-                        <th style="align-items: center;">Consultation</th>
-                        <th style="align-items: center;">Connection</th>
-                        <th style="align-items: center;">Total Credit</th>
+                        <th colspan="2" class="text-center">Registration/Consultation</th>
+                        <th colspan="2" class="text-center">Connection</th>
+                        <th class="text-center">Total Credit</th>
                         <th>User Email</th>
-                        <th style="align-items: center;">User Phone Number</th>
+                        <th>User Phone Number</th>
+                    </tr>
+                    <tr>
+                        <th></th>
+                        <th class="text-center">Paid</th>
+                        <th class="text-center">Pending</th>
+                        <th class="text-center">Paid</th>
+                        <th class="text-center">Pending</th>
+                        <th></th>
+                        <th></th>
+                        <th></th>
                     </tr>
                 </thead>
                 <tbody>
                     {% for item in outstanding_customers %}
                     <tr>
                         <td>{{ item.customer.firstname }} {{ item.customer.othernames }}</td>
-                        <td style="align-items: center;">{% if item.registration_owed == 0 %}paid{%else%}{{item.registration_owed }}{% endif %}</td>
-                        <td style="align-items: center;">{% if item.consultation_owed == 0 %}paid{%else%}{{item.consultation_owed }}{% endif %}</td>
-                        <td style="align-items: center;">{% if item.connection_owed == 0 %}paid{%else%}{{item.connection_owed }}{% endif %}</td>
-                        <td style="align-items: center;">{{ item.total_owed }}</td>
+                        <td class="text-center {% if item.registration_paid > 0 %}text-success{% endif %}">
+                            {{ item.registration_paid }}</td>
+                        <td
+                            class="text-center {% if item.registration_owed > 0 %}text-primary{% else %}text-success{% endif %}">
+                            {% if item.registration_owed == 0 %}0{% else %}{{ item.registration_owed }}{% endif %}
+                        </td>
+                        <td class="text-center {% if item.connection_paid > 0 %}text-success{% endif %}">
+                            {{ item.connection_paid }}</td>
+                        <td
+                            class="text-center {% if item.connection_owed > 0 %}text-primary{% else %}text-success{% endif %}">
+                            {% if item.connection_owed == 0 %}0{% else %}{{ item.connection_owed }}{% endif %}
+                        </td>
+                        <td
+                            class="text-center {% if item.total_owed > 0 %}text-primary{% else %}text-success{% endif %}">
+                            {{ item.total_owed }}</td>
                         <td>{{ item.customer.email }}</td>
-                        <td style="align-items: center;">{{ item.customer.phonenumber_1 }}</td>
+                        <td>{{ item.customer.phonenumber_1 }}</td>
                     </tr>
                     {% endfor %}
                 </tbody>
             </table>
-            <div class="footer">
-                <p>&copy; Muto Consults {{current_year}} | All rights reserved.</p>
-                <p>Contact us at mutoconsults@gmail.com</p>
-            </div>
         </div>
+        <div class="footer">
+            <p>&copy; Muto Consults {{ current_year }} | All rights reserved.</p>
+            <p>Contact us at mutoconsults@gmail.com</p>
+        </div>
+    </div>
 </body>
 
 </html>

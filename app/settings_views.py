@@ -23,7 +23,7 @@ def company_settings(request):
 
     try:
         connection_fees_instance = models.ConnectionFees.objects.get()
-        default_connection_fee = connection_fees_instance.fees_amount
+        default_connection_fee = connection_fees_instance.percentage
     except models.ConnectionFees.DoesNotExist:
         connection_fees_instance = None
         default_connection_fee = 0
@@ -67,7 +67,7 @@ def company_settings(request):
             registration_fee_form = forms.RegistrationFeesForm(request.POST)
             if registration_fee_form.is_valid():
                 registration_fee_form.save()
-                messages.success(request, 'Default registration fee successfully added!')
+                messages.success(request, 'Default registration / consultation fee successfully added!')
                 return redirect('company-settings')
             else:
                 messages.error(request, 'An error occurred when saving the registration form.')

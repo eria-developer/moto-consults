@@ -88,7 +88,10 @@
                             <hr>
                             <div class="d-flex justify-content-between">
                                 <div class="mt-2">
-                                    <strong class="text-lg text-success">Ugx. {{ default_connection_fee }}</strong>
+                                    <strong class="text-lg text-success">{{ default_connection_fee }}% </strong>
+                                    <strong>
+                                        of customer's
+                                        salary</strong>
                                 </div>
                                 <div>
                                     <button type="button" class="btn btn-sm btn-primary mb-2" data-bs-toggle="modal"
@@ -162,7 +165,7 @@
             <div class="modal-dialog" role="document">
                 <div class="modal-content">
                     <div class="modal-header">
-                        <h5 class="modal-title">Setting new Connection Fee</h5>
+                        <h5 class="modal-title">Setting new Connection Fee percentage</h5>
                         <button type="button" class="btn-close" data-bs-dismiss="modal">
                         </button>
                     </div>
@@ -171,7 +174,7 @@
                             {% csrf_token %}
                             <input type="hidden" name="form_name" value="connection_fee_form">
                             {{connection_fees_form.as_p}}
-                            <div><button type="submit" class="btn btn-primary mb-2">Save Fee</button>
+                            <div><button type="submit" class="btn btn-primary mb-2">Save Value</button>
                             </div>
                         </form>
                     </div>

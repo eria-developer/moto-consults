@@ -364,7 +364,7 @@ class ConnectionFeesForm(forms.ModelForm):
         fields = "__all__"
 
         widgets = {
-            "fees_amount": forms.NumberInput(attrs={
+            "percentage": forms.NumberInput(attrs={
                 "class": "form-control",
             })
         }

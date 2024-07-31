@@ -6,6 +6,7 @@ from django.db.models import Sum, Q
 from django.http import JsonResponse
 from django.urls import reverse
 from django.contrib.auth.decorators import login_required
+from decimal import Decimal
 
 
 @login_required(login_url="/")
@@ -71,32 +72,50 @@ def view_customer(request, customer_id):
     default_consultation_registration_fee_amount = default_consultation_registration_fee.fees_amount if default_consultation_registration_fee else 0
     customer_consultation_registration_fees_balance = default_consultation_registration_fee_amount - total_consultation_registration_fees
 
+     # Calculate connection fees based on hired placements
+    hired_placements = customer_placements.filter(status='hired')
+    total_connection_fees = Decimal('0.00')
+    customer_connection_fees_balance = Decimal('0.00')
+    for placement in hired_placements:
+        connection_fee_percentage = models.ConnectionFees.objects.first().percentage if models.ConnectionFees.objects.exists() else Decimal('0')
+        connection_fee = (Decimal(connection_fee_percentage) / Decimal('100')) * Decimal(placement.expected_salary)
+        total_connection_fees += connection_fee
+
+    # Calculate paid connection fees
+    paid_connection_fees = models.FeesPayment.objects.filter(customer=customer, fee_type="connection") \
+                                                     .aggregate(total_paid_connection=Sum('amount'))['total_paid_connection'] or Decimal('0')
+
+    customer_connection_fees_balance = total_connection_fees - paid_connection_fees
+
+    # Calculate total amount paid and owed
+    total_amount_paid = Decimal(total_consultation_registration_fees) + paid_connection_fees
+    total_amount_owed = Decimal(customer_consultation_registration_fees_balance) + customer_connection_fees_balance
+
+
     # Calculate total and default connection fees
-    total_connection_fees = models.FeesPayment.objects.filter(customer=customer, fee_type="connection") \
-                                                      .aggregate(total_paid_connection=Sum('amount'))['total_paid_connection'] or 0
-    default_connection_fee = models.ConnectionFees.objects.first()
-    default_connection_fee_amount = default_connection_fee.fees_amount if default_connection_fee else 0
-    customer_connection_fees_balance = default_connection_fee_amount - total_connection_fees
+    # total_connection_fees = models.FeesPayment.objects.filter(customer=customer, fee_type="connection") \
+    #                                                   .aggregate(total_paid_connection=Sum('amount'))['total_paid_connection'] or 0
+    # default_connection_fee = 0
+    # default_connection_fee_amount = default_connection_fee.percentage if default_connection_fee else 0
+    # customer_connection_fees_balance = default_connection_fee_amount - total_connection_fees
 
     # # Retrieve consultations and consultation fees
     # customer_consultations = models.Consultation.objects.filter(customer=customer).order_by("-consultation_date")
     # customer_consultation_fees_obj = models.FeesPayment.objects.filter(customer=customer, fee_type="consultation").order_by("-payment_date")
 
     # Calculate total amount paid and owed
-    total_amount_paid = total_consultation_registration_fees + total_connection_fees
-    total_amount_owed = customer_consultation_registration_fees_balance + customer_connection_fees_balance
+    # total_amount_paid = total_consultation_registration_fees + paid_connection_fees
+    # total_amount_owed = customer_consultation_registration_fees_balance + customer_connection_fees_balance
 
     context = {
-        "customer": customer,
+         "customer": customer,
         "customer_placements": customer_placements,
         "customer_consultation_registration_fees": total_consultation_registration_fees,
         "customer_consultation_registration_fees_balance": customer_consultation_registration_fees_balance,
-        "customer_connection_fees": total_connection_fees,
+        "customer_connection_fees": paid_connection_fees,
         "customer_connection_fees_balance": customer_connection_fees_balance,
-        # "customer_consultation_fees_obj": customer_consultation_fees_obj,
         "total_amount_paid": total_amount_paid,
         "total_amount_owed": total_amount_owed,
-        # "customer_consultations": customer_consultations,
     }
 
     return render(request, "view_customer.html", context)
