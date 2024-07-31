@@ -18,7 +18,7 @@ def dashboard(request):
 # View to add a new customer
 def add_customer(request):
     if request.method == "POST":
-        form = forms.CustomerForm(request.POST)
+        form = forms.CustomerForm(request.POST, request.FILES)
         if form.is_valid():
             form.save()
             messages.success(request, "Customer added successfully")

@@ -184,18 +184,18 @@ def search_placements(request):
             Q(status__icontains=query)
         ).order_by("-application_date")
 
-        placement_list = []
-        for placement in placements:
-            placement_data = {
-                "fullname": f"{placement.customer.firstname} {placement.customer.othernames}",
+        placement_list = [
+            {
+                "id": placement.id,
+                 "fullname": f"{placement.customer.firstname} {placement.customer.othernames}",
                 "job": placement.job.job_title,
                 "company": placement.job.job_company.job_title if placement.job.job_company else "",
                 "status": placement.status,
                 "view_url": reverse('view-placement', args=[placement.id]),
                 "edit_url": reverse('edit-placement', args=[placement.id]),
-                "delete_url": reverse('delete-placement', args=[placement.id]),
-            }
-            placement_list.append(placement_data)
-
+                "delete_url": reverse('delete-placement', args=[placement.id])
+            } for placement in placements
+        ]
+        
         return JsonResponse({"placements": placement_list})
     return JsonResponse({"placements": []})
