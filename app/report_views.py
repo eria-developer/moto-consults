@@ -85,7 +85,7 @@ def reports(request, time_frame, export_type=None):
     profit = total_sales - total_expenses
 
     # consultation_registration_fee_default = RegistrationFees.objects.first().fees_amount
-    # consultation_fee_default = ConsultationFees.objects.first().fees_amount
+    consultation_fee_default = ConsultationFees.objects.first().fees_amount
     # connection_fee_default = ConnectionFees.objects.first().percentage
     # Retrieve the first connection fee object
     connection_fee = models.ConnectionFees.objects.first()
