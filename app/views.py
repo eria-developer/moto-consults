@@ -59,12 +59,13 @@ def dashboard(request):
 
    # Retrieve the first connection fee object
     connection_fee = models.ConnectionFees.objects.first()
-
     # Check if the object exists and has a percentage attribute
     default_connection_fee = connection_fee.percentage if connection_fee is not None else 0
 
-    default_consultation_registration_fee = models.RegistrationFees.objects.first().fees_amount
-    # default_consultation_fee = models.ConsultationFees.objects.first().fees_amount
+    # Retrieve the first consultation_registration fee object
+    consultation_registration_fee = models.ConnectionFees.objects.first()
+    # Check if the object exists and has a percentage attribute
+    default_consultation_registration_fee = consultation_registration_fee.fees_amount if consultation_registration_fee is not None else 0
 
     # Get the time filter from the request (default to 'today')
     time_filter = request.GET.get('time_filter', 'today')
