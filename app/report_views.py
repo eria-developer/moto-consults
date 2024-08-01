@@ -84,34 +84,18 @@ def reports(request, time_frame, export_type=None):
     total_expenses = expenses.aggregate(total=Sum('amount'))['total'] or 0
     profit = total_sales - total_expenses
 
-    consultation_registration_fee_default = RegistrationFees.objects.first().fees_amount
-    consultation_fee_default = ConsultationFees.objects.first().fees_amount
-    connection_fee_default = ConnectionFees.objects.first().percentage
+    # consultation_registration_fee_default = RegistrationFees.objects.first().fees_amount
+    # consultation_fee_default = ConsultationFees.objects.first().fees_amount
+    # connection_fee_default = ConnectionFees.objects.first().percentage
+    # Retrieve the first connection fee object
+    connection_fee = models.ConnectionFees.objects.first()
+    # Check if the object exists and has a percentage attribute
+    connection_fee_default = connection_fee.percentage if connection_fee is not None else 0
 
-    # outstanding_customers = []
-    # total_outstanding_balance = 0
-    # for customer in Customer.objects.all():
-    #     consultation_registration_paid = customer.feespayment_set.filter(fee_type='consultation_registration').aggregate(total=Sum('amount'))['total'] or 0
-    #     consultation_paid = customer.feespayment_set.filter(fee_type='consultation').aggregate(total=Sum('amount'))['total'] or 0
-    #     connection_paid = customer.feespayment_set.filter(fee_type='connection').aggregate(total=Sum('amount'))['total'] or 0
-        
-    #     consultation_registration_owed = consultation_registration_fee_default - consultation_registration_paid
-    #     consultation_owed = consultation_fee_default - consultation_paid
-    #     connection_owed = connection_fee_default - connection_paid
-    #     total_owed = consultation_registration_owed + connection_owed
-
-    #     last_payment_date = customer.feespayment_set.aggregate(last_payment=Max('payment_date'))['last_payment']
-
-    #     outstanding_customers.append({
-    #         'customer': customer,
-    #         'registration_owed': consultation_registration_owed,
-    #         'consultation_owed': consultation_owed,
-    #         'connection_owed': connection_owed,
-    #         'total_owed': total_owed,
-    #         'last_payment_date': last_payment_date,
-    #     })
-
-    #     total_outstanding_balance += total_owed
+    # Retrieve the first consultation_registration fee object
+    consultation_registration_fee = models.ConnectionFees.objects.first()
+    # Check if the object exists and has a percentage attribute
+    consultation_registration_fee_default = consultation_registration_fee.fees_amount if consultation_registration_fee is not None else 0
 
     outstanding_customers = []
     total_outstanding_balance = Decimal('0')
