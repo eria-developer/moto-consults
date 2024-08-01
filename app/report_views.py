@@ -84,8 +84,12 @@ def reports(request, time_frame, export_type=None):
     total_expenses = expenses.aggregate(total=Sum('amount'))['total'] or 0
     profit = total_sales - total_expenses
 
-    # consultation_registration_fee_default = RegistrationFees.objects.first().fees_amount
-    consultation_fee_default = ConsultationFees.objects.first().fees_amount
+    # Retrieve the first consultation_registration fee object
+    consultation_fee = models.ConsultationFees.objects.first()
+    # Check if the object exists and has a percentage attribute
+    consultation_fee_default = consultation_fee.fees_amount if consultation_fee is not None else 0
+
+    
     # connection_fee_default = ConnectionFees.objects.first().percentage
     # Retrieve the first connection fee object
     connection_fee = models.ConnectionFees.objects.first()
