@@ -19,6 +19,7 @@ from datetime import timedelta
 import datetime
 from django.http import JsonResponse
 from django.contrib.auth.decorators import login_required
+from decimal import Decimal
 
 
 @login_required(login_url="/")
@@ -63,7 +64,7 @@ def dashboard(request):
     default_connection_fee = connection_fee.percentage if connection_fee is not None else 0
 
     # Retrieve the first consultation_registration fee object
-    consultation_registration_fee = models.ConnectionFees.objects.first()
+    consultation_registration_fee = models.RegistrationFees.objects.first()
     # Check if the object exists and has a percentage attribute
     default_consultation_registration_fee = consultation_registration_fee.fees_amount if consultation_registration_fee is not None else 0
 
@@ -71,12 +72,40 @@ def dashboard(request):
     time_filter = request.GET.get('time_filter', 'today')
  
     # Initialize total amounts
-    total_paid_consultation_registration = 0
-    total_paid_connection = 0
+    total_paid_consultation_registration = models.FeesPayment.objects.filter(
+    fee_type='consultation_registration', 
+    payment_status__in=['paid', 'partially_paid']
+).aggregate(Sum('amount'))['amount__sum'] or 0
+
+    total_customers = models.Customer.objects.count()
+    total_expected_consultation_registration = total_customers * default_consultation_registration_fee
+    total_unpaid_consultation_registration = total_expected_consultation_registration - total_paid_consultation_registration
+
+    # Calculate totals for connection fees
+    hired_placements = models.RecruitmentProcess.objects.filter(status='hired')
+    
+    total_expected_connection = Decimal('0')
+    total_paid_connection = Decimal('0')
+    total_unpaid_connection = Decimal('0')
+
+    for placement in hired_placements:
+        expected_fee = Decimal(placement.expected_salary) * (Decimal(default_connection_fee) / Decimal('100'))
+        total_expected_connection += expected_fee
+
+        paid_amount = models.FeesPayment.objects.filter(
+            customer=placement.customer,
+            fee_type='connection',
+            payment_status__in=['paid', 'partially_paid']
+        ).aggregate(Sum('amount'))['amount__sum'] or Decimal('0')
+
+        total_paid_connection += paid_amount
+        total_unpaid_connection += expected_fee - paid_amount
+
+    # total_paid_connection = 0
     # total_paid_consultation = 0
 
-    total_unpaid_consultation_registration = 0
-    total_unpaid_connection = 0
+    # total_unpaid_consultation_registration = 0
+    # total_unpaid_connection = 0
     # total_unpaid_consultation = 0
 
     # Retrieve all payments
@@ -122,15 +151,6 @@ def dashboard(request):
                 total_unpaid_connection += default_connection_fee - payment.amount
             elif payment.payment_status == 'unpaid':
                 total_unpaid_connection += default_connection_fee
-
-        # elif payment.fee_type == 'consultation':
-        #     if payment.payment_status == 'paid':
-        #         total_paid_consultation += payment.amount
-        #     elif payment.payment_status == 'partially_paid':
-        #         total_paid_consultation += payment.amount
-        #         total_unpaid_consultation += default_consultation_fee - payment.amount
-        #     elif payment.payment_status == 'unpaid':
-        #         total_unpaid_consultation += default_consultation_fee
 
 
 
