@@ -97,7 +97,7 @@ def reports(request, time_frame, export_type=None):
     connection_fee_default = connection_fee.percentage if connection_fee is not None else 0
 
     # Retrieve the first consultation_registration fee object
-    consultation_registration_fee = models.ConnectionFees.objects.first()
+    consultation_registration_fee = models.RegistrationFees.objects.first()
     # Check if the object exists and has a percentage attribute
     consultation_registration_fee_default = consultation_registration_fee.fees_amount if consultation_registration_fee is not None else 0
 
