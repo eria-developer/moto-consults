@@ -57,8 +57,12 @@ def dashboard(request):
     recent_expenses = models.Expense.objects.order_by('-date_added')[:5]
     recent_fee_payments = models.FeesPayment.objects.order_by('-payment_date')[:5]
 
-    # Retrieve default fee amounts
-    default_connection_fee = models.ConnectionFees.objects.first().percentage
+   # Retrieve the first connection fee object
+    connection_fee = models.ConnectionFees.objects.first()
+
+    # Check if the object exists and has a percentage attribute
+    default_connection_fee = connection_fee.percentage if connection_fee is not None else 0
+
     default_consultation_registration_fee = models.RegistrationFees.objects.first().fees_amount
     # default_consultation_fee = models.ConsultationFees.objects.first().fees_amount
 
